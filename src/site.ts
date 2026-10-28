@@ -5,8 +5,7 @@
  * publiseres, for eksempel "+47 00 00 00 00". Tom streng skjuler telefon i
  * topp, bunn, kontaktside og strukturerte data.
  *
- * Merket er Plate 1.1. Header og bunntekst bruker logo-white.svg (symbol + navn).
- * OPERIQ | SECURE er wordmark-secure-white-sand.svg der undermerket vises.
+ * Merket er Plate 1.1. Header og bunntekst bruker logo-secure-white-sand.svg.
  *
  * TODO(eier): Skal «MVA» stå ved org.nr? Det er utelatt til du bekrefter.
  */
@@ -34,9 +33,11 @@ export const site = {
 export const legalLine = `${site.name} (${site.legalName}) · org.nr ${site.orgNr}`;
 
 export const nav = [
-  { href: "/kameraovervaking", label: "Kameraovervåking" },
-  { href: "/butikk", label: "Butikk og kjeder" },
-  { href: "/om-oss", label: "Om oss" },
+  { href: "/#losning", label: "Løsning" },
+  { href: "/#how", label: "Slik jobber vi" },
+  { href: "/butikk", label: "Kjeder" },
+  { href: "/#referanse", label: "Referanser" },
+  { href: "/kontakt", label: "Kontakt" },
 ] as const;
 
 export const pages = [

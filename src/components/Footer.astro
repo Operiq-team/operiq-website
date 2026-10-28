@@ -1,53 +1,32 @@
 ---
-import { legalLine, nav, site } from "../site";
+import { legalLine, site } from "../site";
 
 const tel = site.phone.replace(/\s/g, "");
 ---
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <h2 class="footer-logo">
-          <img src="/brand/logo-white.svg" alt="Operiq" width="120" height="28" />
-        </h2>
-        <p>Kameraovervåking for næringsbygg og butikk. {site.coverage}.</p>
-      </div>
-      <div>
-        <h2>Sider</h2>
-        <ul>
-          {
-            nav.map((item) => (
-              <li>
-                <a href={item.href}>{item.label}</a>
-              </li>
-            ))
-          }
-          <li><a href="/kontakt">Kontakt</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>Kontakt</h2>
-        <p>
-          <a href={`mailto:${site.email}`}>{site.email}</a><br />
-          {site.coverage}
-          {
-            site.phone && (
-              <>
-                <br />
-                <a href={`tel:${tel}`}>{site.phone}</a>
-              </>
-            )
-          }
-        </p>
-      </div>
+    <div class="footer-row">
+      <a href="/" aria-label="Operiq, forside">
+        <img src="/brand/logo-secure-white-sand.svg" alt="" width="168" height="22" />
+      </a>
+      <nav class="footer-links" aria-label="Bunn">
+        <a href="/kameraovervaking">Løsning</a>
+        <a href="/butikk">Kjeder</a>
+        <a href="/om-oss">Om oss</a>
+        <a href="/personvern">Personvern</a>
+        <a href="/kamera-info">Kamera på stedet</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        {
+          site.phone && (
+            <a href={`tel:${tel}`}>{site.phone}</a>
+          )
+        }
+      </nav>
     </div>
     <div class="legal-line">
       <p>{legalLine}</p>
-      <p class="legal-links">
-        <a href="/personvern">Personvern</a>
-        <a href="/kamera-info">Kamera på stedet</a>
-      </p>
+      <p>{site.coverage}</p>
     </div>
   </div>
 </footer>

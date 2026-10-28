@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import Picture from "../components/Picture.astro";
 import CtaBand from "../components/CtaBand.astro";
 
 const title = "Kameraanlegg for butikkjeder – Operiq";
@@ -22,14 +21,7 @@ const description =
         </div>
       </div>
       <div class="frame">
-        <Picture
-          name="shop"
-          alt="Butikklokale med hyller"
-          width="1200"
-          height="900"
-          sizes="(min-width: 800px) 42vw, 100vw"
-          priority={true}
-        />
+        <img src="/img/retail-night.jpg" alt="Butikklokale med hyller" width="1200" height="900" />
       </div>
     </div>
   </section>
@@ -68,13 +60,7 @@ const description =
   <section class="section section-alt">
     <div class="container split">
       <div class="frame">
-        <Picture
-          name="corner"
-          alt="Kameraer på hjørnet av et bygg"
-          width="1200"
-          height="900"
-          sizes="(min-width: 800px) 42vw, 100vw"
-        />
+        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys" width="1200" height="900" />
       </div>
       <div>
         <h2>Du eier anleggene</h2>

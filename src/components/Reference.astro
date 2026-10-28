@@ -3,27 +3,25 @@
  * Godkjent referanse. Ikke legg til gateadresse, eierselskap, sitater,
  * bilder fra stedet eller andre tall enn 26 kameraer og desember 2026.
  */
-import Picture from "./Picture.astro";
 ---
 
-<article class="case">
-  <div class="case-visual">
-    <Picture
-      name="building"
-      alt="Næringsbygg sett nedenfra, brukt som illustrasjon"
-      width="1200"
-      height="900"
-      sizes="(min-width: 800px) 46vw, 100vw"
-    />
-    <span class="case-label">Illustrasjon</span>
+<article class="ref glass">
+  <div class="ref-visual">
+    <span class="pill"><i class="dot sand"></i>Illustrasjon</span>
   </div>
-  <div class="case-body">
+  <div class="ref-body">
     <p class="kicker">Referanse</p>
     <h2>Kirkeristen, Oslo sentrum</h2>
     <p>Næringskvartal. 26 kameraer, ny fiberinfrastruktur og eget nettverk.</p>
-    <p class="case-status">Under installasjon, ferdig desember 2026</p>
     <p>
       Anlegget er forberedt for integrasjon mot byggets belysning (KNX) som del av piloten for aktiv avskrekking. Integrasjonen er planlagt.
     </p>
+    <dl class="specs">
+      <div><dt>Kameraer</dt><dd>26</dd></div>
+      <div><dt>Nettverk</dt><dd>Fiber · eget nett</dd></div>
+      <div><dt>Status</dt><dd>Under installasjon</dd></div>
+      <div><dt>Ferdig</dt><dd>Desember 2026</dd></div>
+    </dl>
+    <p class="case-status">Under installasjon, ferdig desember 2026</p>
   </div>
 </article>

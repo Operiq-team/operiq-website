@@ -46,10 +46,25 @@ for (const job of jobs) {
   }
 }
 
-const og = sharp(path.join(root, jobs[0].file))
+const nights = [
+  ["facade-night", "a-facade-night.jpg", 2200],
+  ["building-night", "b-building-night.jpg", 1600],
+  ["warehouse-night", "warehouse.jpg", 1400],
+  ["retail-night", "retail.jpg", 1400],
+  ["fiber-night", "fiber.jpg", 1600],
+  ["cam-arm", "cam-arm.jpg", 1600],
+];
+const imgOut = path.resolve("public/img");
+await mkdir(imgOut, { recursive: true });
+for (const [name, file, width] of nights) {
+  const pipeline = sharp(path.join(root, file)).rotate().resize({ width, withoutEnlargement: true });
+  await pipeline.clone().jpeg({ quality: 72, mozjpeg: true }).toFile(path.join(imgOut, `${name}.jpg`));
+  await pipeline.clone().webp({ quality: 68 }).toFile(path.join(imgOut, `${name}.webp`));
+  console.log(name);
+}
+
+const og = sharp(path.join(root, "a-facade-night.jpg"))
   .rotate()
-  .modulate({ saturation: 0.85 })
-  .linear(1.05, -8)
   .resize(1200, 630, { fit: "cover", position: "centre" });
 await og.jpeg({ quality: 70, mozjpeg: true }).toFile(path.resolve("public/og.jpg"));
 console.log("og.jpg");

@@ -100,7 +100,8 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("Moderne kameraanlegg")) fail("Home is missing the headline");
+if (!home.includes("Intelligent overvåking")) fail("Home is missing the headline");
+if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing the console caption");
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
   fail("Home still promotes property operations");
 }

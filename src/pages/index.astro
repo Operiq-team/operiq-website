@@ -1,181 +1,163 @@
 ---
 /**
- * TODO(eier): Bekreft forsiden. Kamera er eneste tilbud. Eiendomsdrift er tatt ut av navigasjon og innhold.
+ * TODO(eier): Bekreft før publisering: «Gratis befaring», «Ingen lisens per kamera» og «Egne montører».
+ * Forsiden er Concept A, kommandosenter. Panelet er en illustrasjon, ikke et anlegg i drift.
  */
 import Base from "../layouts/Base.astro";
-import Picture from "../components/Picture.astro";
-import Icon from "../components/Icon.astro";
-import Architecture from "../components/Architecture.astro";
 import Reference from "../components/Reference.astro";
-import BrandLockup from "../components/BrandLockup.astro";
 import { site } from "../site";
 
-const title = "Operiq Secure – Moderne IP-kameraanlegg";
+const title = "Operiq Secure – Intelligent overvåking";
 const description =
-  "Operiq Secure prosjekterer og monterer moderne IP-kameraanlegg for næringsbygg og butikk. Du eier anlegget. Opptak lokalt. Montører i hele landet.";
+  "Operiq Secure prosjekterer og monterer profesjonelle kameraanlegg med lokalt opptak og eget nettverk. Du eier anlegget. Basert i Oslo, leverer i hele landet.";
 ---
 
 <Base title={title} description={description} path="/">
-  <section class="hero">
-    <div class="container hero-grid">
+  <section class="hero command">
+    <div class="hero-bg"></div>
+    <div class="hero-gridlines"></div>
+    <div class="hero-scan"></div>
+    <div class="container hero-command">
       <div>
-        <BrandLockup />
-        <h1>Moderne kameraanlegg. Lokalt i bygget.</h1>
+        <span class="pill"><i class="dot"></i>Kameraovervåking for næringsbygg og kjeder</span>
+        <h1>Intelligent overvåking.<br /><em>Du eier den.</em></h1>
         <p class="lead">
-          For næringsbygg og butikk. Du eier anlegget, med lokalt opptak og visning på mobil. Bygget for aktiv avskrekking og automatisering.
+          Profesjonelle kameraanlegg med lokalt opptak, eget nettverk og full oversikt på mobil. Ingen lisens per kamera. Fast pris etter gratis befaring.
         </p>
-        <p class="hero-note"><a href="#neste">Avskrekking og agent er under utvikling, ikke i dagens leveranse.</a></p>
         <div class="actions">
-          <a class="btn" href="/kontakt">Bestill gratis befaring</a>
-          <a class="btn btn-ghost" href="/kameraovervaking">Se anlegget</a>
+          <a class="btn" href="#cta">Bestill gratis befaring <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how">Se hvordan det virker</a>
         </div>
-        <ul class="trust">
-          <li>Lokalt opptak</li>
-          <li>Fjernvisning</li>
-          <li>Fast pris</li>
-          <li>Montører i hele landet</li>
-        </ul>
-      </div>
-      <div class="stage frame">
-        <Picture
-          name="hero"
-          alt="Domekameraer på en lys fasade"
-          width="1200"
-          height="900"
-          sizes="(min-width: 800px) 46vw, 100vw"
-          priority={true}
-          widths={[640, 1024, 1600, 2400]}
-        />
-        <div class="panel" aria-hidden="true">
-          <div class="panel-top">
-            <span>Operiq Secure</span>
-            <span>Illustrasjon</span>
-          </div>
-          <div class="tiles">
-            <div class="tile">Fasade</div>
-            <div class="tile">Inngang</div>
-            <div class="tile">Lager</div>
-          </div>
-          <div class="chips">
-            <span>Opptak lokalt</span>
-            <span>NVR i bygget</span>
-            <span>Visning på mobil</span>
-          </div>
+        <div class="facts">
+          <div><b>Lokalt opptak</b>Video lagres i bygget</div>
+          <div><b>3 års garanti</b>På kameraene</div>
+          <div><b>Hele Norge</b>Egne montører</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container">
-      <p class="kicker">Hvem vi hjelper</p>
-      <h2>Bygg, butikk og lager</h2>
-      <div class="audience">
-        <a class="audience-card" href="/kameraovervaking">
-          <Picture
-            name="facade"
-            alt="Fasade på et næringsbygg"
-            width="1200"
-            height="900"
-            sizes="(min-width: 800px) 30vw, 100vw"
-          />
-          <div>
-            <h3>Gårdeiere og forvaltere</h3>
-            <p>Anlegg tilpasset bygget, med dokumentasjon når det er levert.</p>
+      <div class="console-wrap">
+        <div class="console glass" aria-hidden="true">
+          <div class="c-top">
+            <div class="t"><i class="dot"></i>Anlegg · Næringsbygg</div>
+            <div class="clock">23:47:12</div>
           </div>
-        </a>
-        <a class="audience-card" href="/butikk">
-          <Picture
-            name="shop"
-            alt="Butikklokale med hyller"
-            width="1200"
-            height="900"
-            sizes="(min-width: 800px) 30vw, 100vw"
-          />
-          <div>
-            <h3>Butikk og kjeder</h3>
-            <p>Samme oppsett i alle butikkene, rullet ut i bølger.</p>
+          <div class="cam-tiles">
+            <div class="cam" style="background-image:url(/img/facade-night.jpg)">
+              <div class="rec"><i></i>REC</div>
+              <div class="box"><span>PERSON</span></div>
+              <div class="sweep"></div>
+              <div class="lbl">KAM 01 · Hovedinngang</div>
+            </div>
+            <div class="cam cam-warehouse">
+              <div class="rec"><i></i>REC</div>
+              <div class="lbl">KAM 07 · Varemottak</div>
+            </div>
+            <div class="cam cam-yard">
+              <div class="rec"><i></i>REC</div>
+              <div class="lbl">KAM 12 · Bakgård</div>
+            </div>
+            <div class="cam cam-shop">
+              <div class="rec"><i></i>REC</div>
+              <div class="lbl">KAM 19 · Butikk 1. etg</div>
+            </div>
           </div>
-        </a>
-        <a class="audience-card" href="/kameraovervaking">
-          <Picture
-            name="warehouse"
-            alt="Lagerhall"
-            width="1200"
-            height="900"
-            sizes="(min-width: 800px) 30vw, 100vw"
-          />
-          <div>
-            <h3>Lager og næring</h3>
-            <p>Dekning av hall, port og uteareal.</p>
+          <div class="c-row">
+            <div class="panel">
+              <h5>Hendelser <span>I natt</span></h5>
+              <div class="ev hot"><time>23:47</time><div><b>Person ved hovedinngang</b> · utenfor åpningstid</div></div>
+              <div class="ev"><time>23:47</time><div><b>Fasadelys aktivert</b> · via KNX</div></div>
+              <div class="ev"><time>23:12</time><div><b>Kjøretøy varemottak</b> · kjent</div></div>
+              <div class="ev"><time>22:30</time><div><b>Anlegg kontrollert</b> · alt i drift</div></div>
+            </div>
+            <div class="panel">
+              <h5>Agent <span class="pilot">Pilot</span></h5>
+              <div class="agent"><div class="orb"></div><div><b>Vurderer hendelse</b>KAM 01 · ber om avklaring</div></div>
+              <div class="knx"><span>KNX · Fasadelys</span><span class="sw on"></span></div>
+              <div class="knx"><span>Høyttaler · Inngang</span><span class="sw"></span></div>
+            </div>
           </div>
-        </a>
+        </div>
+        <p class="illu">Illustrasjon av systemgrensesnitt</p>
       </div>
     </div>
   </section>
 
-  <section class="section section-alt">
+  <div class="strip">
+    <div class="container strip-row">
+      <div><span>01</span>Du eier anlegget</div>
+      <div><span>02</span>Lokalt opptak</div>
+      <div><span>03</span>Ingen lisens per kamera</div>
+      <div><span>04</span>Fast pris</div>
+      <div><span>05</span>Montører i hele landet</div>
+    </div>
+  </div>
+
+  <section class="section" id="losning">
     <div class="container">
-      <p class="kicker">Arkitektur</p>
-      <h2>Slik er anlegget bygget</h2>
-      <Architecture />
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Løsningen</p>
+          <h2>Et anlegg bygget for drift, ikke for abonnement.</h2>
+        </div>
+        <p>Vi prosjekterer, monterer og dokumenterer hele anlegget. Når det er overlevert, er det ditt – med opptak i bygget og tilgang fra mobilen.</p>
+      </div>
+      <div class="value-grid">
+        <article class="v v-wide glass">
+          <span class="ic">Infrastruktur</span>
+          <h3>Eget nettverk og fiber. Opptakeren står i ditt bygg.</h3>
+          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene forlater ikke bygget uten at du vil det.</p>
+        </article>
+        <article class="v glass">
+          <span class="ic">Eierskap</span>
+          <ul class="cmp">
+            <li>Abonnement per kamera <b class="no">Nei</b></li>
+            <li>Skylisens <b class="no">Nei</b></li>
+            <li>Du eier utstyret <b class="yes">Ja</b></li>
+          </ul>
+        </article>
+        <article class="v glass">
+          <span class="ic">Garanti</span>
+          <p class="big">3 <small>år</small></p>
+          <h3>Garanti på kameraene</h3>
+        </article>
+        <article class="v glass">
+          <span class="ic">Mobil</span>
+          <h3>Full oversikt i lomma</h3>
+          <p>Se direkte, spol i opptak og få varsler – fra hvor som helst.</p>
+        </article>
+        <article class="v glass">
+          <span class="ic">Pris</span>
+          <h3>Fast pris etter befaring</h3>
+          <p>Du får et prosjektert tilbud med fast pris.</p>
+        </article>
+        <article class="v v-sand glass">
+          <span class="ic">Neste generasjon · Pilot</span>
+          <h3>Aktiv avskrekking</h3>
+          <p>Lys via KNX, høyttaler og en AI-agent som følger anlegget. Under utvikling.</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section-alt" id="neste">
     <div class="container">
-      <p class="kicker">Leveranse</p>
-      <h2>Det som følger med</h2>
-      <ul class="bento">
-        <li>
-          <Icon name="network" />
-          <h3>Eget nettverk</h3>
-          <p>Kameranettet er skilt fra det øvrige nettet i bygget.</p>
-        </li>
-        <li>
-          <Icon name="disk" />
-          <h3>Lokalt opptak</h3>
-          <p>Opptakeren står i bygget. Opptakene er dine.</p>
-        </li>
-        <li>
-          <Icon name="phone" />
-          <h3>Fjernvisning på mobil</h3>
-          <p>Se direkte og spill av, fra mobil eller PC.</p>
-        </li>
-        <li>
-          <Icon name="cable" />
-          <h3>Fiber og kabling</h3>
-          <p>Cat6, og fiber der avstanden krever det.</p>
-        </li>
-        <li>
-          <Icon name="file" />
-          <h3>FDV-dokumentasjon</h3>
-          <p>Underlag på det som er montert, når anlegget leveres.</p>
-        </li>
-        <li>
-          <Icon name="check" />
-          <h3>3 års garanti på kameraene</h3>
-          <p>Garanti på øvrig utstyr følger produsent.</p>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section on-dark" id="neste">
-    <div class="container">
-      <p class="kicker">Under utvikling · Pilot</p>
-      <h2>Neste generasjon: aktiv avskrekking</h2>
-      <p class="measure">Vi bygger dette nå. Det er ikke en del av anlegget som leveres i dag.</p>
-      <ul class="bento future">
-        <li>
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Under utvikling · Pilot</p>
+          <h2>Neste generasjon: aktiv avskrekking</h2>
+        </div>
+        <p>Vi bygger dette nå. Det er ikke en del av anlegget som leveres i dag.</p>
+      </div>
+      <ul class="pilot-grid">
+        <li class="glass">
           <h3>Bygg og lys</h3>
           <p>Integrasjon med byggets systemer og belysning via KNX og buss, så lyset kan reagere på en hendelse.</p>
         </li>
-        <li>
+        <li class="glass">
           <h3>Avskrekking</h3>
           <p>Lys og en talemelding som ber folk forlate området.</p>
         </li>
-        <li>
+        <li class="glass">
           <h3>Agent</h3>
           <p>En AI-agent følger med på kamera, nett og opptaker, og setter i gang avskrekkingen.</p>
         </li>
@@ -194,50 +176,67 @@ const description =
     </div>
   </section>
 
-  <section class="section section-alt" id="referanse">
+  <section class="section" id="how">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Slik jobber vi</p>
+          <h2>Fra befaring til ferdig anlegg.</h2>
+        </div>
+        <p>Én prosess, samme standard på hvert bygg. Du vet hva du får før vi starter.</p>
+      </div>
+      <ol class="how-steps">
+        <li><span>01</span><h3>Gratis befaring</h3><p>Vi går gjennom bygget, behov og risikopunkter sammen med deg.</p></li>
+        <li><span>02</span><h3>Prosjektering og fast pris</h3><p>Kameraplassering, nettverk og opptak tegnes inn. Du får fast pris.</p></li>
+        <li><span>03</span><h3>Installasjon</h3><p>Egne montører over hele landet. Ryddig, dokumentert og testet.</p></li>
+        <li><span>04</span><h3>Overlevering</h3><p>Opplæring, dokumentasjon og app på plass. Anlegget er ditt.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-tight" id="referanse">
     <div class="container">
       <Reference />
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <p class="kicker">Prosess</p>
-      <h2>Fra befaring til dokumentasjon</h2>
-      <ol class="timeline">
-        <li>
-          <span>01</span>
-          <h3>Befaring</h3>
-          <p>Vi ser på bygget og hva som skal dekkes.</p>
-        </li>
-        <li>
-          <span>02</span>
-          <h3>Prosjektering og fastpris</h3>
-          <p>Plan og skriftlig fastpris før vi starter.</p>
-        </li>
-        <li>
-          <span>03</span>
-          <h3>Montering</h3>
-          <p>Vi monterer og setter anlegget i drift.</p>
-        </li>
-        <li>
-          <span>04</span>
-          <h3>Test og dokumentasjon</h3>
-          <p>Felles test, opplæring og FDV.</p>
-        </li>
-      </ol>
+  <section class="section" id="kjeder">
+    <div class="container chain">
+      <div class="map glass" aria-hidden="true">
+        <div class="stores">
+          <i class="pilot"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i>
+          <i class="std"></i><i class="std"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+          <i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="legend"><span><i class="pilot"></i>Pilotbutikk</span><span><i class="std"></i>Kjedestandard</span><span><i class="rl"></i>Utrulling</span></div>
+      </div>
+      <div>
+        <p class="kicker">For kjeder</p>
+        <h2>Én standard. Alle butikkene.</h2>
+        <p class="lead">Vi starter med én pilotbutikk, låser oppsettet og ruller ut samme løsning i hele landet – med én kontaktperson og samlet oversikt.</p>
+        <ol class="roll">
+          <li class="glass"><span>01</span><div><h3>Pilotbutikk</h3><p>Vi bygger og tester løsningen i én butikk.</p></div><b>Test</b></li>
+          <li class="glass"><span>02</span><div><h3>Kjedestandard</h3><p>Fast oppsett, fast pris per butikktype.</p></div><b>Dokumentert</b></li>
+          <li class="glass"><span>03</span><div><h3>Utrulling i hele landet</h3><p>Montører lokalt, samme kvalitet overalt.</p></div><b>Hele Norge</b></li>
+        </ol>
+        <p><a class="link-arrow" href="/butikk">Les om butikk og kjeder</a></p>
+      </div>
     </div>
   </section>
 
-  <section class="section section-tight">
+  <section class="section section-tight" id="cta">
     <div class="container">
       <aside class="cta-band">
         <div>
-          <h2>Bestill gratis befaring</h2>
-          <p>Vi ser på bygget og sender et skriftlig tilbud. {site.coverage}.</p>
+          <p class="kicker">Neste steg</p>
+          <h2>Start med en gratis befaring.</h2>
+        </div>
+        <div>
+          <p>Vi kommer på befaring, prosjekterer anlegget og gir deg fast pris. {site.coverage}.</p>
+          <a class="btn" href="/kontakt">Bestill gratis befaring <span class="arr">→</span></a>
           <a class="cta-mail" href={`mailto:${site.email}`}>{site.email}</a>
         </div>
-        <a class="btn" href="/kontakt">Bestill gratis befaring</a>
       </aside>
     </div>
   </section>

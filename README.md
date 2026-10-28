@@ -14,7 +14,7 @@ Ikke legg til gateadresse, eierselskap, sitater, bilder fra stedet eller andre t
 
 ## Fotokreditering
 
-Bildene er fra Pexels (gratis, også kommersielt, kreditering ikke påkrevd). De kan beskjæres. De skal ikke brukes som om personer eller merker på bildet anbefaler Operiq. Disse er ikke brukt, fordi produsent- eller utstyrsmerker var synlige: `dome-innendors-tak`, `nettverk-switch`, `kameraer-konstruksjon` (Avigilon) og `dome-betongvegg-mork` (Dahua). Båndbildet er et utsnitt av fasadebildet uten lesbart merke.
+Bildene er fra Pexels (gratis, også kommersielt, kreditering ikke påkrevd). De kan beskjæres. De skal ikke brukes som om personer eller merker på bildet anbefaler Operiq. Disse er ikke brukt, fordi produsent- eller utstyrsmerker var synlige: `dome-innendors-tak`, `nettverk-switch`, `kameraer-konstruksjon` (Avigilon) og `dome-betongvegg-mork` (Dahua). Forsidens kveldsbilder er nattgraderte utsnitt av de samme motivene, uten lesbart kameramerke. Kirkeristen-kortet bruker et nøytralt kamera mot himmel, ikke et bilde fra stedet.
 
 | Fil | Fotograf | Kilde |
 | --- | --- | --- |

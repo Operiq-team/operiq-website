@@ -6,12 +6,10 @@
  * TODO(eier): Bekreft at kunden er behandlingsansvarlig, og at Operiq ikke overtar ansvaret.
  */
 import Base from "../layouts/Base.astro";
-import Picture from "../components/Picture.astro";
 import Icon from "../components/Icon.astro";
 import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
 import Reference from "../components/Reference.astro";
-import BrandLockup from "../components/BrandLockup.astro";
 
 const title = "Kameraanlegg du eier selv – Operiq Secure";
 const description =
@@ -29,7 +27,7 @@ const steps = [
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <BrandLockup />
+        <p class="kicker">Operiq Secure</p>
         <h1>Kameraanlegg du eier selv</h1>
         <p class="lead">
           Vi prosjekterer nett og montering, og setter opp lokal opptaker i bygget. Montører i hele landet.
@@ -39,14 +37,7 @@ const steps = [
         </div>
       </div>
       <div class="frame">
-        <Picture
-          name="corner"
-          alt="Kameraer montert på hjørnet av et steinbygg"
-          width="1200"
-          height="900"
-          sizes="(min-width: 800px) 42vw, 100vw"
-          priority={true}
-        />
+        <img src="/img/facade-night.jpg" alt="Kameraer på et bygg i kveldslys" width="1200" height="900" />
       </div>
     </div>
   </section>
@@ -126,14 +117,7 @@ const steps = [
   </section>
 
   <figure class="band">
-    <Picture
-      name="band"
-      alt="Overvåkingskameraer montert på en konstruksjon"
-      width="1680"
-      height="720"
-      sizes="100vw"
-      widths={[640, 1024, 1600, 2400]}
-    />
+    <img src="/img/fiber-night.jpg" alt="Fiberkabler i et teknisk rack" width="1600" height="900" />
   </figure>
 
   <section class="section">
