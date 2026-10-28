@@ -2,7 +2,7 @@
 /**
  * TODO(eier): Bekreft at post@operiq.no er adressen som skal publiseres.
  * TODO(eier): Salgstelefon settes i src/site.ts (phone). Tom streng skjuler nummeret.
- * TODO(eier): Ingen gateadresse. Bare Oslo, til en adresse er godkjent.
+ * TODO(eier): Ingen gateadresse er godkjent. Teksten sier «Basert i Oslo, leverer i hele landet».
  * TODO(eier): contactMode i src/site.ts står på "mailto". Se README før det endres.
  */
 import Base from "../layouts/Base.astro";
@@ -11,7 +11,7 @@ import { site } from "../site";
 
 const title = "Kontakt og gratis befaring – Operiq";
 const description =
-  "Bestill gratis befaring av kameraanlegg, eller ta kontakt om eiendomsdrift. E-post post@operiq.no. Operiq, Oslo.";
+  "Bestill gratis befaring av kameraanlegg, eller ta kontakt om eiendomsdrift. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
 const tel = site.phone.replace(/\s/g, "");
 ---
 
@@ -32,7 +32,7 @@ const tel = site.phone.replace(/\s/g, "");
         </p>
         <p>
           Sted<br />
-          {site.city}
+          {site.coverage}
         </p>
         {
           site.phone && (

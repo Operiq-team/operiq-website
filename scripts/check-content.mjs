@@ -96,10 +96,24 @@ if (!secure.includes("AI-videoanalyse") || !secure.includes("Kommer")) {
   fail("Kamera page must mention AI video analysis only as coming");
 }
 if (!secure.includes("Reolink Professional")) fail("Kamera page is missing Reolink Professional");
+if (!secure.includes("Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.")) {
+  fail("Kamera page must limit the 3-year warranty to cameras");
+}
 
 const drift = await readFile(path.join(dist, "eiendomsdrift/index.html"), "utf8");
-if (!drift.includes("Husleieadministrasjon") && !drift.includes("husleieadministrasjon")) {
+if (!drift.includes("husleieadministrasjon")) {
   fail("Eiendomsdrift page must exclude rent administration");
+}
+if (!drift.includes("konsulentoppdrag") || !drift.includes("innleid driftsansvarlig")) {
+  fail("Eiendomsdrift page must describe consulting assignments");
+}
+if (drift.includes("kontraktsfestet ansvar for hele driften") && !drift.includes("ikke et kontraktsfestet ansvar")) {
+  fail("Eiendomsdrift page must not claim full operating responsibility");
+}
+const about = await readFile(path.join(dist, "om-oss/index.html"), "utf8");
+if (!about.includes("Sebastian Godtfredsen")) fail("About page is missing the founder");
+if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) {
+  fail("Home must state nationwide delivery and Norway in structured data");
 }
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");

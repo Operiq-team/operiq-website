@@ -1,9 +1,6 @@
 ---
 /**
- * TODO(eier): Bekreft biografien om Sebastian Godtfredsen. Ingen sertifiseringer, antall år eller andre tall er oppgitt.
- * TODO(eier): Bekreft at han skal omtales som den som står bak Operiq, og ikke med en formell selskapsrolle som ikke er avklart her.
  * TODO(eier): Bekreft setningen om navneendring: selskapet heter fortsatt Godtbo Eiendom AS.
- * TODO(eier): Skal «Lier» nevnes i tillegg til Oslo? Nå står bare Oslo. Gårdsadresse og gateadresse er ikke med.
  * TODO(eier): Skal «MVA» stå sammen med org.nr? Det er utelatt til du bekrefter.
  */
 import Base from "../layouts/Base.astro";
@@ -13,7 +10,7 @@ import { legalLine, site } from "../site";
 
 const title = "Om oss – Operiq";
 const description =
-  "Operiq (Godtbo Eiendom AS, org.nr 927 212 056) leverer kameraovervåking og teknisk drift av næringseiendom fra Oslo.";
+  "Operiq (Godtbo Eiendom AS, org.nr 927 212 056) leverer kameraovervåking og teknisk drift av næringseiendom. Basert i Oslo, leverer i hele landet.";
 ---
 
 <Base title={title} description={description} path="/om-oss">
@@ -30,10 +27,7 @@ const description =
       </div>
       <div class="prose prose-embed">
         <p>
-          Sebastian Godtfredsen står bak Operiq. Arbeidet hans er prosjektledelse, drift av næringseiendom, innkjøp og teknisk infrastruktur: fiber, nettverk, kameraovervåking og adgangskontroll.
-        </p>
-        <p>
-          Anleggene spesifiseres ut fra hvordan bygget faktisk drives. Du har én prosjektansvarlig fra start til overlevering, og du får dokumentasjon du kan bruke etterpå.
+          Sebastian Godtfredsen står bak Operiq. Bakgrunnen hans er prosjektledelse og drift av næringseiendom, og teknisk infrastruktur: fiber, nettverk og kameraovervåking.
         </p>
       </div>
     </div>
@@ -64,7 +58,7 @@ const description =
         </div>
         <div>
           <dt>Sted</dt>
-          <dd>{site.city}</dd>
+          <dd>{site.coverage}</dd>
         </div>
         {
           site.phone && (

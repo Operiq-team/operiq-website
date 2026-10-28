@@ -7,6 +7,7 @@
 import Base from "../layouts/Base.astro";
 import BrandLockup from "../components/BrandLockup.astro";
 import CtaBand from "../components/CtaBand.astro";
+import { site } from "../site";
 
 const title = "Operiq – Kameraovervåking for næringseiendom";
 const description =
@@ -31,7 +32,7 @@ const description =
         <p class="kicker">Eiendomsdrift</p>
         <h2>Drift av næringsbygg</h2>
         <p>
-          Driftsledelse og teknisk oppfølging for eiere i Oslo som ikke har eget driftspersonell.
+          Konsulentoppdrag innen driftsledelse og teknisk oppfølging. {site.coverage}.
         </p>
         <p><a class="link-quiet" href="/eiendomsdrift">Les om eiendomsdrift</a></p>
       </article>

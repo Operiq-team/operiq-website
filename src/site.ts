@@ -9,7 +9,6 @@
  * Mørk flate bruker logo-white.svg og logo-secure-white-accent.svg.
  *
  * TODO(eier): Skal «MVA» stå ved org.nr? Det er utelatt til du bekrefter.
- * TODO(eier): Skal tjenesteområdet i strukturerte data være videre enn Oslo?
  */
 export const site = {
   name: "Operiq",
@@ -20,8 +19,10 @@ export const site = {
   city: "Oslo",
   url: "https://operiq.no",
   locale: "nb_NO",
+  /** Basert i Oslo. Leveranse kan skje i hele Norge. Ingen gateadresse. */
+  coverage: "Basert i Oslo, leverer i hele landet",
   description:
-    "Operiq prosjekterer og installerer IP-kameraanlegg for næringseiendom, og følger opp teknisk drift av næringsbygg. Oslo.",
+    "Operiq prosjekterer og installerer IP-kameraanlegg for næringseiendom, og tar konsulentoppdrag innen teknisk drift. Basert i Oslo, leverer i hele landet.",
   /**
    * TODO(eier): La contactMode stå som "mailto" til utsending er satt opp.
    * Bytt til "server" først når CONTACT_FORWARD_URL er satt i Cloudflare,
@@ -65,8 +66,8 @@ export function organizationJsonLd(): Record<string, unknown> {
     image: new URL("/og.png", site.url).href,
     description: site.description,
     areaServed: {
-      "@type": "City",
-      name: site.city,
+      "@type": "Country",
+      name: "Norway",
     },
     identifier: {
       "@type": "PropertyValue",

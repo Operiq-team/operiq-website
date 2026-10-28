@@ -11,7 +11,7 @@ const tel = site.phone.replace(/\s/g, "");
         <h2 class="footer-logo">
           <img src="/brand/logo-white.svg" alt="Operiq" width="120" height="28" />
         </h2>
-        <p>Kameraovervåking for næringseiendom, og teknisk drift av næringsbygg. {site.city}.</p>
+        <p>Kameraovervåking for næringseiendom, og teknisk drift av næringsbygg. {site.coverage}.</p>
       </div>
       <div>
         <h2>Sider</h2>
@@ -29,7 +29,7 @@ const tel = site.phone.replace(/\s/g, "");
         <h2>Kontakt</h2>
         <p>
           <a href={`mailto:${site.email}`}>{site.email}</a><br />
-          {site.city}
+          {site.coverage}
           {
             site.phone && (
               <>
