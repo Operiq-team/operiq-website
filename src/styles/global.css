@@ -561,9 +561,7 @@ h3 {
   color: #c9ced4;
   font-size: 0.92rem;
 }
-.cmp b { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 500; }
-.cmp .no { color: var(--sand); }
-.cmp .yes { color: var(--cyan); }
+.cmp b { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; font-weight: 500; color: var(--sand); text-transform: none; }
 .big {
   margin: 0.2rem 0 0.4rem;
   font-family: var(--display);
