@@ -9,17 +9,17 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { site } from "../site";
 
-const title = "Kontakt og gratis befaring – Operiq";
+const title = "Kontakt – Operiq";
 const description =
-  "Bestill gratis befaring av kameraanlegg. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
+  "Be om befaring av kameraanlegg. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
 const tel = site.phone.replace(/\s/g, "");
 ---
 
 <Base title={title} description={description} path="/kontakt">
   <PageHero
     kicker="Kontakt"
-    title="Bestill gratis befaring"
-    lead="Fortell kort om bygget. Vi avtaler befaring og gir et skriftlig fastpristilbud. Det koster ingenting å be om befaring."
+    title="Be om befaring"
+    lead="Fortell kort om bygget. Vi avtaler befaring og gir et skriftlig tilbud. Befaring er kostnadsfritt for større prosjekter."
   />
 
   <section class="section section-follow">
@@ -96,7 +96,7 @@ const tel = site.phone.replace(/\s/g, "");
             <input name="website" type="text" tabindex="-1" autocomplete="off" />
           </label>
         </div>
-        <button class="btn" type="submit">Bestill gratis befaring</button>
+        <button class="btn" type="submit">Be om befaring</button>
         <p id="form-status" role="status"></p>
         <noscript>
           <p class="form-note">

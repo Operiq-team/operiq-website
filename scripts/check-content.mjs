@@ -19,6 +19,7 @@ const forbidden = [
   /href="tel:/i,
   /\b(reolink|verkada|hikvision|dahua|uniview|hanwha|rhombus|avigilon|mobotix)\b/i,
   /\baxis\b/i,
+  /gratis befaring/i,
 ];
 
 const referenceFacts = [
@@ -34,7 +35,7 @@ const referenceFacts = [
 const requiredInSite = [
   "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
   "post@operiq.no",
-  "Bestill gratis befaring",
+  "Be om befaring",
   'lang="nb"',
 ];
 
@@ -100,13 +101,17 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("Intelligent overvåking")) fail("Home is missing the headline");
+if (!home.includes("Kameraanlegg for næringsbygg")) fail("Home is missing the headline");
+if (/gratis befaring/i.test(home)) fail("Home still promises a free survey");
 if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing the console caption");
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
   fail("Home still promotes property operations");
 }
 if (!home.includes("Montører i hele landet")) fail("Home is missing nationwide installers");
-if (!home.includes("Neste generasjon: aktiv avskrekking")) fail("Home is missing the pilot section");
+if (!home.includes("Aktiv avskrekking")) fail("Home is missing the pilot section");
+if (!home.includes("Det er ikke en del av anlegget som leveres i dag.")) {
+  fail("Home must keep deterrence as not part of today's delivery");
+}
 if (home.includes("ingen prisliste") || home.includes("AI-videoanalyse")) {
   fail("Home still has defensive copy that should be gone");
 }
@@ -121,7 +126,8 @@ if (secure.includes("AI-videoanalyse") || secure.includes("ingen prisliste")) {
 if (secure.includes("ingen referanse") || secure.includes("vi oppgir ikke")) {
   fail("Kamera page still says there are no references");
 }
-if (!secure.includes("Profesjonelle IP-kameraer")) fail("Kamera page is missing professional IP cameras");
+if (!secure.includes("IP-kameraer")) fail("Kamera page is missing IP cameras");
+if (/gratis befaring/i.test(secure)) fail("Kamera page still promises a free survey");
 if (!secure.includes("PoE")) fail("Kamera page is missing PoE");
 if (!secure.includes("Porter åpnes ikke mot internett som utgangspunkt.")) {
   fail("Kamera page is missing the closed-network principle");
@@ -153,6 +159,16 @@ for (const [name, html] of [
 if (!about.includes("Sebastian Godtfredsen")) fail("About page is missing the founder");
 if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) {
   fail("Home must state nationwide delivery and Norway in structured data");
+}
+
+const contact = await readFile(path.join(dist, "kontakt/index.html"), "utf8");
+if (!contact.includes("Befaring er kostnadsfritt for større prosjekter.")) {
+  fail("Contact page is missing the limited free-survey line");
+}
+for (const file of files) {
+  if (file.endsWith(`${path.sep}kontakt${path.sep}index.html`)) continue;
+  const html = await readFile(file, "utf8");
+  if (html.includes("kostnadsfritt")) fail(`${path.relative(dist, file)} mentions a free survey outside the contact page`);
 }
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");

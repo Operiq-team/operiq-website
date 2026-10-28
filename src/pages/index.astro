@@ -1,15 +1,15 @@
 ---
 /**
  * Forsiden er Concept A, kommandosenter. Panelet er en illustrasjon, ikke et anlegg i drift.
- * Gratis befaring er godkjent. Ikke lov null lisens eller egne montører.
+ * Befaring er ikke generelt gratis. Én setning om større prosjekter står bare på kontaktsiden.
  */
 import Base from "../layouts/Base.astro";
 import Reference from "../components/Reference.astro";
 import { site } from "../site";
 
-const title = "Operiq Secure – Intelligent overvåking";
+const title = "Kameraanlegg for næringsbygg – Operiq";
 const description =
-  "Operiq Secure prosjekterer og monterer profesjonelle kameraanlegg med lokalt opptak og eget nettverk. Du eier anlegget. Basert i Oslo, leverer i hele landet.";
+  "Operiq prosjekterer og monterer kameraanlegg med lokalt opptak og eget nett. Du eier anlegget. Basert i Oslo, leverer i hele landet.";
 ---
 
 <Base title={title} description={description} path="/">
@@ -20,12 +20,12 @@ const description =
     <div class="container hero-command">
       <div>
         <span class="pill"><i class="dot"></i>Kameraovervåking for næringsbygg og kjeder</span>
-        <h1>Intelligent overvåking.<br /><em>Du eier den.</em></h1>
+        <h1>Kameraanlegg for næringsbygg.<br /><em>Du eier det.</em></h1>
         <p class="lead">
-          Profesjonelle kameraanlegg med lokalt opptak, eget nettverk og full oversikt på mobil. Du eier anlegget. Fast pris etter gratis befaring.
+          Lokalt opptak i bygget, eget nett og visning på mobil. Fast pris etter befaring.
         </p>
         <div class="actions">
-          <a class="btn" href="#cta">Bestill gratis befaring <span class="arr">→</span></a>
+          <a class="btn" href="#cta">Be om befaring <span class="arr">→</span></a>
           <a class="btn btn-ghost" href="#how">Se hvordan det virker</a>
         </div>
         <div class="facts">
@@ -99,13 +99,13 @@ const description =
           <p class="kicker">Løsningen</p>
           <h2>Et anlegg du eier. Opptakene ligger i bygget.</h2>
         </div>
-        <p>Vi prosjekterer, monterer og dokumenterer hele anlegget. Når det er overlevert, er det ditt – med opptak i bygget og tilgang fra mobilen.</p>
+        <p>Vi prosjekterer, monterer og dokumenterer anlegget. Når det er overlevert, er det ditt. Opptakene ligger i bygget. Du kan se dem på mobil.</p>
       </div>
       <div class="value-grid">
         <article class="v v-wide glass">
           <span class="ic">Infrastruktur</span>
           <h3>Eget nettverk og fiber. Opptakeren står i ditt bygg.</h3>
-          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene forlater ikke bygget uten at du vil det.</p>
+          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene lagres i bygget.</p>
         </article>
         <article class="v glass">
           <span class="ic">Eierskap</span>
@@ -122,16 +122,16 @@ const description =
         </article>
         <article class="v glass">
           <span class="ic">Mobil</span>
-          <h3>Full oversikt i lomma</h3>
-          <p>Se direkte, spol i opptak og få varsler – fra hvor som helst.</p>
+          <h3>Visning på mobil</h3>
+          <p>Se direkte og spill av opptak på mobil eller PC.</p>
         </article>
         <article class="v glass">
           <span class="ic">Pris</span>
           <h3>Fast pris etter befaring</h3>
-          <p>Du får et prosjektert tilbud med fast pris.</p>
+          <p>Tilbudet er skriftlig, med fast pris.</p>
         </article>
         <article class="v v-sand glass">
-          <span class="ic">Neste generasjon · Pilot</span>
+          <span class="ic">Pilot</span>
           <h3>Aktiv avskrekking</h3>
           <p>Lys via KNX, høyttaler og en AI-agent som følger anlegget. Under utvikling.</p>
         </article>
@@ -144,7 +144,7 @@ const description =
       <div class="sec-head">
         <div>
           <p class="kicker">Under utvikling · Pilot</p>
-          <h2>Neste generasjon: aktiv avskrekking</h2>
+          <h2>Aktiv avskrekking</h2>
         </div>
         <p>Vi bygger dette nå. Det er ikke en del av anlegget som leveres i dag.</p>
       </div>
@@ -183,12 +183,12 @@ const description =
           <p class="kicker">Slik jobber vi</p>
           <h2>Fra befaring til ferdig anlegg.</h2>
         </div>
-        <p>Én prosess, samme standard på hvert bygg. Du vet hva du får før vi starter.</p>
+        <p>Befaring, tilbud, montering og dokumentasjon. Prisen står i tilbudet.</p>
       </div>
       <ol class="how-steps">
-        <li><span>01</span><h3>Gratis befaring</h3><p>Vi går gjennom bygget, behov og risikopunkter sammen med deg.</p></li>
+        <li><span>01</span><h3>Befaring</h3><p>Vi går gjennom bygget, dekning og føringsveier sammen med deg.</p></li>
         <li><span>02</span><h3>Prosjektering og fast pris</h3><p>Kameraplassering, nettverk og opptak tegnes inn. Du får fast pris.</p></li>
-        <li><span>03</span><h3>Installasjon</h3><p>Vi kommer til bygget. Montører i hele landet. Ryddig, dokumentert og testet.</p></li>
+        <li><span>03</span><h3>Installasjon</h3><p>Vi kommer til bygget. Montører i hele landet.</p></li>
         <li><span>04</span><h3>Overlevering</h3><p>Opplæring, dokumentasjon og app på plass. Anlegget er ditt.</p></li>
       </ol>
     </div>
@@ -214,11 +214,11 @@ const description =
       <div>
         <p class="kicker">For kjeder</p>
         <h2>Én standard. Alle butikkene.</h2>
-        <p class="lead">Vi starter med én pilotbutikk, låser oppsettet og ruller ut samme løsning i hele landet – med én kontaktperson og samlet oversikt.</p>
+        <p class="lead">Vi tester oppsettet i én butikk. Deretter bruker vi det samme i flere butikker. Én kontakt hos Operiq.</p>
         <ol class="roll">
           <li class="glass"><span>01</span><div><h3>Pilotbutikk</h3><p>Vi bygger og tester løsningen i én butikk.</p></div><b>Test</b></li>
           <li class="glass"><span>02</span><div><h3>Kjedestandard</h3><p>Fast oppsett, fast pris per butikktype.</p></div><b>Dokumentert</b></li>
-          <li class="glass"><span>03</span><div><h3>Utrulling i hele landet</h3><p>Montører lokalt, samme kvalitet overalt.</p></div><b>Hele Norge</b></li>
+          <li class="glass"><span>03</span><div><h3>Utrulling i hele landet</h3><p>Montører lokalt. Samme oppsett i butikkene.</p></div><b>Hele Norge</b></li>
         </ol>
         <p><a class="link-arrow" href="/butikk">Les om butikk og kjeder</a></p>
       </div>
@@ -230,11 +230,11 @@ const description =
       <aside class="cta-band">
         <div>
           <p class="kicker">Neste steg</p>
-          <h2>Start med en gratis befaring.</h2>
+          <h2>Be om befaring.</h2>
         </div>
         <div>
           <p>Vi kommer på befaring, prosjekterer anlegget og gir deg fast pris. {site.coverage}.</p>
-          <a class="btn" href="/kontakt">Bestill gratis befaring <span class="arr">→</span></a>
+          <a class="btn" href="/kontakt">Be om befaring <span class="arr">→</span></a>
           <a class="cta-mail" href={`mailto:${site.email}`}>{site.email}</a>
         </div>
       </aside>

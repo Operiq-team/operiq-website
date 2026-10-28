@@ -21,7 +21,7 @@ export const site = {
   /** Basert i Oslo. Leveranse kan skje i hele Norge. Ingen gateadresse. */
   coverage: "Basert i Oslo, leverer i hele landet",
   description:
-    "Operiq Secure prosjekterer og monterer IP-kameraanlegg for næringsbygg og butikk. Basert i Oslo, leverer i hele landet.",
+    "Operiq prosjekterer og monterer kameraanlegg for næringsbygg og butikk. Basert i Oslo, leverer i hele landet.",
   /**
    * TODO(eier): La contactMode stå som "mailto" til utsending er satt opp.
    * Bytt til "server" først når CONTACT_FORWARD_URL er satt i Cloudflare,
