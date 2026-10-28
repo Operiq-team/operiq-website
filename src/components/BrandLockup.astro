@@ -1,0 +1,36 @@
+---
+/**
+ * Lockup for one public Operiq line, same plate as OPERIQ | SECURE:
+ * white wordmark, vertical bar, line name in the accent.
+ *
+ * Outlined files live in `outlined`. A line without a file is drawn
+ * from the parent mark plus the line name, so adding one is a prop
+ * (`<BrandLockup line="…" />`) or a single map entry.
+ * Only pass a line the owner has approved for the site.
+ */
+interface Props {
+  line: string;
+}
+
+const outlined: Record<string, string> = {
+  SECURE: "/brand/logo-secure-white-accent.svg",
+};
+
+const { line } = Astro.props;
+const key = line.trim().toUpperCase();
+const src = outlined[key];
+const words = key.toLowerCase();
+const alt = `Operiq ${words.charAt(0).toUpperCase()}${words.slice(1)}`;
+---
+
+{
+  src ? (
+    <img class="lockup" src={src} alt={alt} width="416" height="52" />
+  ) : (
+    <p class="lockup lockup-set" role="img" aria-label={alt}>
+      <img src="/brand/logo-white.svg" alt="" width="134" height="32" />
+      <span class="lockup-bar" aria-hidden="true" />
+      <span class="lockup-line">{key}</span>
+    </p>
+  )
+}

@@ -1,0 +1,63 @@
+---
+import { nav, site } from "../site";
+
+interface Props {
+  showCta?: boolean;
+}
+
+const { showCta = true } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isCurrent(href: string) {
+  return current === href;
+}
+---
+
+<header class="site-header">
+  <div class="container header-bar">
+    <a class="brand" href="/" aria-label="Operiq, forside">
+      <img src="/brand/logo-white.svg" alt="" width="134" height="32" />
+    </a>
+    <nav class="nav-desktop" aria-label="Hovedmeny">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    {
+      showCta && (
+        <a class="btn header-cta" href="/kontakt">
+          Bestill befaring
+        </a>
+      )
+    }
+    <details class="nav-mobile">
+      <summary>
+        <span class="when-closed">Meny</span>
+        <span class="when-open">Lukk</span>
+      </summary>
+      <div class="nav-mobile-panel">
+        <nav aria-label="Mobilmeny">
+          {
+            nav.map((item) => (
+              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        {
+          showCta && (
+            <a class="btn" href="/kontakt">
+              Bestill gratis befaring
+            </a>
+          )
+        }
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </details>
+  </div>
+</header>

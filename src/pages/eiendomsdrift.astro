@@ -1,0 +1,105 @@
+---
+/**
+ * TODO(eier): HELE SIDEN. Avklar om Operiq tar kontraktsmessig driftsansvar eller bare avgrensede oppdrag.
+ * Teksten sier at omfang og ansvar avtales skriftlig, og lister arbeidsområder uten å love en standardkontrakt.
+ * TODO(eier): Bekreft tjenestelisten: driftsledelse, teknisk forvaltning, FDV, internkontroll (HMS, brannvern, elektrisk sikkerhet), leverandører og avtaler, avvik, digitale rutiner, tekniske prosjekter.
+ * TODO(eier): Fakturakontroll er bevisst utelatt, så siden ikke ligner økonomisk forvaltning. Si ifra om «kontroll av leverandørfaktura mot avtale» skal med.
+ * TODO(eier): Bekreft at husleieadministrasjon og økonomisk forvaltning skal stå som noe som ikke inngår.
+ * TODO(eier): Bekreft metodelinjen objekt → kontrollpunkt → ansvarlig → frekvens → resultat → avvik → lukking.
+ * TODO(eier): Bekreft målgruppen: eiere av nærings- og kombinasjonsbygg i Oslo uten eget driftspersonell.
+ * TODO(eier): Bekreft at oppfølging av brannvern og elektrisk sikkerhet ikke leses som at Operiq er godkjent el-entreprenør eller brannrådgiver. Ingen sertifiseringer er oppgitt.
+ */
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Eiendomsdrift for næringsbygg – Operiq";
+const description =
+  "Driftsledelse og teknisk oppfølging for eiere av næringsbygg i Oslo: FDV, internkontroll, leverandører og tekniske prosjekter. Ikke husleie eller økonomiforvaltning.";
+---
+
+<Base title={title} description={description} path="/eiendomsdrift">
+  <PageHero
+    kicker="Eiendomsdrift"
+    title="Drift av næringseiendom – praktisk og dokumentert"
+    lead="Driftsledelse og teknisk oppfølging for eiere av nærings- og kombinasjonsbygg i Oslo som ikke har eget driftspersonell."
+  >
+    <div class="actions">
+      <a class="btn" href="/kontakt?tema=drift">Ta kontakt om drift</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Arbeidsområder</h2>
+        <p>Dette er oppgaver vi kan ta. Hva som faktisk inngår, avtales skriftlig for det enkelte bygget.</p>
+      </div>
+      <ul class="rows">
+        <li>
+          <h3>Driftsledelse</h3>
+          <p>Teknisk forvaltning av bygget: hva som skal følges opp, av hvem, og med hvilken rytme.</p>
+        </li>
+        <li>
+          <h3>FDV og internkontroll</h3>
+          <p>FDV-dokumentasjon og internkontroll, inkludert HMS, brannvern og elektrisk sikkerhet.</p>
+        </li>
+        <li>
+          <h3>Leverandører og avtaler</h3>
+          <p>Oppfølging av leverandører og at arbeidet holder seg til avtalen.</p>
+        </li>
+        <li>
+          <h3>Avvik</h3>
+          <p>Avvik registreres, får en ansvarlig og lukkes. De blir ikke liggende i en innboks.</p>
+        </li>
+        <li>
+          <h3>Digitale rutiner</h3>
+          <p>Driftsrutiner samles slik at de kan følges, ikke bare forklares muntlig.</p>
+        </li>
+        <li>
+          <h3>Tekniske prosjekter</h3>
+          <p>Prosjektledelse av oppgraderinger, blant annet fiber, adgang og sikkerhet.</p>
+        </li>
+      </ul>
+      <p class="callout">
+        <strong>Økonomisk forvaltning og husleieadministrasjon inngår ikke</strong>
+        Operiq tar den tekniske og praktiske driften. Regnskap, leie og økonomisk forvaltning hører hjemme et annet sted.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-follow">
+    <div class="container split">
+      <div class="section-head">
+        <h2>Slik henger kontrollen sammen</h2>
+        <p>Hvert punkt kan spores fra objektet til avviket er lukket.</p>
+      </div>
+      <div>
+        <ol class="chain" aria-label="Metode">
+          <li>Objekt</li>
+          <li>Kontrollpunkt</li>
+          <li>Ansvarlig</li>
+          <li>Frekvens</li>
+          <li>Resultat</li>
+          <li>Avvik</li>
+          <li>Lukking</li>
+        </ol>
+        <p class="callout">
+          <strong>Ansvar avtales i oppdraget</strong>
+          Siden beskriver arbeidsområder, ikke en ferdig driftskontrakt. Om Operiq har et løpende ansvar eller et avgrenset oppdrag, står i avtalen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Fortell om bygget"
+        text="Hvor det ligger, og hva du vil ha fulgt opp. Vi svarer på om det er et oppdrag for Operiq."
+        href="/kontakt?tema=drift"
+        label="Ta kontakt om drift"
+      />
+    </div>
+  </section>
+</Base>

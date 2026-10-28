@@ -1,0 +1,52 @@
+---
+import { legalLine, nav, site } from "../site";
+
+const tel = site.phone.replace(/\s/g, "");
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2 class="footer-logo">
+          <img src="/brand/logo-white.svg" alt="Operiq" width="120" height="28" />
+        </h2>
+        <p>Kameraovervåking for næringseiendom, og teknisk drift av næringsbygg. {site.city}.</p>
+      </div>
+      <div>
+        <h2>Sider</h2>
+        <ul>
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <h2>Kontakt</h2>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a><br />
+          {site.city}
+          {
+            site.phone && (
+              <>
+                <br />
+                <a href={`tel:${tel}`}>{site.phone}</a>
+              </>
+            )
+          }
+        </p>
+      </div>
+    </div>
+    <div class="legal-line">
+      <p>{legalLine}</p>
+      <p class="legal-links">
+        <a href="/personvern">Personvern</a>
+        <a href="/kamera-info">Kamera på stedet</a>
+      </p>
+    </div>
+  </div>
+</footer>

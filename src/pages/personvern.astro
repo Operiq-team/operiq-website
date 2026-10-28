@@ -1,0 +1,93 @@
+---
+/**
+ * TODO(eier): Bekreft personvernerklæringen med noen som kan vurderingen, særlig behandlingsgrunnlag og lagringstid.
+ * TODO(eier): Navngi e-postleverandør (databehandler) hvis det skal stå. Nå står bare «virksomhetens e-postsystem».
+ * TODO(eier): Bekreft lagringstid for henvendelser som ikke blir til oppdrag.
+ * TODO(eier): Bekreft at nettstedet ikke skal ha analyseverktøy. Teksten sier at det ikke brukes.
+ * TODO(eier): Full postadresse mangler. Opplysningsplikten for næringsdrivende forventer en adresse før ordinær publisering. Ikke finn på en.
+ */
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { legalLine, site } from "../site";
+
+const title = "Personvernerklæring – Operiq";
+const description =
+  "Personvernerklæring for operiq.no: kontaktskjema og e-post. Kameraovervåking på kundens eiendom styres av kunden som behandlingsansvarlig.";
+---
+
+<Base title={title} description={description} path="/personvern">
+  <PageHero
+    kicker="Personvern"
+    title="Personvernerklæring for nettstedet"
+    lead="Denne erklæringen gjelder operiq.no: skjemaet og e-post du sender til oss. Den gjelder ikke kameraopptak på en kundes eiendom."
+  />
+
+  <section class="section section-follow">
+    <div class="container">
+      <article class="prose">
+      <h2>Hvem som er behandlingsansvarlig</h2>
+      <p>
+        Behandlingsansvarlig for personopplysninger du sender til dette nettstedet, er {site.legalName}, som bruker navnet Operiq.
+        Organisasjonsnummer {site.orgNr}. E-post <a href={`mailto:${site.email}`}>{site.email}</a>. Sted: {site.city}.
+      </p>
+      <p>{legalLine}.</p>
+
+      <h2>Hva vi behandler</h2>
+      <p>Når du bruker skjemaet eller skriver til oss, kan vi få:</p>
+      <ul>
+        <li>navn, e-post og telefon</li>
+        <li>firmanavn</li>
+        <li>adresse til bygget henvendelsen gjelder</li>
+        <li>det du skriver om behovet, for eksempel antall kameraer</li>
+      </ul>
+      <p>Nettstedet har ingen konto, ingen analyseverktøy og setter ingen informasjonskapsler for markedsføring eller statistikk.</p>
+
+      <h2>Hvorfor, og grunnlaget</h2>
+      <p>
+        Vi bruker opplysningene til å svare på henvendelsen, avtale befaring og eventuelt gi tilbud.
+        Grunnlaget er personvernforordningen artikkel 6 nr. 1 bokstav b, når henvendelsen er et skritt mot en avtale, og bokstav f når vi har en berettiget interesse i å besvare øvrig korrespondanse.
+      </p>
+
+      <h2>Slik sendes skjemaet</h2>
+      <p>
+        Skjemaet er satt opp til å åpne e-postprogrammet ditt, med teksten ferdig utfylt til {site.email}. Da er det du som sender e-posten.
+        Nettstedet lagrer ikke skjemafeltene.
+      </p>
+      <p>
+        Hvis serversending senere blir slått på, mottar Operiq de samme feltene direkte og svarer på e-post.
+        Det er ikke slått på i denne versjonen. Uten JavaScript får du en side med en ferdig e-postlenke, med mindre serversending er konfigurert.
+      </p>
+
+      <h2>Hvem som mottar opplysningene</h2>
+      <p>
+        E-post til {site.email} lagres i virksomhetens e-postsystem og leses av dem som behandler henvendelser hos Operiq.
+        Vi selger ikke opplysningene og bruker dem ikke til et nyhetsbrev.
+      </p>
+
+      <h2>Hvor lenge</h2>
+      <p>
+        En henvendelse som ikke blir til et oppdrag, slettes når den er besvart og ikke lenger trengs for oppfølging.
+        Blir den til et oppdrag, lagres det som hører til avtalen så lenge oppdraget og bokføringsreglene krever det.
+      </p>
+
+      <h2>Kameraovervåking hos kunder</h2>
+      <p>
+        Kameraovervåking på en eiendom Operiq har levert anlegg til, styres av kunden. Kunden, normalt eieren av eiendommen, er behandlingsansvarlig for opptakene.
+        Operiq er leverandør av anlegget og er ikke behandlingsansvarlig for den overvåkingen.
+        Spørsmål om innsyn i opptak rettes til behandlingsansvarlig for eiendommen, ikke til denne erklæringen.
+      </p>
+      <p><a href="/kamera-info">Informasjon til dem som blir filmet av et anlegg vi har levert</a>.</p>
+
+      <h2>Rettighetene dine</h2>
+      <p>Du kan be om innsyn, retting, sletting, begrensning og dataportabilitet, og du kan protestere mot behandling som støtter seg på berettiget interesse. Du kan også klage til Datatilsynet.</p>
+      <p>
+        Send forespørselen til <a href={`mailto:${site.email}`}>{site.email}</a>.
+        Datatilsynet nås på <a href="https://www.datatilsynet.no">datatilsynet.no</a>.
+      </p>
+
+      <h2>Endringer</h2>
+      <p>Erklæringen oppdateres på denne siden når praksisen på nettstedet endres. Sist oppdatert 28. oktober 2026.</p>
+      </article>
+    </div>
+  </section>
+</Base>

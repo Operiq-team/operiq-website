@@ -1,0 +1,92 @@
+---
+/**
+ * TODO(eier): Bekreft biografien om Sebastian Godtfredsen. Ingen sertifiseringer, antall år eller andre tall er oppgitt.
+ * TODO(eier): Bekreft at han skal omtales som den som står bak Operiq, og ikke med en formell selskapsrolle som ikke er avklart her.
+ * TODO(eier): Bekreft setningen om navneendring: selskapet heter fortsatt Godtbo Eiendom AS.
+ * TODO(eier): Skal «Lier» nevnes i tillegg til Oslo? Nå står bare Oslo. Gårdsadresse og gateadresse er ikke med.
+ * TODO(eier): Skal «MVA» stå sammen med org.nr? Det er utelatt til du bekrefter.
+ */
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { legalLine, site } from "../site";
+
+const title = "Om oss – Operiq";
+const description =
+  "Operiq (Godtbo Eiendom AS, org.nr 927 212 056) leverer kameraovervåking og teknisk drift av næringseiendom fra Oslo.";
+---
+
+<Base title={title} description={description} path="/om-oss">
+  <PageHero
+    kicker="Selskapet"
+    title="Et lite selskap for bygg som skal virke"
+    lead="Operiq Secure er kameraovervåking for næringseiendom. Vi følger også opp teknisk drift av næringsbygg."
+  />
+
+  <section class="section">
+    <div class="container split">
+      <div class="section-head">
+        <h2>Hvem som står bak</h2>
+      </div>
+      <div class="prose prose-embed">
+        <p>
+          Sebastian Godtfredsen står bak Operiq. Arbeidet hans er prosjektledelse, drift av næringseiendom, innkjøp og teknisk infrastruktur: fiber, nettverk, kameraovervåking og adgangskontroll.
+        </p>
+        <p>
+          Anleggene spesifiseres ut fra hvordan bygget faktisk drives. Du har én prosjektansvarlig fra start til overlevering, og du får dokumentasjon du kan bruke etterpå.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-follow">
+    <div class="container split">
+      <div class="section-head">
+        <h2>Selskapsopplysninger</h2>
+        <p>Utad heter vi Operiq. Juridisk navn er fortsatt {site.legalName}. Navneendring til Operiq er ikke registrert ennå.</p>
+      </div>
+      <dl class="plate facts">
+        <div>
+          <dt>Navn utad</dt>
+          <dd>Operiq</dd>
+        </div>
+        <div>
+          <dt>Juridisk navn</dt>
+          <dd>{site.legalName}</dd>
+        </div>
+        <div>
+          <dt>Org.nr</dt>
+          <dd>{site.orgNr}</dd>
+        </div>
+        <div>
+          <dt>E-post</dt>
+          <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        <div>
+          <dt>Sted</dt>
+          <dd>{site.city}</dd>
+        </div>
+        {
+          site.phone && (
+            <div>
+              <dt>Telefon</dt>
+              <dd>
+                <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <p class="form-note legal-note">{legalLine}</p>
+      <CtaBand
+        title="Ta kontakt"
+        text="Befaring av kameraanlegg, eller en samtale om drift av et næringsbygg."
+      />
+    </div>
+  </section>
+</Base>

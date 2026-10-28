@@ -1,0 +1,94 @@
+---
+/**
+ * TODO(eier): Bekreft forsiden. Operiq Secure er det tydeligste tilbudet, eiendomsdrift står ved siden av.
+ * TODO(eier): Bekreft «uten bindende abonnement», og at videre service bare avtales hvis kunden vil.
+ * TODO(eier): Bekreft setningen om at anlegget spesifiseres ut fra driften av bygget, ikke ut fra en ferdig pakke.
+ */
+import Base from "../layouts/Base.astro";
+import BrandLockup from "../components/BrandLockup.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Operiq – Kameraovervåking for næringseiendom";
+const description =
+  "Operiq Secure prosjekterer og installerer IP-kameraanlegg for næringseiendom. Du eier anlegget, opptak lagres lokalt, og pris gis som fasttilbud etter gratis befaring.";
+---
+
+<Base title={title} description={description} path="/">
+  <section class="offerings">
+    <div class="container offerings-grid">
+      <article>
+        <BrandLockup line="SECURE" />
+        <h1>Profesjonell kameraovervåking for næringseiendom – uten bindende abonnement</h1>
+        <p class="lead">
+          Komplette IP-kameraanlegg som du eier selv. Opptak lagres lokalt, og prisen er et skriftlig fasttilbud etter befaring.
+        </p>
+        <div class="actions">
+          <a class="btn" href="/kontakt">Bestill gratis befaring</a>
+          <a class="link-quiet" href="/kameraovervaking">Se kameraanlegget</a>
+        </div>
+      </article>
+      <article class="offering-side">
+        <p class="kicker">Eiendomsdrift</p>
+        <h2>Drift av næringsbygg</h2>
+        <p>
+          Driftsledelse og teknisk oppfølging for eiere i Oslo som ikke har eget driftspersonell.
+        </p>
+        <p><a class="link-quiet" href="/eiendomsdrift">Les om eiendomsdrift</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="principles" aria-label="Slik er leveransen lagt opp">
+    <div class="container principles-grid">
+      <article>
+        <span>01</span>
+        <h2>Lokalt opptak og fjernvisning</h2>
+        <p>Opptakene ligger i anlegget. Fjernvisning følger med, uten at du må inn i et fast abonnement.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>Én ansvarlig hele veien</h2>
+        <p>Du har én prosjektansvarlig hos Operiq fra prosjektering til anlegget er overlevert.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Dokumentasjon ved overlevering</h2>
+        <p>Du får underlag på det som er montert, slik at bygget kan driftes videre uten å gjette.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Kameraanlegg du eier selv</h2>
+        <p>
+          Operiq Secure prosjekterer og installerer anlegget etter bygget, ikke etter en ferdig pakke. Service utover leveransen avtales bare hvis du ønsker det.
+        </p>
+      </div>
+      <ul class="rows">
+        <li>
+          <h3>Eget anlegg</h3>
+          <p>Utstyret er ditt. Videre oppfølging er valgfritt.</p>
+        </li>
+        <li>
+          <h3>Fastpris</h3>
+          <p>Etter befaring får du et skriftlig fastpristilbud. Det ligger ingen prisliste på siden.</p>
+        </li>
+        <li>
+          <h3>Ut fra bygget</h3>
+          <p>Anlegget spesifiseres av folk som også jobber med drift av næringsbygg, ikke ut fra en ferdig pakke.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Gratis befaring, deretter fastpris"
+        text="Befaringen koster ingenting. Selve anlegget prises skriftlig etterpå, til det bygget vi har sett."
+      />
+    </div>
+  </section>
+</Base>

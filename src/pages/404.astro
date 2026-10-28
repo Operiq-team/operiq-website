@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+
+const title = "Siden finnes ikke – Operiq";
+const description = "Siden finnes ikke. Gå til forsiden eller kontakt Operiq.";
+---
+
+<Base title={title} description={description} path="/404" noindex={true}>
+  <header class="page-hero">
+    <div class="container">
+      <p class="kicker">404</p>
+      <h1>Siden finnes ikke</h1>
+      <p class="lead">Lenken kan være skrevet feil, eller siden er tatt bort.</p>
+      <div class="actions">
+        <a class="btn" href="/">Til forsiden</a>
+        <a class="link-quiet" href="/kontakt">Kontakt</a>
+      </div>
+    </div>
+  </header>
+</Base>

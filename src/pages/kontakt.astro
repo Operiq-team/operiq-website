@@ -1,0 +1,197 @@
+---
+/**
+ * TODO(eier): Bekreft at post@operiq.no er adressen som skal publiseres.
+ * TODO(eier): Salgstelefon settes i src/site.ts (phone). Tom streng skjuler nummeret.
+ * TODO(eier): Ingen gateadresse. Bare Oslo, til en adresse er godkjent.
+ * TODO(eier): contactMode i src/site.ts står på "mailto". Se README før det endres.
+ */
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { site } from "../site";
+
+const title = "Kontakt og gratis befaring – Operiq";
+const description =
+  "Bestill gratis befaring av kameraanlegg, eller ta kontakt om eiendomsdrift. E-post post@operiq.no. Operiq, Oslo.";
+const tel = site.phone.replace(/\s/g, "");
+---
+
+<Base title={title} description={description} path="/kontakt">
+  <PageHero
+    kicker="Kontakt"
+    title="Bestill gratis befaring"
+    lead="Fortell kort om bygget. Vi avtaler befaring og gir et skriftlig fastpristilbud. Det koster ingenting å be om befaring."
+  />
+
+  <section class="section section-follow">
+    <div class="container contact-grid">
+      <aside class="contact-aside">
+        <h2>Direkte</h2>
+        <p>
+          E-post<br />
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+        <p>
+          Sted<br />
+          {site.city}
+        </p>
+        {
+          site.phone && (
+            <p>
+              Telefon
+              <br />
+              <a href={`tel:${tel}`}>{site.phone}</a>
+            </p>
+          )
+        }
+        <p>Skjemaet lager en e-post til {site.email}. Det lagres ikke på nettsiden.</p>
+      </aside>
+
+      <form
+        id="contact-form"
+        method="post"
+        action="/api/contact"
+        data-mode={site.contactMode}
+        data-email={site.email}
+      >
+        <div class="form-row two">
+          <label>
+            <span>Navn</span>
+            <input name="name" type="text" autocomplete="name" required maxlength="120" />
+          </label>
+          <label>
+            <span>E-post</span>
+            <input name="email" type="email" autocomplete="email" required maxlength="160" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            <span>Telefon</span>
+            <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
+          </label>
+          <label>
+            <span>Firma</span>
+            <input name="company" type="text" autocomplete="organization" maxlength="160" />
+          </label>
+        </div>
+        <label>
+          <span>Adresse til bygget</span>
+          <input name="building" type="text" autocomplete="street-address" maxlength="240" />
+        </label>
+        <label>
+          <span>Tema</span>
+          <select name="topic" required>
+            <option value="">Velg</option>
+            <option value="kamera">Kameraovervåking</option>
+            <option value="drift">Eiendomsdrift</option>
+            <option value="begge">Begge deler</option>
+            <option value="annet">Annet</option>
+          </select>
+        </label>
+        <label>
+          <span>Antall kameraer, eller hva du trenger hjelp til</span>
+          <textarea name="message" required maxlength="4000"></textarea>
+        </label>
+        <div class="hp" aria-hidden="true">
+          <label>
+            Nettsted
+            <input name="website" type="text" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+        <button class="btn" type="submit">Bestill gratis befaring</button>
+        <p id="form-status" role="status"></p>
+        <noscript>
+          <p class="form-note">
+            Uten JavaScript sendes skjemaet til serveren. Før utsending er satt opp, får du en
+            ferdig e-postlenke tilbake. Du kan også skrive direkte til
+            <a href={`mailto:${site.email}`}>{site.email}</a>.
+          </p>
+        </noscript>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { buildMailto, parseInquiry } from "../lib/inquiry.js";
+
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const status = document.querySelector<HTMLElement>("#form-status");
+
+  if (form && status) {
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get("tema");
+    const select = form.querySelector<HTMLSelectElement>('[name="topic"]');
+    if (select && topic && ["kamera", "drift", "begge", "annet"].includes(topic)) {
+      select.value = topic;
+    }
+
+    const showMailto = (href: string, email: string) => {
+      status.replaceChildren();
+      status.append("E-postprogrammet åpnes med ferdig tekst til ");
+      const link = document.createElement("a");
+      link.href = href;
+      link.textContent = email;
+      status.append(link);
+      status.append(". Ingenting er sendt før du sender e-posten.");
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = form.dataset.email || "post@operiq.no";
+      const mode = form.dataset.mode || "mailto";
+      const raw = Object.fromEntries(new FormData(form).entries());
+      const parsed = parseInquiry(raw);
+
+      if (!parsed.ok) {
+        status.textContent = parsed.error;
+        return;
+      }
+
+      if (parsed.spam) {
+        form.reset();
+        status.textContent = "Takk. Vi svarer på e-post.";
+        return;
+      }
+
+      const href = buildMailto(parsed.value, email);
+
+      if (mode !== "server") {
+        showMailto(href, email);
+        window.location.href = href;
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button) button.disabled = true;
+      status.textContent = "Sender …";
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify(raw),
+        });
+        const payload = await response.json().catch(() => null);
+        if (response.ok && payload?.delivered) {
+          form.reset();
+          status.textContent = "Takk. Vi har mottatt henvendelsen og svarer på e-post.";
+          return;
+        }
+        if (response.status === 400 && payload?.error) {
+          status.textContent = payload.error;
+          return;
+        }
+      } catch {
+        // Static preview has no function. Fall through to mailto.
+      } finally {
+        if (button) button.disabled = false;
+      }
+
+      showMailto(href, email);
+      window.location.href = href;
+    });
+  }
+</script>

@@ -1,0 +1,72 @@
+---
+/**
+ * TODO(eier): Bekreft teksten mot skiltet. Operiq er leverandør, ikke behandlingsansvarlig.
+ * TODO(eier): Bekreft at Operiq kan love å hjelpe finne behandlingsansvarlig når noen oppgir hvor anlegget står. Operiq utleverer ikke opptak.
+ * TODO(eier): Ingen eiendom eller kunde er navngitt. Si ifra om siden skal være kortere før QR trykkes på skilt.
+ */
+import Base from "../layouts/Base.astro";
+import BrandLockup from "../components/BrandLockup.astro";
+import { site } from "../site";
+
+const title = "Informasjon om kameraovervåking – Operiq";
+const description =
+  "Dette kameraanlegget er levert av Operiq. Eieren av eiendommen er behandlingsansvarlig. Slik ber du om opptak, og slik når du Operiq.";
+const tel = site.phone.replace(/\s/g, "");
+---
+
+<Base title={title} description={description} path="/kamera-info" showCta={false}>
+  <header class="page-hero">
+    <div class="container">
+      <BrandLockup line="SECURE" />
+      <p class="kicker">Kamera på stedet</p>
+      <h1>Informasjon om kameraovervåking</h1>
+      <p class="lead">
+        Anlegget er levert og installert av Operiq ({site.legalName}). Operiq er leverandør, ikke den som bestemmer over opptakene.
+      </p>
+    </div>
+  </header>
+
+  <section class="section section-follow">
+    <div class="container info-stack">
+      <article class="info-box emphasis">
+        <h2>Eieren av eiendommen er behandlingsansvarlig</h2>
+        <p>
+          Det er eieren som bestemmer hvorfor det filmes, hvor lenge opptak lagres, og hvem som får se dem.
+          Navn og kontakt skal stå på skiltet ved anlegget.
+        </p>
+      </article>
+
+      <article class="info-box">
+        <h2>Slik ber du om opptak</h2>
+        <p>Send forespørselen til behandlingsansvarlig for eiendommen, ikke til Operiq. Oppgi hvem du er, når det gjelder, og hva du ber om.</p>
+        <p>Operiq kan ikke utlevere opptak. Vi har ikke behandlingsansvaret for overvåkingen.</p>
+        <p>
+          Finner du ikke behandlingsansvarlig, skriv til
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          og oppgi hvor anlegget står. Vi hjelper deg videre til riktig eier når vi kan.
+        </p>
+      </article>
+
+      <article class="info-box">
+        <h2>Kontakt Operiq som leverandør</h2>
+        <p>
+          <a href={`mailto:${site.email}`}>{site.email}</a><br />
+          {site.city}
+          {
+            site.phone && (
+              <>
+                <br />
+                <a href={`tel:${tel}`}>{site.phone}</a>
+              </>
+            )
+          }
+        </p>
+        <p>Organisasjonsnummer {site.orgNr}.</p>
+      </article>
+
+      <p class="form-note">
+        Personvern for nettstedet operiq.no står i <a href="/personvern">personvernerklæringen</a>. Den gjelder ikke opptakene.
+      </p>
+    </div>
+  </section>
+</Base>
