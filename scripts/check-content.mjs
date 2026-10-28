@@ -20,6 +20,7 @@ const forbidden = [
   /\b(reolink|verkada|hikvision|dahua|uniview|hanwha|rhombus|avigilon|mobotix)\b/i,
   /\baxis\b/i,
   /gratis befaring/i,
+  /kostnadsfritt/i,
 ];
 
 const referenceFacts = [
@@ -36,6 +37,7 @@ const requiredInSite = [
   "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
   "post@operiq.no",
   "Be om befaring",
+  "Bestill uforpliktende befaring",
   'lang="nb"',
 ];
 
@@ -101,8 +103,9 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("Kameraanlegg for næringsbygg")) fail("Home is missing the headline");
-if (/gratis befaring/i.test(home)) fail("Home still promises a free survey");
+if (!home.includes("Intelligent overvåking")) fail("Home is missing the headline");
+if (!home.includes("Start med en uforpliktende befaring.")) fail("Home is missing the closing survey heading");
+if (!home.includes("<h3>Uforpliktende befaring</h3>")) fail("Home is missing the survey step");
 if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing the console caption");
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
   fail("Home still promotes property operations");
@@ -127,7 +130,7 @@ if (secure.includes("ingen referanse") || secure.includes("vi oppgir ikke")) {
   fail("Kamera page still says there are no references");
 }
 if (!secure.includes("IP-kameraer")) fail("Kamera page is missing IP cameras");
-if (/gratis befaring/i.test(secure)) fail("Kamera page still promises a free survey");
+if (!secure.includes("Bestill uforpliktende befaring")) fail("Kamera page is missing the survey button");
 if (!secure.includes("PoE")) fail("Kamera page is missing PoE");
 if (!secure.includes("Porter åpnes ikke mot internett som utgangspunkt.")) {
   fail("Kamera page is missing the closed-network principle");
@@ -162,14 +165,7 @@ if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) 
 }
 
 const contact = await readFile(path.join(dist, "kontakt/index.html"), "utf8");
-if (!contact.includes("Befaring er kostnadsfritt for større prosjekter.")) {
-  fail("Contact page is missing the limited free-survey line");
-}
-for (const file of files) {
-  if (file.endsWith(`${path.sep}kontakt${path.sep}index.html`)) continue;
-  const html = await readFile(file, "utf8");
-  if (html.includes("kostnadsfritt")) fail(`${path.relative(dist, file)} mentions a free survey outside the contact page`);
-}
+if (!contact.includes("Bestill uforpliktende befaring")) fail("Contact page is missing the survey heading");
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");
 if (!privacy.includes("behandlingsansvarlig")) fail("Privacy page is missing controller language");
