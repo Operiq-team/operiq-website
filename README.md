@@ -4,7 +4,7 @@ Norsk markedsnettsted for Operiq (Godtbo Eiendom AS). Statisk bygget med [Astro]
 
 Dette er et utkast til godkjenning. Det er ikke publisert, og ingenting i repoet endrer DNS.
 
-Merket er Plate. Toppen bruker `logo-secure-white-accent.svg`. Mørk bunntekst bruker `logo-white.svg`. Låsen for en linje er `BrandLockup`. Space Grotesk, Inter og JetBrains Mono ligger som woff2 i `public/fonts/`. Siden henter ikke fonter fra Google.
+Merket er Plate 1.1. Topp og mørk bunntekst bruker `logo-white.svg` (symbol + navn). OPERIQ | SECURE er `wordmark-secure-*-sand.svg` der undermerket vises, uten et nytt Q-symbol. Favicon er bare symbolet. Space Grotesk (500–600), Inter og JetBrains Mono ligger som woff2 i `public/fonts/`. Siden henter ikke fonter fra Google.
 
 ## Referanse
 

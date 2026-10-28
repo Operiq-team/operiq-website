@@ -1,36 +1,34 @@
 ---
 /**
- * Lockup for one public Operiq line, same plate as OPERIQ | SECURE:
- * white wordmark, vertical bar, line name in the accent.
- *
- * Outlined files live in `outlined`. A line without a file is drawn
- * from the parent mark plus the line name, so adding one is a prop
- * (`<BrandLockup line="…" />`) or a single map entry.
- * Only pass a line the owner has approved for the site.
+ * Outlined OPERIQ | SECURE lockup (Plate 1.1). Paths are curves, not live text.
+ * The wordmark is the default so a page that already shows symbol + name
+ * does not repeat the Q. Pass withSymbol only when this lockup is the only mark.
  */
 interface Props {
-  line: string;
+  line?: string;
+  tone?: "on-dark" | "on-light";
+  withSymbol?: boolean;
 }
 
-const outlined: Record<string, string> = {
-  SECURE: "/brand/logo-secure-white-accent.svg",
+const { line = "SECURE", tone = "on-dark", withSymbol = false } = Astro.props;
+const key = line.trim().toUpperCase();
+
+const files: Record<string, { wordmark: string; logo: string }> = {
+  "on-dark": {
+    wordmark: "/brand/wordmark-secure-white-sand.svg",
+    logo: "/brand/logo-secure-white-sand.svg",
+  },
+  "on-light": {
+    wordmark: "/brand/wordmark-secure-black-sand.svg",
+    logo: "/brand/logo-secure-black-sand.svg",
+  },
 };
 
-const { line } = Astro.props;
-const key = line.trim().toUpperCase();
-const src = outlined[key];
-const words = key.toLowerCase();
-const alt = `Operiq ${words.charAt(0).toUpperCase()}${words.slice(1)}`;
+const src = key === "SECURE" ? files[tone][withSymbol ? "logo" : "wordmark"] : "";
 ---
 
 {
-  src ? (
-    <img class="lockup" src={src} alt={alt} width="416" height="52" />
-  ) : (
-    <p class="lockup lockup-set" role="img" aria-label={alt}>
-      <img src="/brand/logo-white.svg" alt="" width="134" height="32" />
-      <span class="lockup-bar" aria-hidden="true" />
-      <span class="lockup-line">{key}</span>
-    </p>
+  src && (
+    <img class="lockup" src={src} alt="Operiq Secure" width={withSymbol ? 320 : 280} height="40" />
   )
 }

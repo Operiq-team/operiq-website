@@ -5,8 +5,8 @@
  * publiseres, for eksempel "+47 00 00 00 00". Tom streng skjuler telefon i
  * topp, bunn, kontaktside og strukturerte data.
  *
- * Merket er Plate (konsept 3), valgt av eier. Filer ligger i public/brand/.
- * Mørk flate bruker logo-white.svg og logo-secure-white-accent.svg.
+ * Merket er Plate 1.1. Header og bunntekst bruker logo-white.svg (symbol + navn).
+ * OPERIQ | SECURE er wordmark-secure-white-sand.svg der undermerket vises.
  *
  * TODO(eier): Skal «MVA» stå ved org.nr? Det er utelatt til du bekrefter.
  */
