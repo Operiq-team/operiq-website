@@ -22,7 +22,7 @@ export const site = {
   /** Basert i Oslo. Leveranse kan skje i hele Norge. Ingen gateadresse. */
   coverage: "Basert i Oslo, leverer i hele landet",
   description:
-    "Operiq prosjekterer og installerer IP-kameraanlegg for næringseiendom, og tar konsulentoppdrag innen teknisk drift. Basert i Oslo, leverer i hele landet.",
+    "Operiq Secure prosjekterer og monterer IP-kameraanlegg for næringsbygg og butikk. Basert i Oslo, leverer i hele landet.",
   /**
    * TODO(eier): La contactMode stå som "mailto" til utsending er satt opp.
    * Bytt til "server" først når CONTACT_FORWARD_URL er satt i Cloudflare,
@@ -36,7 +36,6 @@ export const legalLine = `${site.name} (${site.legalName}) · org.nr ${site.orgN
 export const nav = [
   { href: "/kameraovervaking", label: "Kameraovervåking" },
   { href: "/butikk", label: "Butikk og kjeder" },
-  { href: "/eiendomsdrift", label: "Eiendomsdrift" },
   { href: "/om-oss", label: "Om oss" },
 ] as const;
 
@@ -44,7 +43,6 @@ export const pages = [
   { path: "/" },
   { path: "/kameraovervaking" },
   { path: "/butikk" },
-  { path: "/eiendomsdrift" },
   { path: "/om-oss" },
   { path: "/kontakt" },
   { path: "/personvern" },

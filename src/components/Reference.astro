@@ -1,0 +1,29 @@
+---
+/**
+ * Godkjent referanse. Ikke legg til gateadresse, eierselskap, sitater,
+ * bilder fra stedet eller andre tall enn 26 kameraer og desember 2026.
+ */
+import Picture from "./Picture.astro";
+---
+
+<article class="case">
+  <div class="case-visual">
+    <Picture
+      name="building"
+      alt="Næringsbygg sett nedenfra, brukt som illustrasjon"
+      width="1200"
+      height="900"
+      sizes="(min-width: 800px) 46vw, 100vw"
+    />
+    <span class="case-label">Illustrasjon</span>
+  </div>
+  <div class="case-body">
+    <p class="kicker">Referanse</p>
+    <h2>Kirkeristen, Oslo sentrum</h2>
+    <p>Næringskvartal. 26 kameraer, ny fiberinfrastruktur og eget nettverk.</p>
+    <p class="case-status">Under installasjon, ferdig desember 2026</p>
+    <p>
+      Anlegget er forberedt for integrasjon mot byggets belysning (KNX) som del av piloten for aktiv avskrekking. Integrasjonen er planlagt.
+    </p>
+  </div>
+</article>

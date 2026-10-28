@@ -10,7 +10,7 @@ const jobs = [
   { name: "hero", file: "hero-kamera-fasade-pexels-37591149.jpg", ratio: 4 / 3 },
   { name: "corner", file: "kamera-bygningshjorne-pexels-37591159.jpg", ratio: 4 / 3 },
   { name: "dome", file: "dome-betongvegg-mork-pexels-29866272.jpg", ratio: 4 / 3 },
-  { name: "band", file: "kameraer-konstruksjon-pexels-38999359.jpg", ratio: 21 / 9 },
+  { name: "band", file: "hero-kamera-fasade-pexels-37591149.jpg", ratio: 21 / 9, position: "attention" },
   { name: "facade", file: "naeringsbygg-fasade-pexels-12955940.jpg", ratio: 4 / 3 },
   { name: "building", file: "bygg-hjorne-lys-pexels-3137040.jpg", ratio: 4 / 3 },
   { name: "warehouse", file: "lager-interior-pexels-36122954.jpg", ratio: 4 / 3 },
@@ -38,7 +38,7 @@ for (const job of jobs) {
       .rotate()
       .modulate({ saturation: 0.85 })
       .linear(1.05, -8)
-      .resize(width, height, { fit: "cover", position: "centre" });
+      .resize(width, height, { fit: "cover", position: job.position ?? "centre" });
     const base = path.join(dir, `${job.name}-${width}.jpg`);
     await render(pipeline, base);
     const stat = await sharp(base).metadata();

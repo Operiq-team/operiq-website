@@ -4,8 +4,7 @@ export const CONTACT_EMAIL = "post@operiq.no";
 
 export const TOPICS = {
   kamera: "Kameraovervåking",
-  drift: "Eiendomsdrift",
-  begge: "Begge deler",
+  butikk: "Butikk og kjeder",
   annet: "Annet",
 };
 

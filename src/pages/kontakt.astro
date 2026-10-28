@@ -11,7 +11,7 @@ import { site } from "../site";
 
 const title = "Kontakt og gratis befaring – Operiq";
 const description =
-  "Bestill gratis befaring av kameraanlegg, eller ta kontakt om eiendomsdrift. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
+  "Bestill gratis befaring av kameraanlegg. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
 const tel = site.phone.replace(/\s/g, "");
 ---
 
@@ -82,8 +82,7 @@ const tel = site.phone.replace(/\s/g, "");
           <select name="topic" required>
             <option value="">Velg</option>
             <option value="kamera">Kameraovervåking</option>
-            <option value="drift">Eiendomsdrift</option>
-            <option value="begge">Begge deler</option>
+            <option value="butikk">Butikk og kjeder</option>
             <option value="annet">Annet</option>
           </select>
         </label>
@@ -121,7 +120,7 @@ const tel = site.phone.replace(/\s/g, "");
     const params = new URLSearchParams(window.location.search);
     const topic = params.get("tema");
     const select = form.querySelector<HTMLSelectElement>('[name="topic"]');
-    if (select && topic && ["kamera", "drift", "begge", "annet"].includes(topic)) {
+    if (select && topic && ["kamera", "butikk", "annet"].includes(topic)) {
       select.value = topic;
     }
 

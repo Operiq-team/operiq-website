@@ -4,18 +4,22 @@ Norsk markedsnettsted for Operiq (Godtbo Eiendom AS). Statisk bygget med [Astro]
 
 Dette er et utkast til godkjenning. Det er ikke publisert, og ingenting i repoet endrer DNS.
 
-Merket er Plate. Lys topp bruker `logo-black.svg`, mørk bunntekst bruker `logo-white.svg`. Låsen for en linje er `BrandLockup`. Space Grotesk og Inter ligger som woff2 i `public/fonts/`. Siden henter ikke fonter fra Google.
+Merket er Plate. Toppen bruker `logo-secure-white-accent.svg`. Mørk bunntekst bruker `logo-white.svg`. Låsen for en linje er `BrandLockup`. Space Grotesk, Inter og JetBrains Mono ligger som woff2 i `public/fonts/`. Siden henter ikke fonter fra Google.
+
+## Referanse
+
+Kirkeristen, Oslo sentrum er godkjent referanse, og står på forsiden og `/kameraovervaking`. Næringskvartal. 26 kameraer, ny fiberinfrastruktur og eget nettverk. Status: under installasjon, ferdig desember 2026. Anlegget er forberedt for integrasjon mot byggets belysning (KNX) som del av piloten for aktiv avskrekking. Integrasjonen er planlagt. Bildet ved kortet er en nøytral illustrasjon, ikke fra stedet.
+
+Ikke legg til gateadresse, eierselskap, sitater, bilder fra stedet eller andre tall. Andre kundenavn skal ikke med.
 
 ## Fotokreditering
 
-Bildene er fra Pexels (gratis, også kommersielt, kreditering ikke påkrevd). De kan beskjæres. De skal ikke brukes som om personer eller merker på bildet anbefaler Operiq. To bilder i den opprinnelige pakken er ikke brukt, fordi produsent- eller utstyrsmerker var synlige (`dome-innendors-tak`, `nettverk-switch`).
+Bildene er fra Pexels (gratis, også kommersielt, kreditering ikke påkrevd). De kan beskjæres. De skal ikke brukes som om personer eller merker på bildet anbefaler Operiq. Disse er ikke brukt, fordi produsent- eller utstyrsmerker var synlige: `dome-innendors-tak`, `nettverk-switch`, `kameraer-konstruksjon` (Avigilon) og `dome-betongvegg-mork` (Dahua). Båndbildet er et utsnitt av fasadebildet uten lesbart merke.
 
 | Fil | Fotograf | Kilde |
 | --- | --- | --- |
 | hero-kamera-fasade | Giant Asparagus | https://www.pexels.com/photo/outdoor-surveillance-camera-on-building-wall-37591149/ |
 | kamera-bygningshjorne | Giant Asparagus | https://www.pexels.com/photo/modern-security-cameras-on-urban-building-corner-37591159/ |
-| dome-betongvegg-mork | Thomas VEILLON | https://www.pexels.com/photo/outdoor-security-camera-on-concrete-wall-29866272/ |
-| kameraer-konstruksjon | Giant Asparagus | https://www.pexels.com/photo/modern-surveillance-cameras-on-urban-structure-38999359/ |
 | naeringsbygg-fasade | Atlantic Ambience | https://www.pexels.com/photo/exterior-design-of-a-commercial-building-12955940/ |
 | bygg-hjorne-lys | Adrien Olichon | https://www.pexels.com/photo/low-angle-shot-of-a-building-perspective-with-white-and-black-exterior-3137040/ |
 | lager-interior | James Richardson | https://www.pexels.com/photo/spacious-industrial-warehouse-interior-with-storage-racks-36122954/ |
@@ -45,9 +49,9 @@ npm run preview
 
 | Sti | Innhold |
 | --- | --- |
-| `/` | Forside. Kameraovervåking først, eiendomsdrift deretter. |
+| `/` | Forside. Kameraovervåking. |
 | `/kameraovervaking` | Operiq Secure |
-| `/eiendomsdrift` | Teknisk drift |
+| `/butikk` | Butikk og kjeder |
 | `/om-oss` | Selskap og kontaktopplysninger |
 | `/kontakt` | Befaringsskjema |
 | `/personvern` | Personvern for nettstedet |

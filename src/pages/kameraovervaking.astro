@@ -1,6 +1,6 @@
 ---
 /**
- * TODO(eier): Bekreft leveranselisten: Reolink Professional, kabling, fiber, segmentert nett, lokal NVR, UPS, fjernvisning, valgfri adgangskontroll.
+ * TODO(eier): Bekreft leveranselisten: profesjonelle IP-kameraer, kabling, fiber, segmentert nett, lokal NVR, UPS, fjernvisning, valgfri adgangskontroll.
  * TODO(eier): Bekreft at person- og kjøretøydeteksjon og perimetervern kan stå i spesifikasjonen.
  * TODO(eier): Bekreft om underleverandører skal nevnes. Ingen navn er brukt.
  * TODO(eier): Bekreft at kunden er behandlingsansvarlig, og at Operiq ikke overtar ansvaret.
@@ -10,14 +10,15 @@ import Picture from "../components/Picture.astro";
 import Icon from "../components/Icon.astro";
 import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Reference from "../components/Reference.astro";
 
 const title = "Kameraanlegg du eier selv – Operiq Secure";
 const description =
-  "Operiq Secure prosjekterer og monterer IP-kameraanlegg med lokalt opptak. Du eier anlegget. Fast pris etter befaring. 3 års garanti på kameraene.";
+  "Operiq Secure prosjekterer og monterer IP-kameraanlegg med eget nett og lokalt opptak. Du eier anlegget. Fast pris etter befaring. 3 års garanti på kameraene.";
 
 const steps = [
-  { title: "Befaring", text: "Vi går gjennom bygget, dekning og adkomst." },
-  { title: "Prosjektering og fastpris", text: "Kamera- og fiberplan, og skriftlig fastpris." },
+  { title: "Befaring", text: "Vi går gjennom bygget, dekning, føringsveier og nett." },
+  { title: "Prosjektering og fastpris", text: "Kamera- og nettplan, og skriftlig fastpris." },
   { title: "Montering", text: "Operiq følger monteringen til anlegget er i drift." },
   { title: "Test og dokumentasjon", text: "Felles test, opplæring og FDV." },
 ];
@@ -29,7 +30,9 @@ const steps = [
       <div>
         <p class="kicker">Operiq Secure</p>
         <h1>Kameraanlegg du eier selv</h1>
-        <p class="lead">Vi prosjekterer og monterer anlegget. Når det er levert, er det ditt.</p>
+        <p class="lead">
+          Vi prosjekterer nett og montering, og setter opp lokal opptaker i bygget. Montører i hele landet.
+        </p>
         <div class="actions">
           <a class="btn" href="/kontakt">Bestill gratis befaring</a>
         </div>
@@ -68,26 +71,56 @@ const steps = [
 
   <section class="section section-alt">
     <div class="container">
+      <p class="kicker">Leveranse</p>
       <h2>Dette leveres</h2>
       <ul class="icon-grid">
-        <li><Icon name="camera" /><div><h3>Kameraer</h3><p>Reolink Professional, valgt etter dekning og lys.</p></div></li>
+        <li><Icon name="camera" /><div><h3>Kameraer</h3><p>Profesjonelle IP-kameraer, valgt etter dekning og lys.</p></div></li>
         <li><Icon name="cable" /><div><h3>Kabling</h3><p>Cat6, og fiber der avstanden krever det.</p></div></li>
         <li><Icon name="network" /><div><h3>Nett</h3><p>Eget kameranett, skilt fra det øvrige nettet.</p></div></li>
-        <li><Icon name="disk" /><div><h3>Opptak</h3><p>Lokal opptaker, med avspilling og eksport.</p></div></li>
+        <li><Icon name="disk" /><div><h3>Opptak</h3><p>Lokal opptaker i bygget, med avspilling og eksport.</p></div></li>
         <li><Icon name="phone" /><div><h3>Visning</h3><p>Fjernvisning på mobil og PC.</p></div></li>
         <li><Icon name="file" /><div><h3>Dokumentasjon</h3><p>FDV og samsvarserklæringer ved overlevering.</p></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="kicker">Nett og sikkerhet</p>
+      <h2>Eget nett i bygget</h2>
+      <ul class="service-cards pairs">
+        <li>
+          <h3>PoE og eget segment</h3>
+          <p>Kameranettet er et eget segment, skilt fra det øvrige nettet i bygget. Switchene er PoE.</p>
+        </li>
+        <li>
+          <h3>Lukket som utgangspunkt</h3>
+          <p>Porter åpnes ikke mot internett som utgangspunkt. Fjernvisning avklares i prosjekteringen.</p>
+        </li>
+        <li>
+          <h3>Lokal opptaker</h3>
+          <p>NVR-en står i bygget. Opptak, avspilling og eksport skjer lokalt.</p>
+        </li>
+        <li>
+          <h3>Fastvare i service</h3>
+          <p>Oppdatering av fastvare inngår i service.</p>
+        </li>
+      </ul>
       <details class="fold">
-        <summary>Teknisk spesifikasjon</summary>
+        <summary>Mer i spesifikasjonen</summary>
         <ul>
-          <li>Profesjonelle IP-kameraer i serien Reolink Professional: dome, panorama og PTZ.</li>
-          <li>PoE-switcher i et segmentert kameranett.</li>
+          <li>Profesjonelle IP-kameraer: dome, panorama og PTZ, valgt etter dekning og lys.</li>
           <li>Reservestrøm (UPS) ved korte strømbrudd.</li>
           <li>Varsling ved person og kjøretøy, og perimetervern, der kameraene støtter det.</li>
           <li>Adgangskontroll kan tas med der det trengs.</li>
-          <li>Service når du vil ha det.</li>
         </ul>
       </details>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="referanse">
+    <div class="container">
+      <Reference />
     </div>
   </section>
 

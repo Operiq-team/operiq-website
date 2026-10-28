@@ -4,7 +4,6 @@ import path from "node:path";
 const dist = path.resolve("dist");
 const forbidden = [
   /system\s*\.?\s*one/i,
-  /kirkeristen/i,
   /fauna/i,
   /hegdehaug/i,
   /strandveien/i,
@@ -18,6 +17,18 @@ const forbidden = [
   /års erfaring/i,
   /\d[\d\s]*\s*(kr|nok)\b/i,
   /href="tel:/i,
+  /\b(reolink|verkada|hikvision|dahua|uniview|hanwha|rhombus|avigilon|mobotix)\b/i,
+  /\baxis\b/i,
+];
+
+const referenceFacts = [
+  "Referanse",
+  "Kirkeristen, Oslo sentrum",
+  "Næringskvartal. 26 kameraer, ny fiberinfrastruktur og eget nettverk.",
+  "Under installasjon, ferdig desember 2026",
+  "byggets belysning (KNX) som del av piloten for aktiv avskrekking",
+  "Integrasjonen er planlagt.",
+  "Illustrasjon",
 ];
 
 const requiredInSite = [
@@ -89,32 +100,55 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("Kameraanlegg for næringsbygg og butikker")) fail("Home is missing the headline");
+if (!home.includes("Moderne kameraanlegg")) fail("Home is missing the headline");
+if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
+  fail("Home still promotes property operations");
+}
 if (!home.includes("Montører i hele landet")) fail("Home is missing nationwide installers");
+if (!home.includes("Neste generasjon: aktiv avskrekking")) fail("Home is missing the pilot section");
 if (home.includes("ingen prisliste") || home.includes("AI-videoanalyse")) {
   fail("Home still has defensive copy that should be gone");
+}
+if (home.includes("ingen referanse") || home.includes("vi oppgir ikke")) {
+  fail("Home still says there are no references");
 }
 
 const secure = await readFile(path.join(dist, "kameraovervaking/index.html"), "utf8");
 if (secure.includes("AI-videoanalyse") || secure.includes("ingen prisliste")) {
   fail("Kamera page still has defensive copy that should be gone");
 }
-if (!secure.includes("Reolink Professional")) fail("Kamera page is missing Reolink Professional");
+if (secure.includes("ingen referanse") || secure.includes("vi oppgir ikke")) {
+  fail("Kamera page still says there are no references");
+}
+if (!secure.includes("Profesjonelle IP-kameraer")) fail("Kamera page is missing professional IP cameras");
+if (!secure.includes("PoE")) fail("Kamera page is missing PoE");
+if (!secure.includes("Porter åpnes ikke mot internett som utgangspunkt.")) {
+  fail("Kamera page is missing the closed-network principle");
+}
 if (!secure.includes("Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.")) {
   fail("Kamera page must limit the 3-year warranty to cameras");
 }
 
-const drift = await readFile(path.join(dist, "eiendomsdrift/index.html"), "utf8");
-if (!drift.includes("husleieadministrasjon")) {
-  fail("Eiendomsdrift page must exclude rent administration");
+for (const [name, html] of [
+  ["Home", home],
+  ["Kamera page", secure],
+]) {
+  for (const fact of referenceFacts) {
+    if (!html.includes(fact)) fail(`${name} is missing reference fact: ${fact}`);
+  }
 }
-if (!drift.includes("konsulentoppdrag") || !drift.includes("innleid driftsansvarlig")) {
-  fail("Eiendomsdrift page must describe consulting assignments");
-}
-if (drift.includes("kontraktsfestet ansvar for hele driften") && !drift.includes("ikke et kontraktsfestet ansvar")) {
-  fail("Eiendomsdrift page must not claim full operating responsibility");
-}
+
+const butikk = await readFile(path.join(dist, "butikk/index.html"), "utf8");
 const about = await readFile(path.join(dist, "om-oss/index.html"), "utf8");
+const signEarly = await readFile(path.join(dist, "kamera-info/index.html"), "utf8");
+for (const [name, html] of [
+  ["Butikk", butikk],
+  ["About", about],
+  ["Sign", signEarly],
+]) {
+  if (/kirkeristen/i.test(html)) fail(`${name} names the reference outside the approved pages`);
+}
+
 if (!about.includes("Sebastian Godtfredsen")) fail("About page is missing the founder");
 if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) {
   fail("Home must state nationwide delivery and Norway in structured data");
@@ -132,9 +166,10 @@ const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: https://operiq.no/sitemap.xml")) fail("robots.txt is missing the sitemap");
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
-for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/butikk", "https://operiq.no/eiendomsdrift", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
+for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/butikk", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
   if (!sitemap.includes(route)) fail(`Sitemap is missing ${route}`);
 }
+if (sitemap.includes("eiendomsdrift")) fail("Sitemap still lists eiendomsdrift");
 if (sitemap.includes("404")) fail("Sitemap includes the 404 page");
 
 const notFound = files.find((file) => file.endsWith(`${path.sep}404.html`));
