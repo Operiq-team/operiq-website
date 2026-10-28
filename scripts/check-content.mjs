@@ -89,11 +89,15 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("uten bindende abonnement")) fail("Home is missing the approved headline");
+if (!home.includes("Kameraanlegg for næringsbygg og butikker")) fail("Home is missing the headline");
+if (!home.includes("Montører i hele landet")) fail("Home is missing nationwide installers");
+if (home.includes("ingen prisliste") || home.includes("AI-videoanalyse")) {
+  fail("Home still has defensive copy that should be gone");
+}
 
 const secure = await readFile(path.join(dist, "kameraovervaking/index.html"), "utf8");
-if (!secure.includes("AI-videoanalyse") || !secure.includes("Kommer")) {
-  fail("Kamera page must mention AI video analysis only as coming");
+if (secure.includes("AI-videoanalyse") || secure.includes("ingen prisliste")) {
+  fail("Kamera page still has defensive copy that should be gone");
 }
 if (!secure.includes("Reolink Professional")) fail("Kamera page is missing Reolink Professional");
 if (!secure.includes("Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.")) {
@@ -128,7 +132,7 @@ const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: https://operiq.no/sitemap.xml")) fail("robots.txt is missing the sitemap");
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
-for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/eiendomsdrift", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
+for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/butikk", "https://operiq.no/eiendomsdrift", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
   if (!sitemap.includes(route)) fail(`Sitemap is missing ${route}`);
 }
 if (sitemap.includes("404")) fail("Sitemap includes the 404 page");

@@ -5,7 +5,6 @@
  * TODO(eier): Ingen eiendom eller kunde er navngitt. Si ifra om siden skal være kortere før QR trykkes på skilt.
  */
 import Base from "../layouts/Base.astro";
-import BrandLockup from "../components/BrandLockup.astro";
 import { site } from "../site";
 
 const title = "Informasjon om kameraovervåking – Operiq";
@@ -17,7 +16,6 @@ const tel = site.phone.replace(/\s/g, "");
 <Base title={title} description={description} path="/kamera-info" showCta={false}>
   <header class="page-hero">
     <div class="container">
-      <BrandLockup line="SECURE" />
       <p class="kicker">Kamera på stedet</p>
       <h1>Informasjon om kameraovervåking</h1>
       <p class="lead">
@@ -51,7 +49,7 @@ const tel = site.phone.replace(/\s/g, "");
         <h2>Kontakt Operiq som leverandør</h2>
         <p>
           <a href={`mailto:${site.email}`}>{site.email}</a><br />
-          {site.city}
+          {site.coverage}
           {
             site.phone && (
               <>

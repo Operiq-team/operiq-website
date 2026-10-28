@@ -14,7 +14,7 @@ interface Props {
 
 const { title, description, path, noindex = false, showCta = true } = Astro.props;
 const canonical = canonicalUrl(path);
-const ogImage = new URL("/og.png", site.url).href;
+const ogImage = new URL("/og.jpg", site.url).href;
 const jsonLd = JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c");
 ---
 
@@ -32,7 +32,14 @@ const jsonLd = JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c");
         <link rel="canonical" href={canonical} />
       )
     }
-    <meta name="theme-color" content="#0b1117" />
+    <meta name="theme-color" content="#F6F5F2" />
+    <link
+      rel="preload"
+      href="/fonts/space-grotesk-latin-600-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta property="og:locale" content={site.locale} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:type" content="website" />

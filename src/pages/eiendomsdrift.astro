@@ -1,58 +1,84 @@
 ---
 /**
- * Avklart: eiendomsdrift er konsulentoppdrag, ikke kontraktsfestet totalansvar for driften.
+ * Avklart: konsulentoppdrag og innleid driftsansvarlig, ikke kontraktsfestet totalansvar.
  * Økonomisk forvaltning og husleieadministrasjon inngår ikke.
  */
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
+import Picture from "../components/Picture.astro";
+import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
 import { site } from "../site";
 
-const title = "Eiendomsdrift for næringsbygg – Operiq";
+const title = "Drift av næringsbygg, på konsulentbasis – Operiq";
 const description =
   "Konsulentoppdrag innen driftsledelse og teknisk oppfølging av næringseiendom. FDV, internkontroll, leverandører og tekniske prosjekter. Ikke husleie eller økonomiforvaltning.";
+
+const steps = [
+  { title: "Befaring", text: "Vi ser på bygget og rutinene som finnes." },
+  { title: "Skriftlig oppdrag", text: "Omfanget avtales. Ikke et ansvar for hele driften." },
+  { title: "Oppfølging", text: "Vi følger leverandører, avvik og dokumentasjon." },
+];
 ---
 
 <Base title={title} description={description} path="/eiendomsdrift">
-  <PageHero
-    kicker="Eiendomsdrift"
-    title="Drift av næringseiendom som konsulentoppdrag"
-    lead="Driftsledelse og teknisk oppfølging der Operiq går inn som konsulent og innleid driftsansvarlig. Vi overtar ikke et kontraktsfestet ansvar for hele driften av bygget."
-  >
-    <p class="lead">{site.coverage}.</p>
-    <div class="actions">
-      <a class="btn" href="/kontakt?tema=drift">Ta kontakt om drift</a>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">Eiendomsdrift</p>
+        <h1>Drift av næringsbygg, på konsulentbasis</h1>
+        <p class="lead">
+          Vi tar konsulentoppdrag innen drift av næringseiendom, som innleid driftsansvarlig.
+        </p>
+        <p class="lead">{site.coverage}.</p>
+        <a class="btn" href="/kontakt?tema=drift">Ta kontakt om drift</a>
+      </div>
+      <div class="frame">
+        <Picture
+          name="facade"
+          alt="Moderne næringsbygg i dagslys"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+          priority={true}
+        />
+      </div>
     </div>
-  </PageHero>
+  </section>
 
   <section class="section">
     <div class="container">
-      <div class="section-head">
-        <h2>Arbeidsområder</h2>
-        <p>Oppdraget avtales skriftlig. Dette er det vi kan ta.</p>
-      </div>
-      <ul class="rows">
+      <ul class="service-cards five">
         <li>
           <h3>Driftsledelse</h3>
           <p>Teknisk oppfølging av bygget, som innleid driftsansvarlig.</p>
         </li>
         <li>
           <h3>FDV og internkontroll</h3>
-          <p>FDV-dokumentasjon og internkontroll, fulgt opp som en del av oppdraget.</p>
+          <p>Dokumentasjon og internkontroll, fulgt opp i oppdraget.</p>
         </li>
         <li>
           <h3>Leverandører</h3>
-          <p>Oppfølging av leverandører som jobber på bygget.</p>
+          <p>Oppfølging av leverandørene som jobber på bygget.</p>
+        </li>
+        <li>
+          <h3>Avvik</h3>
+          <p>Avvik får en ansvarlig og lukkes, ikke bare et notat.</p>
         </li>
         <li>
           <h3>Tekniske prosjekter</h3>
           <p>Prosjektledelse av tekniske oppgraderinger.</p>
         </li>
       </ul>
-      <p class="callout">
-        <strong>Ikke totalansvar, og ikke økonomi</strong>
-        Operiq tar konsulentoppdrag. Vi tar ikke kontraktsfestet ansvar for hele driften. Økonomisk forvaltning og husleieadministrasjon inngår ikke.
+      <p class="note">
+        <strong>Konsulentoppdrag.</strong> Vi tar ikke et kontraktsfestet ansvar for hele driften. Økonomisk forvaltning og husleieadministrasjon inngår ikke.
       </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Slik jobber vi</h2>
+      <Steps steps={steps} />
     </div>
   </section>
 
@@ -60,7 +86,7 @@ const description =
     <div class="container">
       <CtaBand
         title="Fortell om bygget"
-        text="Hvor det ligger, og hva du vil ha fulgt opp. Vi svarer på om det er et konsulentoppdrag for Operiq."
+        text="Hvor det ligger, og hva du vil ha fulgt opp."
         href="/kontakt?tema=drift"
         label="Ta kontakt om drift"
       />

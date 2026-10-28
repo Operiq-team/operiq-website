@@ -144,3 +144,7 @@ vite.config.ts.timestamp-*
 
 # Astro
 .astro/
+
+# Generated responsive images
+public/media/
+public/og.jpg

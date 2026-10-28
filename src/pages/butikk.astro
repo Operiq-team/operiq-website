@@ -1,0 +1,98 @@
+---
+import Base from "../layouts/Base.astro";
+import Picture from "../components/Picture.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Kameraanlegg for butikkjeder – Operiq";
+const description =
+  "Standardisert kameraanlegg for butikkjeder. Utrulling i bølger, montører i hele landet, sentral tilgang og én kontakt hos Operiq.";
+---
+
+<Base title={title} description={description} path="/butikk">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">Butikk og kjeder</p>
+        <h1>Samme anlegg i hver butikk</h1>
+        <p class="lead">
+          Ett standardoppsett, rullet ut butikk for butikk, med én kontakt hos Operiq.
+        </p>
+        <div class="actions">
+          <a class="btn" href="/kontakt?tema=kamera">Bestill gratis befaring</a>
+        </div>
+      </div>
+      <div class="frame">
+        <Picture
+          name="shop"
+          alt="Butikklokale med hyller"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+          priority={true}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="service-cards">
+        <li>
+          <h3>Standard per butikk</h3>
+          <p>Samme kameraplassering, dekning og oppsett, tilpasset lokalet der det trengs.</p>
+        </li>
+        <li>
+          <h3>Utrulling i bølger</h3>
+          <p>Butikk for butikk, i den rekkefølgen kjeden bestemmer.</p>
+        </li>
+        <li>
+          <h3>Montører i hele landet</h3>
+          <p>Vi sender montører dit butikkene ligger. Operiq er basert i Oslo.</p>
+        </li>
+        <li>
+          <h3>Sentral tilgang</h3>
+          <p>Den som har ansvaret sentralt kan se butikkene samlet.</p>
+        </li>
+        <li>
+          <h3>Dokumentasjon per butikk</h3>
+          <p>Hver butikk får eget underlag når anlegget er levert.</p>
+        </li>
+        <li>
+          <h3>Én kontakt</h3>
+          <p>Du forholder deg til Operiq fra første befaring til siste butikk.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container split">
+      <div class="frame">
+        <Picture
+          name="corner"
+          alt="Kameraer på hjørnet av et bygg"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+        />
+      </div>
+      <div>
+        <h2>Du eier anleggene</h2>
+        <p class="measure">
+          Hver butikk får et anlegg dere eier, med lokalt opptak. Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent. Fast pris etter befaring av lokalene.
+        </p>
+        <p><a class="link-arrow" href="/kameraovervaking">Se hva som leveres</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Fortell om butikkene"
+        text="Hvor mange lokaler, og hvor de ligger. Vi avtaler befaring og gir fast pris."
+        href="/kontakt?tema=kamera"
+      />
+    </div>
+  </section>
+</Base>

@@ -1,94 +1,170 @@
 ---
 /**
- * TODO(eier): Bekreft forsiden. Operiq Secure er det tydeligste tilbudet, eiendomsdrift står ved siden av.
- * TODO(eier): Bekreft «uten bindende abonnement», og at videre service bare avtales hvis kunden vil.
- * TODO(eier): Bekreft setningen om at anlegget spesifiseres ut fra driften av bygget, ikke ut fra en ferdig pakke.
+ * TODO(eier): Bekreft forsiden: kamera først, deretter hvem vi hjelper, prosess, leveranse og eiendomsdrift.
+ * TODO(eier): Bekreft at videre service bare avtales hvis kunden vil. Teksten sier «Service når du vil ha det» på undersiden.
  */
 import Base from "../layouts/Base.astro";
-import BrandLockup from "../components/BrandLockup.astro";
+import Picture from "../components/Picture.astro";
+import Icon from "../components/Icon.astro";
+import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
-import { site } from "../site";
 
-const title = "Operiq – Kameraovervåking for næringseiendom";
+const title = "Operiq – Kameraanlegg for næringsbygg og butikker";
 const description =
-  "Operiq Secure prosjekterer og installerer IP-kameraanlegg for næringseiendom. Du eier anlegget, opptak lagres lokalt, og pris gis som fasttilbud etter gratis befaring.";
+  "Operiq prosjekterer og monterer IP-kameraanlegg for næringsbygg og butikker. Du eier anlegget. Fast pris etter befaring. Montører i hele landet.";
+
+const steps = [
+  { title: "Befaring", text: "Vi ser på bygget og hva som skal dekkes." },
+  { title: "Prosjektering og fastpris", text: "Du får en plan og en skriftlig fastpris." },
+  { title: "Montering", text: "Vi monterer anlegget og setter det i drift." },
+  { title: "Test og dokumentasjon", text: "Felles test, opplæring og FDV-underlag." },
+];
 ---
 
 <Base title={title} description={description} path="/">
-  <section class="offerings">
-    <div class="container offerings-grid">
-      <article>
-        <BrandLockup line="SECURE" />
-        <h1>Profesjonell kameraovervåking for næringseiendom – uten bindende abonnement</h1>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">Operiq Secure · Kameraovervåking</p>
+        <h1>Kameraanlegg for næringsbygg og butikker</h1>
         <p class="lead">
-          Komplette IP-kameraanlegg som du eier selv. Opptak lagres lokalt, og prisen er et skriftlig fasttilbud etter befaring.
+          Vi prosjekterer, monterer og dokumenterer komplette IP-kameraanlegg. Du eier anlegget, og prisen er fast.
         </p>
         <div class="actions">
           <a class="btn" href="/kontakt">Bestill gratis befaring</a>
-          <a class="link-quiet" href="/kameraovervaking">Se kameraanlegget</a>
+          <a class="btn btn-ghost" href="/kameraovervaking">Se hva som leveres</a>
         </div>
-      </article>
-      <article class="offering-side">
-        <p class="kicker">Eiendomsdrift</p>
-        <h2>Drift av næringsbygg</h2>
-        <p>
-          Konsulentoppdrag innen driftsledelse og teknisk oppfølging. {site.coverage}.
-        </p>
-        <p><a class="link-quiet" href="/eiendomsdrift">Les om eiendomsdrift</a></p>
-      </article>
-    </div>
-  </section>
-
-  <section class="principles" aria-label="Slik er leveransen lagt opp">
-    <div class="container principles-grid">
-      <article>
-        <span>01</span>
-        <h2>Lokalt opptak og fjernvisning</h2>
-        <p>Opptakene ligger i anlegget. Fjernvisning følger med, uten at du må inn i et fast abonnement.</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h2>Én ansvarlig hele veien</h2>
-        <p>Du har én prosjektansvarlig hos Operiq fra prosjektering til anlegget er overlevert.</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h2>Dokumentasjon ved overlevering</h2>
-        <p>Du får underlag på det som er montert, slik at bygget kan driftes videre uten å gjette.</p>
-      </article>
+        <ul class="trust">
+          <li><Icon name="check" /> Du eier anlegget</li>
+          <li><Icon name="check" /> Fast pris</li>
+          <li><Icon name="check" /> 3 års garanti på kameraene</li>
+          <li><Icon name="check" /> Montører i hele landet</li>
+        </ul>
+      </div>
+      <div class="frame">
+        <Picture
+          name="hero"
+          alt="To domekameraer montert på en lys bygningfasade"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+          priority={true}
+          widths={[640, 1024, 1600, 2400]}
+        />
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="section-head">
-        <h2>Kameraanlegg du eier selv</h2>
-        <p>
-          Operiq Secure prosjekterer og installerer anlegget etter bygget, ikke etter en ferdig pakke. Service utover leveransen avtales bare hvis du ønsker det.
-        </p>
+      <h2>Hvem vi hjelper</h2>
+      <div class="audience">
+        <article class="card">
+          <div class="frame">
+            <Picture
+              name="facade"
+              alt="Fasade på et moderne næringsbygg"
+              width="1200"
+              height="900"
+              sizes="(min-width: 800px) 30vw, 100vw"
+            />
+          </div>
+          <h3>Gårdeiere og forvaltere</h3>
+          <p>Kameraanlegg tilpasset bygget, med dokumentasjon når det er ferdig.</p>
+          <p><a class="link-arrow" href="/kameraovervaking">Se kameraanlegg</a></p>
+        </article>
+        <article class="card">
+          <div class="frame">
+            <Picture
+              name="shop"
+              alt="Lyst butikklokale med hyller"
+              width="1200"
+              height="900"
+              sizes="(min-width: 800px) 30vw, 100vw"
+            />
+          </div>
+          <h3>Butikker og kjeder</h3>
+          <p>Samme anlegg og standard i alle butikkene, med sentral tilgang.</p>
+          <p><a class="link-arrow" href="/butikk">For kjeder</a></p>
+        </article>
+        <article class="card">
+          <div class="frame">
+            <Picture
+              name="warehouse"
+              alt="Lagerhall med reoler"
+              width="1200"
+              height="900"
+              sizes="(min-width: 800px) 30vw, 100vw"
+            />
+          </div>
+          <h3>Lager og næringslokaler</h3>
+          <p>Dekning av hall, port og uteareal, montert og dokumentert.</p>
+          <p><a class="link-arrow" href="/kameraovervaking">Se leveransen</a></p>
+        </article>
       </div>
-      <ul class="rows">
-        <li>
-          <h3>Eget anlegg</h3>
-          <p>Utstyret er ditt. Videre oppfølging er valgfritt.</p>
-        </li>
-        <li>
-          <h3>Fastpris</h3>
-          <p>Etter befaring får du et skriftlig fastpristilbud. Det ligger ingen prisliste på siden.</p>
-        </li>
-        <li>
-          <h3>Ut fra bygget</h3>
-          <p>Anlegget spesifiseres av folk som også jobber med drift av næringsbygg, ikke ut fra en ferdig pakke.</p>
-        </li>
-      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Slik jobber vi</h2>
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <section class="section on-dark">
+    <div class="container split">
+      <div class="frame">
+        <Picture
+          name="dome"
+          alt="Domekamera montert på en betongvegg"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+        />
+      </div>
+      <div>
+        <h2>Hva du får</h2>
+        <ul class="icon-grid">
+          <li><Icon name="camera" /><p>Profesjonelle IP-kameraer</p></li>
+          <li><Icon name="cable" /><p>Kabling og fiber der det trengs</p></li>
+          <li><Icon name="network" /><p>Eget nettverk for kameraene</p></li>
+          <li><Icon name="disk" /><p>Lokalt opptak i anlegget</p></li>
+          <li><Icon name="phone" /><p>Fjernvisning på mobil</p></li>
+          <li><Icon name="file" /><p>FDV-dokumentasjon ved overlevering</p></li>
+        </ul>
+        <p><a class="link-arrow" href="/kameraovervaking">Se hele leveransen</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="frame">
+        <Picture
+          name="building"
+          alt="Lyst næringsbygg sett nedenfra"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+        />
+      </div>
+      <div>
+        <p class="kicker">Eiendomsdrift</p>
+        <h2>Drift av næringsbygg</h2>
+        <p class="measure">
+          Vi tar konsulentoppdrag innen drift av næringseiendom, som innleid driftsansvarlig. FDV, internkontroll og tekniske oppgraderinger avtales skriftlig for det enkelte bygget.
+        </p>
+        <p><a class="btn" href="/eiendomsdrift">Les om eiendomsdrift</a></p>
+      </div>
     </div>
   </section>
 
   <section class="section section-tight">
     <div class="container">
       <CtaBand
-        title="Gratis befaring, deretter fastpris"
-        text="Befaringen koster ingenting. Selve anlegget prises skriftlig etterpå, til det bygget vi har sett."
+        title="Gratis befaring. Deretter fast pris."
+        text="Vi ser på bygget og sender et skriftlig tilbud etterpå."
       />
     </div>
   </section>

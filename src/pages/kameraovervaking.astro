@@ -1,179 +1,165 @@
 ---
 /**
- * TODO(eier): Bekreft leveranselisten: Reolink Professional (dome, panorama, PTZ), Cat6, fiber der avstanden krever det, PoE og segmentert kameranett, lokal NVR, UPS, fjernvisning, avspilling og eksport, valgfri adgangskontroll.
- * TODO(eier): Bekreft at person- og kjøretøydeteksjon og perimetervern kan omtales som funksjoner nå.
- * TODO(eier): AI-videoanalyse skal bare stå som «kommer». Bekreft at setningen skal være med.
- * TODO(eier): Bekreft om det skal stå at monteringen skjer med underleverandører. Ingen navn er brukt. Teksten sier bare at kunden forholder seg til Operiq.
- * TODO(eier): Bekreft personvernsetningen: kunden er behandlingsansvarlig, og Operiq overtar ikke det ansvaret.
+ * TODO(eier): Bekreft leveranselisten: Reolink Professional, kabling, fiber, segmentert nett, lokal NVR, UPS, fjernvisning, valgfri adgangskontroll.
+ * TODO(eier): Bekreft at person- og kjøretøydeteksjon og perimetervern kan stå i spesifikasjonen.
+ * TODO(eier): Bekreft om underleverandører skal nevnes. Ingen navn er brukt.
+ * TODO(eier): Bekreft at kunden er behandlingsansvarlig, og at Operiq ikke overtar ansvaret.
  */
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
-import BrandLockup from "../components/BrandLockup.astro";
+import Picture from "../components/Picture.astro";
+import Icon from "../components/Icon.astro";
+import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
 
-const title = "Kameraanlegg for næringseiendom – Operiq Secure";
+const title = "Kameraanlegg du eier selv – Operiq Secure";
 const description =
-  "Nøkkelferdige IP-kameraanlegg med Reolink Professional, lokalt opptak og eget kameranett. Én ansvarlig fra befaring til overlevering. Fastpris etter befaring.";
+  "Operiq Secure prosjekterer og monterer IP-kameraanlegg med lokalt opptak. Du eier anlegget. Fast pris etter befaring. 3 års garanti på kameraene.";
+
+const steps = [
+  { title: "Befaring", text: "Vi går gjennom bygget, dekning og adkomst." },
+  { title: "Prosjektering og fastpris", text: "Kamera- og fiberplan, og skriftlig fastpris." },
+  { title: "Montering", text: "Operiq følger monteringen til anlegget er i drift." },
+  { title: "Test og dokumentasjon", text: "Felles test, opplæring og FDV." },
+];
 ---
 
 <Base title={title} description={description} path="/kameraovervaking">
-  <PageHero
-    title="Kameraanlegg som eier selv eier"
-    lead="Profesjonelle IP-kameraanlegg for næringseiendom, levert som en engangsinvestering. Du eier utstyret. Opptakene lagres lokalt. Videre service er valgfritt."
-  >
-    <BrandLockup slot="mark" line="SECURE" />
-    <div class="actions">
-      <a class="btn" href="/kontakt">Bestill gratis befaring</a>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">Operiq Secure</p>
+        <h1>Kameraanlegg du eier selv</h1>
+        <p class="lead">Vi prosjekterer og monterer anlegget. Når det er levert, er det ditt.</p>
+        <div class="actions">
+          <a class="btn" href="/kontakt">Bestill gratis befaring</a>
+        </div>
+      </div>
+      <div class="frame">
+        <Picture
+          name="corner"
+          alt="Kameraer montert på hjørnet av et steinbygg"
+          width="1200"
+          height="900"
+          sizes="(min-width: 800px) 42vw, 100vw"
+          priority={true}
+        />
+      </div>
     </div>
-  </PageHero>
+  </section>
 
   <section class="section">
-    <div class="container split">
-      <div class="section-head">
-        <h2>Rett omfang, ikke en løpende kontrakt</h2>
-      </div>
-      <div>
-        <p class="lead">
-          Mange anlegg selges sammen med en sikkerhetsavtale og kostnader som løper videre, uten at bygget er spesifisert først. Operiq starter med befaring og tegner det bygget trenger.
-        </p>
-        <p class="lead">
-          Du står ikke i et obligatorisk abonnement eller en vekteravtale for å ha overvåkingen. Prisen kommer som fastpris i et skriftlig tilbud etter befaring.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-follow">
     <div class="container">
-      <div class="section-head">
-        <p class="kicker">Leveransen</p>
-        <h2>Nøkkelferdig anlegg</h2>
-        <p>Ett prosjekt, fra plan til det som henger på veggen og det som ligger i dokumentasjonen.</p>
-      </div>
-      <ul class="rows">
+      <ul class="service-cards">
         <li>
-          <h3>Kameraer</h3>
-          <p>Profesjonelle IP-kameraer i serien Reolink Professional: dome, panorama og PTZ, valgt etter dekning og lys.</p>
+          <h3>Du eier anlegget</h3>
+          <p>Opptakene ligger lokalt. Fjernvisning følger med.</p>
         </li>
         <li>
-          <h3>Kabling</h3>
-          <p>Cat6, og fiber der avstandene krever det.</p>
+          <h3>Fast pris før vi starter</h3>
+          <p>Gratis befaring, deretter skriftlig fastpris.</p>
         </li>
         <li>
-          <h3>Nett</h3>
-          <p>PoE-switcher i et eget, segmentert kameranett, adskilt fra det øvrige nettet i bygget.</p>
-        </li>
-        <li>
-          <h3>Opptak</h3>
-          <p>Lokal opptaker (NVR). Opptakene ligger i anlegget.</p>
-        </li>
-        <li>
-          <h3>Strøm</h3>
-          <p>Reservestrøm (UPS) for kortvarig strømbrudd.</p>
-        </li>
-        <li>
-          <h3>Visning</h3>
-          <p>Fjernvisning, avspilling og eksport av opptak.</p>
-        </li>
-        <li>
-          <h3>Deteksjon</h3>
-          <p>Varsling ved person og kjøretøy, og perimetervern, der kameraene støtter det.</p>
-        </li>
-        <li>
-          <h3>Adgangskontroll</h3>
-          <p>Kan tas med der det trengs. Det er ikke et krav for å få kameraanlegget.</p>
-        </li>
-        <li>
-          <h3>AI-videoanalyse</h3>
-          <p>Kommer. Det er ikke en del av leveransen i dag.</p>
+          <h3>Én ansvarlig hele veien</h3>
+          <p>Du forholder deg til Operiq fra befaring til dokumentasjon.</p>
         </li>
       </ul>
     </div>
   </section>
 
-  <section class="section" id="slik-jobber-vi">
-    <div class="container split">
-      <div class="section-head">
-        <p class="kicker">Fremdrift</p>
-        <h2>Fra befaring til ferdig anlegg</h2>
-        <p>Du forholder deg til Operiq gjennom hele prosjektet.</p>
-      </div>
-      <ol class="steps">
-        <li>
-          <h3>Befaring og behov</h3>
-          <p>Vi går gjennom bygget, adkomst, dekning og hva opptakene skal kunne brukes til.</p>
-        </li>
-        <li>
-          <h3>Prosjektering</h3>
-          <p>Kamera- og fiberplan, med plassering og føringsveier.</p>
-        </li>
-        <li>
-          <h3>Fast pris</h3>
-          <p>Skriftlig avtale med fastpris. Ingen prisliste publiseres her.</p>
-        </li>
-        <li>
-          <h3>Installasjon</h3>
-          <p>Montering og idriftsetting. Operiq følger prosjektet til det er ferdig.</p>
-        </li>
-        <li>
-          <h3>Test og overlevering</h3>
-          <p>Felles funksjonstest, opplæring og FDV-dokumentasjon.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section-follow">
+  <section class="section section-alt">
     <div class="container">
-      <div class="section-head">
-        <p class="kicker">Overlevering</p>
-        <h2>Du skal kunne drifte anlegget etterpå</h2>
-      </div>
-      <ul class="rows">
-        <li>
-          <h3>Funksjonstest</h3>
-          <p>Vi tester anlegget sammen før det regnes som levert.</p>
-        </li>
-        <li>
-          <h3>Opplæring</h3>
-          <p>De som skal bruke anlegget, får en gjennomgang av visning, opptak og eksport.</p>
-        </li>
-        <li>
-          <h3>Administratortilgang</h3>
-          <p>Eier får administratortilgang. Anlegget er ikke låst til Operiq.</p>
-        </li>
-        <li>
-          <h3>Dokumentasjon</h3>
-          <p>FDV-underlag (forvaltning, drift og vedlikehold) og samsvarserklæringer for det som er levert.</p>
-        </li>
-        <li>
-          <h3>Garanti</h3>
-          <p>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</p>
-        </li>
+      <h2>Dette leveres</h2>
+      <ul class="icon-grid">
+        <li><Icon name="camera" /><div><h3>Kameraer</h3><p>Reolink Professional, valgt etter dekning og lys.</p></div></li>
+        <li><Icon name="cable" /><div><h3>Kabling</h3><p>Cat6, og fiber der avstanden krever det.</p></div></li>
+        <li><Icon name="network" /><div><h3>Nett</h3><p>Eget kameranett, skilt fra det øvrige nettet.</p></div></li>
+        <li><Icon name="disk" /><div><h3>Opptak</h3><p>Lokal opptaker, med avspilling og eksport.</p></div></li>
+        <li><Icon name="phone" /><div><h3>Visning</h3><p>Fjernvisning på mobil og PC.</p></div></li>
+        <li><Icon name="file" /><div><h3>Dokumentasjon</h3><p>FDV og samsvarserklæringer ved overlevering.</p></div></li>
       </ul>
-      <p class="callout">
-        <strong>Kostnaden er en engangsinvestering</strong>
-        Service, aktiv overvåking og programvare utover det som følger anlegget, er valgfritt. Befaringen er uten kostnad. Pris på anlegget gis som fastpris etter befaring.
-      </p>
+      <details class="fold">
+        <summary>Teknisk spesifikasjon</summary>
+        <ul>
+          <li>Profesjonelle IP-kameraer i serien Reolink Professional: dome, panorama og PTZ.</li>
+          <li>PoE-switcher i et segmentert kameranett.</li>
+          <li>Reservestrøm (UPS) ved korte strømbrudd.</li>
+          <li>Varsling ved person og kjøretøy, og perimetervern, der kameraene støtter det.</li>
+          <li>Adgangskontroll kan tas med der det trengs.</li>
+          <li>Service når du vil ha det.</li>
+        </ul>
+      </details>
     </div>
   </section>
 
-  <section class="section section-follow">
+  <figure class="band">
+    <Picture
+      name="band"
+      alt="Overvåkingskameraer montert på en konstruksjon"
+      width="1680"
+      height="720"
+      sizes="100vw"
+      widths={[640, 1024, 1600, 2400]}
+    />
+  </figure>
+
+  <section class="section">
     <div class="container">
-      <div class="section-head">
-        <h2>Kunden er behandlingsansvarlig</h2>
+      <h2>Fra befaring til ferdig anlegg</h2>
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Når anlegget overleveres</h2>
+      <ul class="checks">
+        <li>Felles funksjonstest</li>
+        <li>Opplæring av dem som skal bruke anlegget</li>
+        <li>Administratortilgang til deg</li>
+        <li>FDV-dokumentasjon</li>
+        <li>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="note">
+        <h2>Du er behandlingsansvarlig</h2>
         <p>
-          Overvåking på eiendommen styres av eieren. Operiq leverer oppsett og dokumentasjon som støtter skilting, lagringstid og hvem som har tilgang. Vi overtar ikke behandlingsansvaret. Tilgang for Operiq, for eksempel ved feilsøking eller gjennomgang av en hendelse, avtales særskilt.
-        </p>
-        <p>
-          <a href="/kamera-info">Informasjon til dem som blir filmet</a>
-          ·
-          <a href="/personvern">Personvern på dette nettstedet</a>
+          Vi leverer oppsett og dokumentasjon for skilting, lagringstid og tilgang. Operiq utleverer ikke opptak.
+          <a href="/kamera-info">Informasjon til dem som blir filmet</a>.
         </p>
       </div>
+      <h2>Spørsmål</h2>
+      <details class="fold">
+        <summary>Hva koster det?</summary>
+        <p>Fast pris etter gratis befaring. Tilbudet er skriftlig.</p>
+      </details>
+      <details class="fold">
+        <summary>Må jeg ha abonnement?</summary>
+        <p>Du eier anlegget. Ingen månedsavgift. Service når du vil ha det.</p>
+      </details>
+      <details class="fold">
+        <summary>Hva dekker garantien?</summary>
+        <p>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</p>
+      </details>
+      <details class="fold">
+        <summary>Leverer dere utenfor Oslo?</summary>
+        <p>Montører i hele landet. Operiq er basert i Oslo.</p>
+      </details>
+      <details class="fold">
+        <summary>Hvem eier opptakene?</summary>
+        <p>Du eier anlegget og er behandlingsansvarlig for overvåkingen.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
       <CtaBand
-        title="Bestill gratis befaring"
-        text="Si ifra om bygget og omtrent hva som skal dekkes. Vi avtaler befaring og sender fastpris etterpå."
+        title="Gratis befaring. Deretter fast pris."
+        text="Si ifra om bygget. Vi avtaler tid og sender tilbud etterpå."
       />
     </div>
   </section>

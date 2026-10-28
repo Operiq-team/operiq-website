@@ -35,14 +35,15 @@ export const legalLine = `${site.name} (${site.legalName}) · org.nr ${site.orgN
 
 export const nav = [
   { href: "/kameraovervaking", label: "Kameraovervåking" },
+  { href: "/butikk", label: "Butikk og kjeder" },
   { href: "/eiendomsdrift", label: "Eiendomsdrift" },
   { href: "/om-oss", label: "Om oss" },
-  { href: "/kontakt", label: "Kontakt" },
 ] as const;
 
 export const pages = [
   { path: "/" },
   { path: "/kameraovervaking" },
+  { path: "/butikk" },
   { path: "/eiendomsdrift" },
   { path: "/om-oss" },
   { path: "/kontakt" },
@@ -63,7 +64,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     url: site.url + "/",
     email: site.email,
     logo: new URL("/brand/logo-white.svg", site.url).href,
-    image: new URL("/og.png", site.url).href,
+    image: new URL("/og.jpg", site.url).href,
     description: site.description,
     areaServed: {
       "@type": "Country",
