@@ -1,3 +1,8 @@
+# Preview noindex is not set in this file. Pages copies it into every deployment,
+# including operiq.no, and _headers cannot vary by host. Non-main branch builds
+# append the robots header to dist/_headers. functions/_middleware.js sends it,
+# plus a robots meta tag, for every host other than operiq.no.
+
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

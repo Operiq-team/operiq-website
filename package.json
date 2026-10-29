@@ -9,9 +9,10 @@
     "prebuild": "node scripts/images.mjs",
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "node scripts/apply-preview-headers.mjs",
     "preview": "astro preview",
     "check": "node scripts/check-content.mjs",
-    "test": "node --test scripts/test-contact.mjs"
+    "test": "node --test scripts/test-contact.mjs scripts/test-preview-robots.mjs"
   },
   "engines": {
     "node": ">=22"

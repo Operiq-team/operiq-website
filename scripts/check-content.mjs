@@ -82,7 +82,7 @@ for (const file of files) {
   const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "";
   if (description.length < 40) fail(`${rel} has a short or missing meta description`);
 
-  const noindex = html.includes('content="noindex"');
+  const noindex = /<meta\b[^>]*\bname="robots"[^>]*\bcontent="[^"]*\bnoindex\b/i.test(html);
   if (!noindex && !html.includes('<link rel="canonical" href="https://operiq.no')) {
     fail(`${rel} is missing a canonical URL`);
   }
@@ -211,6 +211,16 @@ if (!sign.includes("ikke behandlingsansvarlig") && !sign.includes("Operiq er lev
 const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: https://operiq.no/sitemap.xml")) fail("robots.txt is missing the sitemap");
 
+const headers = await readFile(path.join(dist, "_headers"), "utf8");
+const previewBuild = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== "main";
+if (previewBuild) {
+  if (!headers.includes("X-Robots-Tag: noindex, nofollow")) {
+    fail("Preview dist/_headers is missing X-Robots-Tag: noindex, nofollow");
+  }
+} else if (/X-Robots-Tag:\s*noindex/i.test(headers)) {
+  fail("Indexable dist/_headers must not send noindex");
+}
+
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
 for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/naeringsbygg", "https://operiq.no/lager-og-logistikk", "https://operiq.no/eiendomsportefoljer", "https://operiq.no/eksisterende-kameraanlegg", "https://operiq.no/butikk", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
   if (!sitemap.includes(route)) fail(`Sitemap is missing ${route}`);
@@ -222,7 +232,9 @@ const notFound = files.find((file) => file.endsWith(`${path.sep}404.html`));
 if (!notFound) fail("404.html was not built");
 else {
   const html = await readFile(notFound, "utf8");
-  if (!html.includes('content="noindex"')) fail("404 is missing noindex");
+  if (!/<meta\b[^>]*\bname="robots"[^>]*\bcontent="[^"]*\bnoindex\b/i.test(html)) {
+    fail("404 is missing noindex");
+  }
 }
 
 if (failures) {

@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { isPagesPreviewBuild } from "../lib/preview-robots.js";
 import { canonicalUrl, organizationJsonLd, site } from "../site";
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const { title, description, path, noindex = false, showCta = true } = Astro.props;
+const hideFromIndex = noindex || isPagesPreviewBuild();
 const canonical = canonicalUrl(path);
 const ogImage = new URL("/og.jpg", site.url).href;
 const jsonLd = JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c");
@@ -26,8 +28,8 @@ const jsonLd = JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c");
     <title>{title}</title>
     <meta name="description" content={description} />
     {
-      noindex ? (
-        <meta name="robots" content="noindex" />
+      hideFromIndex ? (
+        <meta name="robots" content="noindex, nofollow" />
       ) : (
         <link rel="canonical" href={canonical} />
       )

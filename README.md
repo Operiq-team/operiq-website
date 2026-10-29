@@ -112,4 +112,4 @@ Sjekk postene i Cloudflare før noen endring. Registrar blir værende hos One.co
 
 Viderekoblinger som hører hjemme i Cloudflare senere, ikke i dette repoet: `http` til `https`, `www` til apex, og `operiq.info` til `https://operiq.no`. SSL-modus «Full (strict)» når origin har gyldig sertifikat.
 
-Et `pages.dev`-preview bør ikke indekseres. Produksjonsbygget er satt opp for `https://operiq.no` med canonical, `robots.txt` og `sitemap.xml`.
+Et `pages.dev`-preview skal ikke indekseres. `functions/_middleware.js` sender `X-Robots-Tag: noindex, nofollow` og en robots-meta for alle verter unntatt `operiq.no`. Det gjelder både gren-preview og `*.pages.dev`-aliaset til produksjonsbygget. `_headers` kan ikke variere per vert, så filen i `public/` setter ikke noindex. På grener andre enn `main` legger bygget likevel headeren inn i `dist/_headers`, og HTML får `<meta name="robots" content="noindex, nofollow">`. Produksjonsbygget på `main` beholder canonical, `robots.txt` og `sitemap.xml` for `https://operiq.no`. Node-versjonen står i `.node-version` (`22`).
