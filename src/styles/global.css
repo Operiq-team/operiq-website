@@ -619,12 +619,13 @@ h3 {
 .how-steps h3 { margin: 0.55rem 0 0.4rem; }
 .how-steps p { margin: 0; font-size: 0.98rem; }
 
+.ref-list { display: grid; gap: 1rem; }
 .ref { display: grid; overflow: hidden; border-radius: 26px; }
 .ref-visual {
-  min-height: 16rem;
+  min-height: 14rem;
   background:
-    linear-gradient(90deg, transparent 40%, rgba(11, 17, 23, 0.55)),
-    url("/img/cam-arm.jpg") 40% center / cover;
+    linear-gradient(180deg, rgba(11, 17, 23, 0.15), rgba(11, 17, 23, 0.45)),
+    url("/img/cam-arm.jpg") center 30% / cover;
   position: relative;
 }
 .ref-visual .pill { position: absolute; left: 1.2rem; top: 1.2rem; }
@@ -818,9 +819,9 @@ textarea { min-height: 8rem; }
     height: 1px;
     background: linear-gradient(90deg, var(--sand), rgba(111, 214, 232, 0.55), transparent);
   }
-  .ref { grid-template-columns: 1.1fr 1fr; }
-  .ref-visual { min-height: 100%; }
-  .ref-body { padding: 3rem 2.8rem; }
+  .ref-list { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .ref-visual { min-height: 16rem; }
+  .ref-body { padding: 1.6rem 1.4rem 1.5rem; }
   .chain { grid-template-columns: 1fr 1.15fr; gap: 3.5rem; }
   .cta-band { grid-template-columns: 1.3fr 1fr; align-items: end; padding: 4.2rem 4rem; }
   .hero-grid, .split { grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }

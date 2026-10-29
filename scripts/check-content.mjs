@@ -5,7 +5,6 @@ const dist = path.resolve("dist");
 const forbidden = [
   /system\s*\.?\s*one/i,
   /fauna/i,
-  /hegdehaug/i,
   /strandveien/i,
   /caspar/i,
   /9199/,
@@ -30,7 +29,11 @@ const referenceFacts = [
   "Under installasjon, ferdig desember 2026",
   "byggets belysning (KNX) som del av piloten for aktiv avskrekking",
   "Integrasjonen er planlagt.",
-  "Illustrasjon",
+  "Illustrasjonsfoto",
+  "Hegdehaugsveien 36",
+  "Kameraanlegg i næringsbygg, Oslo",
+  "Ferdigstilt",
+  "Flere kameraer",
 ];
 
 const requiredInSite = [
@@ -146,6 +149,9 @@ for (const [name, html] of [
   for (const fact of referenceFacts) {
     if (!html.includes(fact)) fail(`${name} is missing reference fact: ${fact}`);
   }
+  const hegde = html.match(/id="ref-hegdehaugsveien"[\s\S]*?<\/article>/)?.[0] ?? "";
+  const text = hegde.replace(/<[^>]+>/g, " ").replace("36", "");
+  if (/\d/.test(text)) fail(`${name} puts a number other than the address on Hegdehaugsveien`);
 }
 
 const butikk = await readFile(path.join(dist, "butikk/index.html"), "utf8");
@@ -156,7 +162,7 @@ for (const [name, html] of [
   ["About", about],
   ["Sign", signEarly],
 ]) {
-  if (/kirkeristen/i.test(html)) fail(`${name} names the reference outside the approved pages`);
+  if (/kirkeristen|hegdehaug/i.test(html)) fail(`${name} names a reference outside the approved pages`);
 }
 
 if (!about.includes("Sebastian Godtfredsen")) fail("About page is missing the founder");
