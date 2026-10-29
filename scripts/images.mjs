@@ -15,6 +15,9 @@ const jobs = [
   { name: "building", file: "bygg-hjorne-lys-pexels-3137040.jpg", ratio: 4 / 3 },
   { name: "warehouse", file: "lager-interior-pexels-36122954.jpg", ratio: 4 / 3 },
   { name: "shop", file: "butikk-hyller-pexels-1884579.jpg", ratio: 4 / 3 },
+  { name: "plan", file: "plan-tegninger-pexels-34573691.jpg", ratio: 4 / 3, position: "attention" },
+  { name: "rack", file: "fiber-panel-pexels-4425157.jpg", ratio: 4 / 3, position: "attention" },
+  { name: "screen", file: "skjerm-pexels-1820328.jpg", ratio: 4 / 3, brighten: true },
 ];
 
 const widths = [640, 1024, 1600, 2400];
@@ -34,11 +37,10 @@ for (const job of jobs) {
   for (const width of widths) {
     if (width > max + 40) continue;
     const height = Math.round(width / job.ratio);
-    const pipeline = sharp(source)
-      .rotate()
-      .modulate({ saturation: 0.85 })
-      .linear(1.05, -8)
-      .resize(width, height, { fit: "cover", position: job.position ?? "centre" });
+    let pipeline = sharp(source).rotate();
+    if (job.brighten) pipeline = pipeline.modulate({ brightness: 1.85, saturation: 1 }).linear(1.2, 18);
+    else pipeline = pipeline.modulate({ saturation: 0.85 }).linear(1.05, -8);
+    pipeline = pipeline.resize(width, height, { fit: "cover", position: job.position ?? "centre" });
     const base = path.join(dir, `${job.name}-${width}.jpg`);
     await render(pipeline, base);
     const stat = await sharp(base).metadata();

@@ -26,6 +26,11 @@ Bildene er fra Pexels (gratis, også kommersielt, kreditering ikke påkrevd). De
 | bygg-hjorne-lys | Adrien Olichon | https://www.pexels.com/photo/low-angle-shot-of-a-building-perspective-with-white-and-black-exterior-3137040/ |
 | lager-interior | James Richardson | https://www.pexels.com/photo/spacious-industrial-warehouse-interior-with-storage-racks-36122954/ |
 | butikk-hyller | Tembela Bohle | https://www.pexels.com/photo/black-gondola-shelf-1884579/ |
+| plan-tegninger | Marina Zvada | https://www.pexels.com/photo/detailed-architectural-blueprints-on-desk-34573691/ |
+| fiber-panel | Brett Sayles | https://www.pexels.com/photo/blue-patch-cables-plugged-on-patch-panel-4425157/ |
+| skjerm-arbeidsbord | Tito Noverian Putra | https://www.pexels.com/photo/modern-computer-screens-and-keyboard-in-dark-room-1820328/ |
+
+Prosessbildene på forsiden er de tre siste pluss næringsbyggfasaden. De er merket «Illustrasjon». De viser ikke et Operiq-anlegg, og ingen personer kan identifiseres. Et nærbilde av en stikkontakt og et skjermbilde av et prosjekttavle-verktøy ble ikke brukt, fordi de ville se ut som noe annet enn kameraanlegg.
 
 Åpne punkter eier må bekrefte, står som `TODO(eier)` i kildekoden. Søk etter den teksten før siden tas i bruk.
 
@@ -64,18 +69,25 @@ Kanonisk adresse er `https://operiq.no`. Engelsk versjon er ikke med.
 
 ## Kontakt og telefon
 
-E-post er `post@operiq.no`.
+E-post er `post@operiq.no`. Telefon er `+47 919 94 544`, satt i `site.phone` i `src/site.ts`. Nummeret vises i topp, mobilmeny, bunntekst, kontaktside, om oss, personvern og i strukturerte data. Lenken er `tel:+4791994544`.
 
-Salgstelefon er ikke satt. Den ligger ett sted:
+Skjemaet er i modus `mailto` (`contactMode` i `src/site.ts`). Når noen sender det, åpnes e-postprogrammet med ferdig tekst til `post@operiq.no`. Feltene lagres ikke på nettstedet. Ingen API-nøkkel ligger i repoet. Serversending er ikke satt opp: funksjonen svarer med den samme mailto-lenken til `CONTACT_FORWARD_URL` er satt i Cloudflare.
 
-```ts
-// src/site.ts
-phone: ""
+## Måling
+
+Det er ingen analyseverktøy, ingen tredjepartsskript og ingen informasjonskapsler. Klikk på knapper med `data-track`, telefon, e-post og innsending av skjemaet kaller `track(event, props)` i `src/lib/track.js`. Funksjonen gjør ingenting annet enn å sende et `CustomEvent` med navn `operiq:track` på `window`.
+
+Når eier har godkjent et verktøy, kan ett skript lytte slik:
+
+```js
+window.addEventListener("operiq:track", (event) => {
+  const { event: name, props } = event.detail;
+  // Cloudflare Web Analytics: bruk beacon uten informasjonskapsler.
+  // Plausible: plausible(name, { props });
+});
 ```
 
-Tom streng skjuler nummeret i topp, bunntekst, kontaktside og strukturerte data. Legg inn nummeret som en streng når det er godkjent.
-
-Skjemaet er i modus `mailto` (`contactMode` i `src/site.ts`). Når noen sender det, åpnes e-postprogrammet med ferdig tekst til `post@operiq.no`. Feltene lagres ikke på nettstedet. Ingen API-nøkkel ligger i repoet.
+Ikke last skriptet før det er godkjent, og ikke sett informasjonskapsler. Hendelsene som finnes nå, er `cta` (med `type`), `tel`, `mailto` og `form_submit`.
 
 `functions/api/contact.js` er en Cloudflare Pages Function. Uten konfigurasjon svarer den med den samme e-postlenken (for besøk uten JavaScript). Serversending skrus på slik:
 

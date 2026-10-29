@@ -4,6 +4,9 @@
  * Ikke lov pris, besparelse, lisensfrihet eller at befaring er gratis.
  */
 import Base from "../layouts/Base.astro";
+import Coverage from "../components/Coverage.astro";
+import Problems from "../components/Problems.astro";
+import Process from "../components/Process.astro";
 import Reference from "../components/Reference.astro";
 import { site } from "../site";
 
@@ -25,8 +28,8 @@ const description =
           Moderne kameraanlegg for næringsbygg og eiendomsporteføljer. Bedre oversikt, full kontroll over eget utstyr og forutsigbare kostnader – uten unødvendig leverandørbinding.
         </p>
         <div class="actions">
-          <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="#how">Se hvordan vi jobber</a>
+          <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how" data-track="cta" data-track-type="prosess">Se hvordan vi jobber</a>
         </div>
         <div class="facts">
           <div><b>Lokalt opptak</b>Video lagres i bygget</div>
@@ -42,7 +45,7 @@ const description =
             <div class="clock">23:47:12</div>
           </div>
           <div class="cam-tiles">
-            <div class="cam" style="background-image:url(/img/facade-night.jpg)">
+            <div class="cam" style="background-image:url(/img/facade-night.webp)">
               <div class="rec"><i></i>REC</div>
               <div class="box"><span>PERSON</span></div>
               <div class="sweep"></div>
@@ -91,6 +94,8 @@ const description =
     </div>
   </div>
 
+  <Problems />
+
   <section class="section" id="losning">
     <div class="container">
       <div class="sec-head">
@@ -137,6 +142,8 @@ const description =
       </div>
     </div>
   </section>
+
+  <Coverage />
 
   <section class="section section-alt" id="eksisterende">
     <div class="container">
@@ -187,7 +194,7 @@ const description =
         </li>
       </ul>
       <p class="future-cta">
-        <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens løsning</a>
+        <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens løsning</a>
       </p>
       <p>Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer. <a class="link-arrow" href="/eksisterende-kameraanlegg">Les om eksisterende kameraanlegg</a></p>
     </div>
@@ -207,39 +214,23 @@ const description =
       </div>
       <ul class="pilot-grid">
         <li class="glass">
-          <h3>Hendelsesdeteksjon</h3>
-          <p>Personer, kjøretøy og dyr, og avanserte AI-funksjoner, på støttede kameraer.</p>
+          <h3>Hendelsesdeteksjon <span class="status now">Tilgjengelig</span></h3>
+          <p>Personer, kjøretøy og dyr, og avanserte AI-funksjoner, på kameraer som støtter det.</p>
         </li>
         <li class="glass">
-          <h3>Lys og lyd</h3>
+          <h3>Lys og lyd <span class="status now">Tilgjengelig</span></h3>
           <p>Lys eller en talemelding, der utstyret støtter det og det passer eiendommen.</p>
         </li>
         <li class="glass">
-          <h3>Integrasjon og agent</h3>
-          <p>Kobling mot bygg og en agent som følger anlegget. Konsept – under utvikling.</p>
+          <h3>Integrasjon og agent <span class="status later">Under utvikling</span></h3>
+          <p>Egen AI-agent, aktiv avskrekking utover det utstyret allerede kan, og KNX eller lysstyring. Ikke i leveransen i dag.</p>
         </li>
       </ul>
       <p class="concept-flag">Konsept – under utvikling</p>
     </div>
   </section>
 
-  <section class="section section-alt" id="how">
-    <div class="container">
-      <div class="sec-head">
-        <div>
-          <p class="kicker">Slik jobber vi</p>
-          <h2>Én leverandør. Fra behovsanalyse til ferdig anlegg.</h2>
-        </div>
-        <p>Du forholder deg til Operiq fra første gjennomgang til dokumentasjonen er levert. Vi leverer i hele Norge.</p>
-      </div>
-      <ol class="how-steps">
-        <li><span>01</span><h3>Befaring og behovsanalyse</h3><p>Vi kartlegger eksisterende anlegg, behov og infrastruktur.</p></li>
-        <li><span>02</span><h3>Prosjektering og fastpristilbud</h3><p>Vi beskriver løsningen og kostnadene før du bestemmer deg.</p></li>
-        <li><span>03</span><h3>Installasjon og konfigurering</h3><p>Montering, nettverk, opptak og funksjoner settes opp og testes.</p></li>
-        <li><span>04</span><h3>Overlevering og dokumentasjon</h3><p>Du får tilgang, opplæring og dokumentasjon.</p></li>
-      </ol>
-    </div>
-  </section>
+  <Process />
 
   <section class="section" id="referanse">
     <div class="container">
@@ -290,7 +281,7 @@ const description =
           Kameraløsninger for flere bygg. Vi lager en felles teknisk standard, og tilpasser den til hvert bygg. Start med én eiendom. Rull ut videre når løsningen er dokumentert.
         </p>
         <p>Gjelder porteføljer, lager, logistikk og kjeder. <a class="link-arrow" href="/butikk">Butikkjeder har en egen side</a>. <a class="link-arrow" href="/eiendomsportefoljer">Les om eiendomsporteføljer</a></p>
-        <p class="future-cta"><a class="btn" href="/kontakt?type=portefolje">Diskuter løsning for flere eiendommer</a></p>
+        <p class="future-cta"><a class="btn" href="/kontakt?type=portefolje" data-track="cta" data-track-type="portefolje">Diskuter løsning for flere eiendommer</a></p>
       </div>
     </div>
   </section>
@@ -327,9 +318,10 @@ const description =
         </div>
         <div>
           <p>Har du ikke anlegg fra før, kan du i stedet be om et løsningsforslag. {site.coverage}.</p>
-          <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
-          <p><a class="link-arrow" href="/kontakt?type=nytt">Be om løsningsforslag</a></p>
-          <a class="cta-mail" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <p><a class="link-arrow" href="/kontakt?type=nytt" data-track="cta" data-track-type="nytt">Be om løsningsforslag</a></p>
+          <a class="cta-mail" href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
+          <a class="cta-mail" href={`tel:${site.phone.replace(/\s/g, "")}`} data-track="tel">{site.phone}</a>
         </div>
       </aside>
     </div>

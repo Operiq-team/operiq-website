@@ -1,9 +1,7 @@
 /**
  * Site-wide facts. Phone is intentionally empty until the owner approves a number.
  *
- * TODO(eier): Salgstelefon er ikke avklart. Sett `phone` til nummeret som skal
- * publiseres, for eksempel "+47 00 00 00 00". Tom streng skjuler telefon i
- * topp, bunn, kontaktside og strukturerte data.
+ * Telefonen er Sebastian Godtfredsens eget nummer, godkjent for publisering.
  *
  * Merket er Plate 1.1. Header og bunntekst bruker logo-secure-white-sand.svg.
  *
@@ -14,7 +12,7 @@ export const site = {
   legalName: "Godtbo Eiendom AS",
   orgNr: "927 212 056",
   email: "post@operiq.no",
-  phone: "",
+  phone: "+47 919 94 544",
   city: "Oslo",
   url: "https://operiq.no",
   locale: "nb_NO",

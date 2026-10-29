@@ -67,5 +67,19 @@ const jsonLd = JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c");
       <slot />
     </main>
     <Footer />
+    <script>
+      import { track } from "../lib/track.js";
+
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const el = target.closest("[data-track]");
+        if (!(el instanceof HTMLElement)) return;
+        const name = el.dataset.track;
+        if (!name) return;
+        const type = el.dataset.trackType;
+        track(name, type ? { type } : {});
+      });
+    </script>
   </body>
 </html>

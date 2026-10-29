@@ -7,7 +7,6 @@ const forbidden = [
   /fauna/i,
   /strandveien/i,
   /caspar/i,
-  /9199/,
   /karl\s*johan/i,
   /operiq\s+as\b/i,
   /powered by ai/i,
@@ -15,7 +14,6 @@ const forbidden = [
   /sertifisert/i,
   /års erfaring/i,
   /\d[\d\s]*\s*(kr|nok)\b/i,
-  /href="tel:/i,
   /\b(reolink|verkada|hikvision|dahua|uniview|hanwha|rhombus|avigilon|mobotix)\b/i,
   /\baxis\b/i,
   /gratis befaring/i,
@@ -113,7 +111,22 @@ if (!home.includes("Ditt anlegg. Dine opptak. Full kontroll.")) fail("Home is mi
 if (!home.includes("Betaler du mer enn nødvendig for kameraovervåkning?")) fail("Home is missing the existing-system section");
 if (!home.includes("Fra passiv overvåkning til aktiv avskrekking.")) fail("Home is missing the deterrence heading");
 if (!home.includes("Konsept – under utvikling")) fail("Home must label undeveloped deterrence as a concept");
-if (!home.includes("Én leverandør. Fra behovsanalyse til ferdig anlegg.")) fail("Home is missing the process heading");
+if (!home.includes("Én leverandør. Fra befaring til ferdig anlegg.")) fail("Home is missing the process heading");
+if (!home.includes("Det som skjer på eiendommen, havner i driftsbudsjettet.")) fail("Home is missing the problems heading");
+if (!home.includes("Kamera hindrer ikke alle hendelser.")) fail("Home is missing the problems close");
+if (!home.includes("Opptak gjør det lettere å se hva som skjedde.")) fail("Home is missing the recording sentence");
+if (!home.includes("Vi ser på hele eiendommen, ikke enkeltkameraer.")) fail("Home is missing the coverage heading");
+if (!home.includes("Illustrasjon · ikke et faktisk anlegg")) fail("Home must label the coverage map as an illustration");
+for (const zone of ["Inngang og adkomst", "Fasade", "Parkering", "Varemottak og bakgård", "Avfallsområde", "Tekniske rom og fiber", "Perimeter"]) {
+  if (!home.includes(zone)) fail(`Home coverage is missing ${zone}`);
+}
+if (!home.includes(">Du får<") && !home.includes(">Du får ")) fail("Home process steps are missing Du får");
+if (!home.includes("+47 919 94 544")) fail("Home is missing the phone number");
+if (!home.includes("tel:+4791994544")) fail("Home is missing the tel link");
+if (!home.includes('data-track="cta"')) fail("Home is missing tracked calls to action");
+if (!home.includes("Tilgjengelig") || !home.includes("Under utvikling")) {
+  fail("Home must separate available functions from work in development");
+}
 if (!home.includes("Én standard. Hele eiendomsporteføljen.")) fail("Home is missing the portfolio heading");
 if (!home.includes("Konseptuell illustrasjon. Ikke en programvareplattform.")) {
   fail("Home must label the portfolio graphic as an illustration");
@@ -199,6 +212,16 @@ if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) 
 
 const contact = await readFile(path.join(dist, "kontakt/index.html"), "utf8");
 if (!contact.includes("Få vurdert dagens kameraanlegg")) fail("Contact page is missing the inquiry heading");
+if (!contact.includes("+47 919 94 544") || !contact.includes("tel:+4791994544")) {
+  fail("Contact page is missing the phone number");
+}
+const building = await readFile(path.join(dist, "naeringsbygg/index.html"), "utf8");
+if (building.includes("Vi ser på hele eiendommen, ikke enkeltkameraer.")) {
+  fail("Coverage map heading must stay on the homepage");
+}
+if (!building.includes("type=eksisterende") || !building.includes("type=nytt")) {
+  fail("Næringsbygg must link to both existing and new inquiries");
+}
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");
 if (!privacy.includes("behandlingsansvarlig")) fail("Privacy page is missing controller language");

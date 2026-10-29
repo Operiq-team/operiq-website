@@ -30,14 +30,14 @@ function isCurrent(href: string) {
     </nav>
     {
       site.phone && (
-        <a class="header-phone" href={`tel:${tel}`}>
+        <a class="header-phone" href={`tel:${tel}`} data-track="tel">
           {site.phone}
         </a>
       )
     }
     {
       showCta && (
-        <a class="btn header-cta" href="/kontakt?type=eksisterende">
+        <a class="btn header-cta" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">
           Få vurdert anlegget <span class="arr">→</span>
         </a>
       )
@@ -56,11 +56,17 @@ function isCurrent(href: string) {
               </a>
             ))
           }
-          <a href="/kontakt">Kontakt</a>
+          {
+            site.phone && (
+              <a href={`tel:${tel}`} data-track="tel">
+                {site.phone}
+              </a>
+            )
+          }
         </nav>
         {
           showCta && (
-            <a class="btn" href="/kontakt?type=eksisterende">
+            <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">
               Få vurdert anlegget
             </a>
           )

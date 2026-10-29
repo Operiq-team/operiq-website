@@ -1,7 +1,7 @@
 ---
 /**
  * post@operiq.no er bekreftet som publisert adresse.
- * TODO(eier): Salgstelefon settes i src/site.ts (phone). Tom streng skjuler nummeret.
+ * Telefonen kommer fra site.phone.
  * TODO(eier): Ingen gateadresse er godkjent. Teksten sier «Basert i Oslo, leverer i hele landet».
  * TODO(eier): contactMode i src/site.ts står på "mailto". Se README før det endres.
  */
@@ -11,7 +11,7 @@ import { site } from "../site";
 
 const title = "Kontakt – Operiq";
 const description =
-  "Be om vurdering eller løsningsforslag for kameraovervåkning. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
+  "Be om uforpliktende befaring av kameraovervåkning. E-post post@operiq.no. Telefon +47 919 94 544. Basert i Oslo, leverer i hele landet.";
 const tel = site.phone.replace(/\s/g, "");
 ---
 
@@ -28,7 +28,7 @@ const tel = site.phone.replace(/\s/g, "");
         <h2>Direkte</h2>
         <p>
           E-post<br />
-          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
         </p>
         <p>
           Sted<br />
@@ -39,7 +39,7 @@ const tel = site.phone.replace(/\s/g, "");
             <p>
               Telefon
               <br />
-              <a href={`tel:${tel}`}>{site.phone}</a>
+              <a href={`tel:${tel}`} data-track="tel">{site.phone}</a>
             </p>
           )
         }
@@ -120,7 +120,7 @@ const tel = site.phone.replace(/\s/g, "");
           <p class="form-note">
             Uten JavaScript sendes skjemaet til serveren. Før utsending er satt opp, får du en
             ferdig e-postlenke tilbake. Du kan også skrive direkte til
-            <a href={`mailto:${site.email}`}>{site.email}</a>.
+            <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>.
           </p>
         </noscript>
       </form>
@@ -130,6 +130,7 @@ const tel = site.phone.replace(/\s/g, "");
 
 <script>
   import { buildMailto, parseInquiry } from "../lib/inquiry.js";
+  import { track } from "../lib/track.js";
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   const status = document.querySelector<HTMLElement>("#form-status");
@@ -178,6 +179,7 @@ const tel = site.phone.replace(/\s/g, "");
       }
 
       const href = buildMailto(parsed.value, email);
+      track("form_submit", { type: parsed.value.type || parsed.value.topic || "" });
 
       if (mode !== "server") {
         showMailto(href, email);

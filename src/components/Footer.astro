@@ -20,10 +20,10 @@ const tel = site.phone.replace(/\s/g, "");
         <a href="/om-oss">Om oss</a>
         <a href="/personvern">Personvern</a>
         <a href="/kamera-info">Kamera på stedet</a>
-        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
         {
           site.phone && (
-            <a href={`tel:${tel}`}>{site.phone}</a>
+            <a href={`tel:${tel}`} data-track="tel">{site.phone}</a>
           )
         }
       </nav>

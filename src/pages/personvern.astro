@@ -81,12 +81,13 @@ const description =
       <h2>Rettighetene dine</h2>
       <p>Du kan be om innsyn, retting, sletting, begrensning og dataportabilitet, og du kan protestere mot behandling som støtter seg på berettiget interesse. Du kan også klage til Datatilsynet.</p>
       <p>
-        Send forespørselen til <a href={`mailto:${site.email}`}>{site.email}</a>.
+        Send forespørselen til <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
+        {site.phone ? <> eller ring <a href={`tel:${site.phone.replace(/\s/g, "")}`} data-track="tel">{site.phone}</a></> : null}.
         Datatilsynet nås på <a href="https://www.datatilsynet.no">datatilsynet.no</a>.
       </p>
 
       <h2>Endringer</h2>
-      <p>Erklæringen oppdateres på denne siden når praksisen på nettstedet endres. Sist oppdatert 28. oktober 2026.</p>
+      <p>Erklæringen oppdateres på denne siden når praksisen på nettstedet endres. Sist oppdatert 29. oktober 2026. {site.legalName}, org.nr {site.orgNr}.</p>
       </article>
     </div>
   </section>

@@ -3,9 +3,9 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import CtaBand from "../components/CtaBand.astro";
 
-const title = "Kameraovervåkning for næringsbygg – Operiq";
+const title = "Kameraanlegg for næringsbygg – Operiq";
 const description =
-  "Kameraanlegg for næringsbygg og blandede eiendommer. Du eier utstyret. Opptak lagres lokalt. Eget nett. Operiq prosjekterer og monterer i hele Norge.";
+  "Kameraovervåkning for næringsbygg: inngang, fasade, garasje og bakgård. Du eier anlegget. Opptak lagres lokalt. Operiq prosjekterer og monterer i hele Norge.";
 ---
 
 <Base title={title} description={description} path="/naeringsbygg">
@@ -38,7 +38,7 @@ const description =
   <section class="section section-alt">
     <div class="container split">
       <div class="frame">
-        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys" width="1200" height="900" />
+        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys. Illustrasjonsfoto." width="1200" height="900" loading="lazy" decoding="async" />
       </div>
       <div>
         <h2>Nytt anlegg eller det som står der</h2>
@@ -59,6 +59,19 @@ const description =
         <li><span>03</span><h3>Montering</h3><p>Nett, opptak og visning settes opp og testes.</p></li>
         <li><span>04</span><h3>Dokumentasjon</h3><p>Du får tilgang, opplæring og underlag på det som er montert.</p></li>
       </ol>
+      <h2>Soner vi vanligvis går gjennom</h2>
+      <ul class="checks">
+        <li>Hovedinngang, port og trapperom</li>
+        <li>Fasade, vinduer og dører mot gate</li>
+        <li>Garasje, bakgård og varemottak</li>
+        <li>Teknisk rom der opptaker og fiber står</li>
+      </ul>
+      <p>Antall kameraer settes etter befaring. Vi oppgir ikke et antall før vi har sett bygget. På kameraer som støtter det, kan anlegget detektere personer, kjøretøy og dyr. Egen AI-agent og styring mot byggets anlegg er under utvikling, og er ikke i leveransen.</p>
+      <p>
+        <a class="link-arrow" href="/lager-og-logistikk">Lager og logistikk</a>
+        <a class="link-arrow" href="/eiendomsportefoljer">Flere bygg</a>
+        <a class="link-arrow" href="/eksisterende-kameraanlegg">Anlegg som står der fra før</a>
+      </p>
       <p>Du er behandlingsansvarlig for overvåkningen. En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv. <a class="link-arrow" href="/personvern">Personvern</a></p>
     </div>
   </section>
@@ -71,6 +84,7 @@ const description =
         href="/kontakt?type=eksisterende"
         label="Få vurdert dagens kameraanlegg"
       />
+      <p><a class="link-arrow" href="/kontakt?type=nytt" data-track="cta" data-track-type="nytt">Har dere ikke anlegg fra før, be om løsningsforslag</a></p>
     </div>
   </section>
 </Base>
