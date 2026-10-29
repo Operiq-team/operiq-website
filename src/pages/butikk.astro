@@ -1,85 +1,49 @@
 ---
 import Base from "../layouts/Base.astro";
 import CtaBand from "../components/CtaBand.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 
-const title = "Kameraanlegg for butikkjeder – Operiq";
-const description =
-  "Kameraanlegg for butikkjeder. Samme oppsett, utrulling i bølger og én kontakt hos Operiq. Vi leverer i hele Norge.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).retail;
 ---
 
-<Base title={title} description={description} path="/butikk">
+<Base title={t.title} description={t.description} path={pathFor(locale, "retail")} locale={locale}>
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <p class="kicker">Butikk og kjeder</p>
-        <h1>Ett oppsett for flere butikker</h1>
-        <p class="lead">
-          Felles prinsipper for dekning og nett, tilpasset hvert lokale, med én kontakt hos Operiq.
-        </p>
+        <p class="kicker">{t.kicker}</p>
+        <h1>{t.h}</h1>
+        <p class="lead">{t.lead}</p>
         <div class="actions">
-          <a class="btn" href="/kontakt?type=portefolje" data-track="cta" data-track-type="portefolje">Diskuter løsning for flere eiendommer</a>
+          <a class="btn" href={`${pathFor(locale, "contact")}?type=portefolje`} data-track="cta" data-track-type="portefolje">{t.cta}</a>
         </div>
       </div>
       <div class="frame">
-        <img src="/img/retail-night.jpg" alt="Butikklokale med hyller. Illustrasjonsfoto." width="1200" height="900" loading="lazy" decoding="async" />
+        <img src="/img/retail-night.jpg" alt={t.alt1} width="1200" height="900" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <ul class="service-cards">
-        <li>
-          <h3>Standard per butikk</h3>
-          <p>Felles prinsipper for dekning og oppsett. Plasseringen tilpasses lokalet.</p>
-        </li>
-        <li>
-          <h3>Utrulling i bølger</h3>
-          <p>Butikk for butikk, i den rekkefølgen kjeden bestemmer.</p>
-        </li>
-        <li>
-          <h3>Hele Norge</h3>
-          <p>Vi leverer der butikkene ligger. Operiq er basert i Oslo.</p>
-        </li>
-        <li>
-          <h3>Sentral tilgang</h3>
-          <p>Den som har ansvaret sentralt kan se flere butikker samlet, der utstyret støtter det.</p>
-        </li>
-        <li>
-          <h3>Dokumentasjon per butikk</h3>
-          <p>Hver butikk får eget underlag når anlegget er levert.</p>
-        </li>
-        <li>
-          <h3>Én kontakt</h3>
-          <p>Du forholder deg til Operiq fra første befaring til siste butikk.</p>
-        </li>
-      </ul>
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container split">
       <div class="frame">
-        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys. Illustrasjonsfoto." width="1200" height="900" loading="lazy" decoding="async" />
+        <img src="/img/building-night.jpg" alt={t.alt2} width="1200" height="900" loading="lazy" decoding="async" />
       </div>
       <div>
-        <h2>Du eier anleggene</h2>
-        <p class="measure">
-          Hver butikk får et anlegg dere eier, med lokalt opptak. Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent. Fast pris etter befaring av lokalene.
-        </p>
-        <p><a class="link-arrow" href="/kameraovervaking">Se hva som leveres</a></p>
+        <h2>{t.ownH}</h2>
+        <p class="measure">{t.ownP}</p>
+        <p><a class="link-arrow" href={pathFor(locale, "secure")}>{t.spec}</a></p>
       </div>
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <CtaBand
-        title="Fortell om butikkene"
-        text="Hvor mange lokaler, og hvor de ligger. Vi avtaler befaring og gir fast pris."
-        href="/kontakt?type=portefolje"
-        label="Diskuter løsning for flere eiendommer"
-      />
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=portefolje`} label={t.cta} />
     </div>
   </section>
 </Base>

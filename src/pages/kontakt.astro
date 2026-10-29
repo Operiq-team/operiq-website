@@ -1,127 +1,69 @@
 ---
-/**
- * post@operiq.no er bekreftet som publisert adresse.
- * Telefonen kommer fra site.phone.
- * TODO(eier): Ingen gateadresse er godkjent. Teksten sier «Basert i Oslo, leverer i hele landet».
- * TODO(eier): contactMode i src/site.ts står på "mailto". Se README før det endres.
- */
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 import { site } from "../site";
 
-const title = "Kontakt – Operiq";
-const description =
-  "Be om uforpliktende befaring av kameraovervåkning. E-post post@operiq.no. Telefon +47 919 94 544. Basert i Oslo, leverer i hele landet.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).contact;
 const tel = site.phone.replace(/\s/g, "");
 ---
 
-<Base title={title} description={description} path="/kontakt">
-  <PageHero
-    kicker="Kontakt"
-    title="Få vurdert dagens kameraanlegg"
-    lead="Fortell kort om eiendommen. Skjemaet åpner en e-post til oss. Ingenting sendes før du sender e-posten."
-  />
-
+<Base title={t.title} description={t.description} path={pathFor(locale, "contact")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
   <section class="section section-follow">
     <div class="container contact-grid">
       <aside class="contact-aside">
-        <h2>Direkte</h2>
-        <p>
-          E-post<br />
-          <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
-        </p>
-        <p>
-          Sted<br />
-          {site.coverage}
-        </p>
-        {
-          site.phone && (
-            <p>
-              Telefon
-              <br />
-              <a href={`tel:${tel}`} data-track="tel">{site.phone}</a>
-            </p>
-          )
-        }
-        <p>Skjemaet åpner e-postprogrammet med ferdig tekst til {site.email}. Henvendelsen lagres ikke på nettsiden. Ingenting er sendt før du sender e-posten.</p>
+        <h2>{t.direct}</h2>
+        <p>{t.email}<br /><a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a></p>
+        <p>{t.place}<br />{ui(locale).coverageLine}</p>
+        <p>{t.phone}<br /><a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a></p>
+        <p>{t.aside}</p>
       </aside>
-
-      <form
-        id="contact-form"
-        method="post"
-        action="/api/contact"
-        data-mode={site.contactMode}
-        data-email={site.email}
-      >
+      <form id="contact-form" method="post" action="/api/contact" data-mode={site.contactMode} data-email={site.email} data-locale={locale}>
         <div class="form-row two">
-          <label>
-            <span>Navn</span>
-            <input name="name" type="text" autocomplete="name" required maxlength="120" />
-          </label>
-          <label>
-            <span>Firma</span>
-            <input name="company" type="text" autocomplete="organization" maxlength="160" />
-          </label>
+          <label><span>{t.name}</span><input name="name" type="text" autocomplete="name" required maxlength="120" /></label>
+          <label><span>{t.company}</span><input name="company" type="text" autocomplete="organization" maxlength="160" /></label>
         </div>
         <div class="form-row two">
-          <label>
-            <span>E-post</span>
-            <input name="email" type="email" autocomplete="email" required maxlength="160" />
-          </label>
-          <label>
-            <span>Telefon, valgfritt</span>
-            <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
-          </label>
+          <label><span>{t.emailField}</span><input name="email" type="email" autocomplete="email" required maxlength="160" /></label>
+          <label><span>{t.phoneOpt}</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
         </div>
         <div class="form-row two">
+          <label><span>{t.location}</span><input name="location" type="text" maxlength="240" /></label>
           <label>
-            <span>Sted</span>
-            <input name="location" type="text" maxlength="240" />
-          </label>
-          <label>
-            <span>Type eiendom</span>
+            <span>{t.property}</span>
             <select name="propertyType">
-              <option value="">Velg, valgfritt</option>
-              <option value="naering">Næringsbygg</option>
-              <option value="lager">Lager og logistikk</option>
-              <option value="portefolje">Eiendomsportefølje</option>
-              <option value="butikk">Butikk</option>
-              <option value="annet">Annet</option>
+              <option value="">{t.propertyPh}</option>
+              <option value="naering">{t.properties[0]}</option>
+              <option value="lager">{t.properties[1]}</option>
+              <option value="portefolje">{t.properties[2]}</option>
+              <option value="butikk">{t.properties[3]}</option>
+              <option value="annet">{t.properties[4]}</option>
             </select>
           </label>
         </div>
         <label>
-          <span>Har dere kameraanlegg fra før?</span>
+          <span>{t.existing}</span>
           <select name="existing">
-            <option value="">Velg, valgfritt</option>
-            <option value="ja">Ja</option>
-            <option value="nei">Nei</option>
-            <option value="usikker">Usikker</option>
+            <option value="">{t.existingPh}</option>
+            <option value="ja">{t.existingOpts[0]}</option>
+            <option value="nei">{t.existingOpts[1]}</option>
+            <option value="usikker">{t.existingOpts[2]}</option>
           </select>
         </label>
         <input type="hidden" name="type" value="" />
-        <label>
-          <span>Hva trenger dere hjelp til?</span>
-          <textarea name="message" required maxlength="4000"></textarea>
-        </label>
+        <input type="hidden" name="locale" value={locale} />
+        <label><span>{t.message}</span><textarea name="message" required maxlength="4000"></textarea></label>
         <div class="hp" aria-hidden="true">
-          <label>
-            Nettsted
-            <input name="website" type="text" tabindex="-1" autocomplete="off" />
-          </label>
+          <label>{t.honeypot}<input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
-        <button class="btn" type="submit">Send forespørsel</button>
-        <p class="form-note">
-          Opplysningene brukes til å svare på henvendelsen.
-          <a href="/personvern">Personvernerklæring</a>
-        </p>
+        <button class="btn" type="submit">{t.submit}</button>
+        <p class="form-note">{t.note} <a href={pathFor(locale, "privacy")}>{t.privacy}</a></p>
         <p id="form-status" role="status"></p>
         <noscript>
-          <p class="form-note">
-            Uten JavaScript sendes skjemaet til serveren. Før utsending er satt opp, får du en
-            ferdig e-postlenke tilbake. Du kan også skrive direkte til
-            <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>.
-          </p>
+          <p class="form-note">{t.noscript} <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>.</p>
         </noscript>
       </form>
     </div>
@@ -129,6 +71,7 @@ const tel = site.phone.replace(/\s/g, "");
 </Base>
 
 <script>
+  import { copyFor } from "../i18n/form-copy.js";
   import { buildMailto, parseInquiry } from "../lib/inquiry.js";
   import { track } from "../lib/track.js";
 
@@ -136,6 +79,8 @@ const tel = site.phone.replace(/\s/g, "");
   const status = document.querySelector<HTMLElement>("#form-status");
 
   if (form && status) {
+    const locale = form.dataset.locale === "en" ? "en" : "nb";
+    const copy = copyFor(locale);
     const params = new URLSearchParams(window.location.search);
     const map: Record<string, string> = {
       eksisterende: "eksisterende",
@@ -152,12 +97,12 @@ const tel = site.phone.replace(/\s/g, "");
 
     const showMailto = (href: string, email: string) => {
       status.replaceChildren();
-      status.append("E-postprogrammet åpnes med ferdig tekst til ");
+      status.append(copy.mailtoIntro);
       const link = document.createElement("a");
       link.href = href;
       link.textContent = email;
       status.append(link);
-      status.append(". Ingenting er sendt før du sender e-posten.");
+      status.append(copy.mailtoOutro);
     };
 
     form.addEventListener("submit", async (event) => {
@@ -165,7 +110,7 @@ const tel = site.phone.replace(/\s/g, "");
       const email = form.dataset.email || "post@operiq.no";
       const mode = form.dataset.mode || "mailto";
       const raw = Object.fromEntries(new FormData(form).entries());
-      const parsed = parseInquiry(raw);
+      const parsed = parseInquiry(raw, locale);
 
       if (!parsed.ok) {
         status.textContent = parsed.error;
@@ -174,12 +119,12 @@ const tel = site.phone.replace(/\s/g, "");
 
       if (parsed.spam) {
         form.reset();
-        status.textContent = "Takk. Vi svarer på e-post.";
+        status.textContent = copy.spam;
         return;
       }
 
-      const href = buildMailto(parsed.value, email);
-      track("form_submit", { type: parsed.value.type || parsed.value.topic || "" });
+      const href = buildMailto(parsed.value, email, locale);
+      track("form_submit", { type: parsed.value.type || parsed.value.topic || "", locale });
 
       if (mode !== "server") {
         showMailto(href, email);
@@ -189,21 +134,18 @@ const tel = site.phone.replace(/\s/g, "");
 
       const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       if (button) button.disabled = true;
-      status.textContent = "Sender …";
+      status.textContent = copy.sending;
 
       try {
         const response = await fetch("/api/contact", {
           method: "POST",
-          headers: {
-            "content-type": "application/json",
-            accept: "application/json",
-          },
+          headers: { "content-type": "application/json", accept: "application/json" },
           body: JSON.stringify(raw),
         });
         const payload = await response.json().catch(() => null);
         if (response.ok && payload?.delivered) {
           form.reset();
-          status.textContent = "Takk. Vi har mottatt henvendelsen og svarer på e-post.";
+          status.textContent = copy.delivered;
           return;
         }
         if (response.status === 400 && payload?.error) {

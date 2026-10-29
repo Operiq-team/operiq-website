@@ -1,90 +1,60 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 
-const title = "Kameraanlegg for næringsbygg – Operiq";
-const description =
-  "Kameraovervåkning for næringsbygg: inngang, fasade, garasje og bakgård. Du eier anlegget. Opptak lagres lokalt. Operiq prosjekterer og monterer i hele Norge.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).commercial;
+const contact = pathFor(locale, "contact");
 ---
 
-<Base title={title} description={description} path="/naeringsbygg">
-  <PageHero
-    kicker="Næringsbygg"
-    title="Kameraovervåkning for næringsbygg"
-    lead="Beskytt eiendommen med et moderne kameraanlegg tilpasset byggets behov. Få bedre oversikt, kontroll over egne opptak og en løsning du selv eier – uten unødvendig leverandørbinding."
-  />
-
+<Base title={t.title} description={t.description} path={pathFor(locale, "commercial")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
   <section class="section section-follow">
     <div class="container">
-      <h2>En komplett løsning tilpasset eiendommen</h2>
+      <h2>{t.h2}</h2>
       <ul class="service-cards">
-        <li>
-          <h3>Kameraer etter dekning</h3>
-          <p>Inngang, fasade, fellesareal, garasje og bakgård dekkes der det trengs. Plasseringen avklares på befaring.</p>
-        </li>
-        <li>
-          <h3>Eget nett</h3>
-          <p>Kameranettet skilles fra det øvrige nettet i bygget. Kabel er Cat6, og fiber der avstanden krever det.</p>
-        </li>
-        <li>
-          <h3>Lokalt opptak</h3>
-          <p>Opptakeren står i bygget. Avspilling og eksport skjer der. 3 års garanti på kameraer. Garanti på øvrig utstyr følger produsent.</p>
-        </li>
+        {t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}
       </ul>
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container split">
       <div class="frame">
-        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys. Illustrasjonsfoto." width="1200" height="900" loading="lazy" decoding="async" />
+        <img src="/img/building-night.jpg" alt={t.alt} width="1200" height="900" loading="lazy" decoding="async" />
       </div>
       <div>
-        <h2>Nytt anlegg eller modernisering av eksisterende løsning?</h2>
-        <p>Noen bygg har ikke kamera. Andre har et anlegg med leie eller en avtale som er vanskelig å endre. Vi ser på begge.</p>
-        <p>Finnes det kabling eller svitsjer som kan brukes, tar vi det med i prosjekteringen. Det som ikke holder mål, byttes.</p>
-        <p>Du får et skriftlig tilbud før montering. Vi leverer i hele Norge. Operiq er basert i Oslo.</p>
-        <p><a class="link-arrow" href="/eksisterende-kameraanlegg">Har dere anlegg fra før</a></p>
+        <h2>{t.h3}</h2>
+        <p>{t.p1}</p>
+        <p>{t.p2}</p>
+        <p>{t.p3}</p>
+        <p><a class="link-arrow" href={pathFor(locale, "existing")}>{t.existingLink}</a></p>
       </div>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <h2>Slik går det for seg</h2>
+      <h2>{t.how}</h2>
       <ol class="how-steps">
-        <li><span>01</span><h3>Befaring</h3><p>Vi går gjennom bygget, dekning og føringsveier.</p></li>
-        <li><span>02</span><h3>Tilbud</h3><p>Løsning og pris står skriftlig før du bestemmer deg.</p></li>
-        <li><span>03</span><h3>Montering</h3><p>Nett, opptak og visning settes opp og testes.</p></li>
-        <li><span>04</span><h3>Dokumentasjon</h3><p>Du får tilgang, opplæring og underlag på det som er montert.</p></li>
+        {t.steps.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><h3>{step[0]}</h3><p>{step[1]}</p></li>)}
       </ol>
-      <h2>Soner vi vanligvis går gjennom</h2>
-      <ul class="checks">
-        <li>Hovedinngang, port og trapperom</li>
-        <li>Fasade, vinduer og dører mot gate</li>
-        <li>Garasje, bakgård og varemottak</li>
-        <li>Teknisk rom der opptaker og fiber står</li>
-      </ul>
-      <p>Antall kameraer settes etter befaring. Vi oppgir ikke et antall før vi har sett bygget. På kameraer som støtter det, kan anlegget detektere personer, kjøretøy og dyr. Egen AI-agent og styring mot byggets anlegg er under utvikling, og er ikke i leveransen.</p>
+      <h2>{t.zonesH}</h2>
+      <ul class="checks">{t.zones.map((zone) => <li>{zone}</li>)}</ul>
+      <p>{t.zonesP}</p>
       <p>
-        <a class="link-arrow" href="/lager-og-logistikk">Lager og logistikk</a>
-        <a class="link-arrow" href="/eiendomsportefoljer">Flere bygg</a>
-        <a class="link-arrow" href="/eksisterende-kameraanlegg">Anlegg som står der fra før</a>
+        <a class="link-arrow" href={pathFor(locale, "warehouse")}>{t.links[0]}</a>
+        <a class="link-arrow" href={pathFor(locale, "portfolio")}>{t.links[1]}</a>
+        <a class="link-arrow" href={pathFor(locale, "existing")}>{t.links[2]}</a>
       </p>
-      <p>Du er behandlingsansvarlig for overvåkningen. En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv. <a class="link-arrow" href="/personvern">Personvern</a></p>
+      <p>{t.legal} <a class="link-arrow" href={pathFor(locale, "privacy")}>{t.privacy}</a></p>
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <CtaBand
-        title="Få vurdert bygget"
-        text="Si fra om eiendommen og om det finnes kamera fra før."
-        href="/kontakt?type=eksisterende"
-        label="Få vurdert dagens kameraanlegg"
-      />
-      <p><a class="link-arrow" href="/kontakt?type=nytt" data-track="cta" data-track-type="nytt">Har dere ikke anlegg fra før, be om løsningsforslag</a></p>
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${contact}?type=eksisterende`} label={t.cta} />
+      <p><a class="link-arrow" href={`${contact}?type=nytt`} data-track="cta" data-track-type="nytt">{t.newLink}</a></p>
     </div>
   </section>
 </Base>

@@ -1,87 +1,46 @@
 ---
-/**
- * TODO(eier): Bekreft setningen om navneendring: selskapet heter fortsatt Godtbo Eiendom AS.
- * TODO(eier): Skal «MVA» stå sammen med org.nr? Det er utelatt til du bekrefter.
- */
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 import { legalLine, site } from "../site";
 
-const title = "Om oss – Operiq";
-const description =
-  "Operiq Secure (Godtbo Eiendom AS, org.nr 927 212 056) leverer kameraovervåkning for næringsbygg og butikk. Basert i Oslo, leverer i hele landet.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).about;
+const tel = site.phone.replace(/\s/g, "");
 ---
 
-<Base title={title} description={description} path="/om-oss">
-  <PageHero
-    kicker="Selskapet"
-    title="Om Operiq"
-    lead="Operiq kombinerer erfaring fra teknisk eiendomsdrift, nettverksinfrastruktur og kameraovervåkning."
-  />
-
+<Base title={t.title} description={t.description} path={pathFor(locale, "about")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
   <section class="section">
     <div class="container split">
-      <div class="section-head">
-        <h2>Teknisk kompetanse møter praktisk eiendomsdrift.</h2>
-      </div>
+      <div class="section-head"><h2>{t.h2}</h2></div>
       <div class="prose prose-embed">
-        <p>Operiq kombinerer erfaring fra teknisk eiendomsdrift, nettverksinfrastruktur og kameraovervåkning for å utvikle løsninger tilpasset næringseiendom.</p>
-        <p>Vi er leverandøruavhengige og legger vekt på gjennomtenkt prosjektering, driftssikker teknologi og dokumenterte installasjoner.</p>
-        <p>Målet er å levere løsninger som fungerer i praksis, både teknisk og økonomisk.</p>
-        <p>Sebastian Godtfredsen står bak Operiq. Vi leverer i hele Norge.</p>
+        {t.body.map((paragraph) => <p>{paragraph}</p>)}
       </div>
     </div>
   </section>
-
   <section class="section section-follow">
     <div class="container split">
       <div class="section-head">
-        <h2>Selskapsopplysninger</h2>
-        <p>Utad heter vi Operiq. Juridisk navn er fortsatt {site.legalName}. Navneendring til Operiq er ikke registrert ennå.</p>
+        <h2>{t.factsH}</h2>
+        <p>{t.factsP}</p>
       </div>
       <dl class="plate facts">
-        <div>
-          <dt>Navn utad</dt>
-          <dd>Operiq</dd>
-        </div>
-        <div>
-          <dt>Juridisk navn</dt>
-          <dd>{site.legalName}</dd>
-        </div>
-        <div>
-          <dt>Org.nr</dt>
-          <dd>{site.orgNr}</dd>
-        </div>
-        <div>
-          <dt>E-post</dt>
-          <dd><a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a></dd>
-        </div>
-        <div>
-          <dt>Sted</dt>
-          <dd>{site.coverage}</dd>
-        </div>
-        {
-          site.phone && (
-            <div>
-              <dt>Telefon</dt>
-              <dd>
-                <a href={`tel:${site.phone.replace(/\s/g, "")}`} data-track="tel">{site.phone}</a>
-              </dd>
-            </div>
-          )
-        }
+        <div><dt>{t.labels[0]}</dt><dd translate="no">Operiq</dd></div>
+        <div><dt>{t.labels[1]}</dt><dd translate="no">{site.legalName}</dd></div>
+        <div><dt>{t.labels[2]}</dt><dd translate="no">{site.orgNr}</dd></div>
+        <div><dt>{t.labels[3]}</dt><dd><a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a></dd></div>
+        <div><dt>{t.labels[4]}</dt><dd>{ui(locale).coverageLine}</dd></div>
+        <div><dt>{t.labels[5]}</dt><dd><a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a></dd></div>
       </dl>
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <p class="form-note legal-note">{legalLine}</p>
-      <CtaBand
-        title="Ta kontakt"
-        text="Befaring av kameraanlegg for næringsbygg eller butikk."
-      />
+      <p class="form-note legal-note" translate="no">{legalLine}</p>
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=nytt`} label={ui(locale).home.proposal} />
     </div>
   </section>
 </Base>

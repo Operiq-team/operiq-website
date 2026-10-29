@@ -1,74 +1,40 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 
-const title = "Vurdering av eksisterende kameraanlegg – Operiq";
-const description =
-  "Gjennomgang av kameraanlegg som allerede står i næringsbygg. Eie fremfor leie, lokalt opptak og skriftlig tilbud. Ingen oppgitt besparelse før gjennomgang.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).existing;
 ---
 
-<Base title={title} description={description} path="/eksisterende-kameraanlegg">
-  <PageHero
-    kicker="Eksisterende anlegg"
-    title="Betaler du mer enn nødvendig for kameraovervåkning?"
-    lead="Vi går gjennom avtalen, utstyret og nettet. Noen ganger er anbefalingen å bytte. Noen ganger er det å beholde deler og oppgradere resten. Vi oppgir ikke en besparelse før gjennomgangen."
-  />
-
+<Base title={t.title} description={t.description} path={pathFor(locale, "existing")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
   <section class="section section-follow">
     <div class="container">
-      <h2>Det vi ser på</h2>
-      <ul class="service-cards">
-        <li>
-          <h3>Avtalen</h3>
-          <p>Leie, service og binding. Vi ber om det dere har av avtaler. Vi finner ikke på tall.</p>
-        </li>
-        <li>
-          <h3>Utstyret</h3>
-          <p>Kamera, opptak og nett. Det som kan brukes videre, blir stående. Det som ikke holder, foreslås byttet.</p>
-        </li>
-        <li>
-          <h3>Funksjon</h3>
-          <p>Bilde, deteksjon der utstyret støtter det, og om dere kommer inn på mobil og PC.</p>
-        </li>
-        <li>
-          <h3>Dokumentasjon</h3>
-          <p>Om det finnes underlag på det som er montert, og hvem som har tilgang.</p>
-        </li>
-      </ul>
+      <h2>{t.lookH}</h2>
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container">
-      <h2>Eie eller fortsette som i dag</h2>
-      <p>Et anlegg dere eier, har en investering først og drift etterpå. Et leid anlegg har ofte en løpende kostnad. Hva som lønner seg, avhenger av avtalen og bygget.</p>
-      <p>Vi setter ikke opp en kalkulator og oppgir ikke en besparelse på forhånd. Etter gjennomgang får dere et skriftlig tilbud på det som foreslås byttet eller beholdt.</p>
-      <ul class="checks">
-        <li>Utstyret kan tilhøre eiendommen</li>
-        <li>Opptak kan ligge i bygget</li>
-        <li>Nett og kabling gjenbrukes der det er forsvarlig</li>
-        <li>3 års garanti på kameraer i et nytt anlegg. Garanti på øvrig utstyr følger produsent</li>
-      </ul>
+      <h2>{t.ownH}</h2>
+      <p>{t.own1}</p>
+      <p>{t.own2}</p>
+      <ul class="checks">{t.checks.map((item) => <li>{item}</li>)}</ul>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <h2>Ikke bundet til ett merke</h2>
-      <p>Operiq er leverandøruavhengig. Vi navngir ikke kameramerke her. Valget gjøres etter dekning, lys og det som allerede står i bygget.</p>
-      <p><a class="link-arrow" href="/naeringsbygg">Kameraovervåkning for næringsbygg</a> <a class="link-arrow" href="/kameraovervaking">Teknisk beskrivelse</a></p>
+      <h2>{t.brandH}</h2>
+      <p>{t.brandP}</p>
+      <p><a class="link-arrow" href={pathFor(locale, "commercial")}>{t.links[0]}</a> <a class="link-arrow" href={pathFor(locale, "secure")}>{t.links[1]}</a></p>
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <CtaBand
-        title="Få vurdert dagens løsning"
-        text="Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer."
-        href="/kontakt?type=eksisterende"
-        label="Få vurdert dagens løsning"
-      />
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=eksisterende`} label={t.cta} />
     </div>
   </section>
 </Base>

@@ -1,182 +1,92 @@
 ---
-/**
- * TODO(eier): Bekreft leveranselisten: IP-kameraer, kabling, fiber, segmentert nett, lokal NVR, UPS, fjernvisning, valgfri adgangskontroll.
- * TODO(eier): Bekreft at kunden er behandlingsansvarlig, og at Operiq ikke overtar ansvaret.
- */
 import Base from "../layouts/Base.astro";
-import Icon from "../components/Icon.astro";
-import Steps from "../components/Steps.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
 import Reference from "../components/Reference.astro";
+import Steps from "../components/Steps.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 
-const title = "Kameraanlegg du eier selv – Operiq Secure";
-const description =
-  "Operiq Secure prosjekterer og monterer IP-kameraanlegg med eget nett og lokalt opptak. Du eier anlegget. Fast pris etter befaring. 3 års garanti på kameraene.";
-
-const steps = [
-  { title: "Befaring og behovsanalyse", text: "Vi går gjennom bygget, dekning, føringsveier og nett." },
-  { title: "Prosjektering og fastpris", text: "Kamera- og nettplan, og skriftlig fastpris." },
-  { title: "Montering", text: "Operiq følger monteringen til anlegget er i drift." },
-  { title: "Test og dokumentasjon", text: "Felles test, opplæring og FDV." },
-];
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).secure;
+const icons = ["camera", "cable", "network", "disk", "phone", "file"] as const;
+const steps = t.steps.map((step) => ({ title: step[0], text: step[1] }));
 ---
 
-<Base title={title} description={description} path="/kameraovervaking">
+<Base title={t.title} description={t.description} path={pathFor(locale, "secure")} locale={locale}>
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <p class="kicker">Operiq Secure</p>
-        <h1>Kameraanlegg du eier selv</h1>
-        <p class="lead">
-          Vi prosjekterer nett og montering, og setter opp lokal opptaker i bygget. Vi leverer i hele Norge.
-        </p>
+        <p class="kicker" translate="no">{t.kicker}</p>
+        <h1>{t.h}</h1>
+        <p class="lead">{t.lead}</p>
         <div class="actions">
-          <a class="btn" href="/kontakt?type=nytt">Be om løsningsforslag</a>
+          <a class="btn" href={`${pathFor(locale, "contact")}?type=nytt`} data-track="cta" data-track-type="nytt">{t.cta}</a>
         </div>
       </div>
       <div class="frame">
-        <img src="/img/facade-night.jpg" alt="Kameraer på et bygg i kveldslys. Illustrasjonsfoto." width="1200" height="900" loading="lazy" decoding="async" />
+        <img src="/img/facade-night.jpg" alt={t.alt} width="1200" height="900" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <ul class="service-cards">
-        <li>
-          <h3>Du eier anlegget</h3>
-          <p>Opptakene ligger lokalt. Fjernvisning følger med.</p>
-        </li>
-        <li>
-          <h3>Fast pris før vi starter</h3>
-          <p>Befaring, deretter skriftlig fastpris.</p>
-        </li>
-        <li>
-          <h3>Én kontakt</h3>
-          <p>Du forholder deg til Operiq fra befaring til dokumentasjon.</p>
-        </li>
-      </ul>
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container">
-      <p class="kicker">Leveranse</p>
-      <h2>Dette leveres</h2>
+      <p class="kicker">{t.delKicker}</p>
+      <h2>{t.delH}</h2>
       <ul class="icon-grid">
-        <li><Icon name="camera" /><div><h3>Kameraer</h3><p>IP-kameraer, valgt etter dekning og lys.</p></div></li>
-        <li><Icon name="cable" /><div><h3>Kabling</h3><p>Cat6, og fiber der avstanden krever det.</p></div></li>
-        <li><Icon name="network" /><div><h3>Nett</h3><p>Eget kameranett, skilt fra det øvrige nettet.</p></div></li>
-        <li><Icon name="disk" /><div><h3>Opptak</h3><p>Lokal opptaker i bygget, med avspilling og eksport.</p></div></li>
-        <li><Icon name="phone" /><div><h3>Visning</h3><p>Fjernvisning på mobil og PC.</p></div></li>
-        <li><Icon name="file" /><div><h3>Dokumentasjon</h3><p>FDV og samsvarserklæringer ved overlevering.</p></div></li>
+        {t.deliver.map((item, index) => (
+          <li><Icon name={icons[index]} /><div><h3>{item[0]}</h3><p>{item[1]}</p></div></li>
+        ))}
       </ul>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <p class="kicker">Nett og sikkerhet</p>
-      <h2>Eget nett i bygget</h2>
-      <ul class="service-cards pairs">
-        <li>
-          <h3>PoE og eget segment</h3>
-          <p>Kameranettet er et eget segment, skilt fra det øvrige nettet i bygget. Switchene er PoE.</p>
-        </li>
-        <li>
-          <h3>Lukket som utgangspunkt</h3>
-          <p>Porter åpnes ikke mot internett som utgangspunkt. Fjernvisning avklares i prosjekteringen.</p>
-        </li>
-        <li>
-          <h3>Lokal opptaker</h3>
-          <p>NVR-en står i bygget. Opptak, avspilling og eksport skjer lokalt.</p>
-        </li>
-        <li>
-          <h3>Fastvare i service</h3>
-          <p>Oppdatering av fastvare inngår i service.</p>
-        </li>
-      </ul>
+      <p class="kicker">{t.netKicker}</p>
+      <h2>{t.netH}</h2>
+      <ul class="service-cards pairs">{t.net.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
       <details class="fold">
-        <summary>Mer i spesifikasjonen</summary>
-        <ul>
-          <li>IP-kameraer: dome, panorama og PTZ, valgt etter dekning og lys.</li>
-          <li>Reservestrøm (UPS) ved korte strømbrudd.</li>
-          <li>AI-deteksjon av personer, kjøretøy og dyr, og avanserte AI-funksjoner, på kameraer som støtter det.</li>
-          <li>Adgangskontroll kan tas med der det trengs.</li>
-        </ul>
+        <summary>{t.more}</summary>
+        <ul>{t.moreItems.map((item) => <li>{item}</li>)}</ul>
       </details>
     </div>
   </section>
-
   <section class="section section-alt" id="referanse">
-    <div class="container">
-      <Reference />
-    </div>
+    <div class="container"><Reference locale={locale} /></div>
   </section>
-
   <figure class="band">
-    <img src="/img/fiber-night.jpg" alt="Fiberkabler i et teknisk rack. Illustrasjonsfoto." width="1600" height="900" loading="lazy" decoding="async" />
+    <img src="/img/fiber-night.jpg" alt={t.fiberAlt} width="1600" height="900" loading="lazy" decoding="async" />
   </figure>
-
   <section class="section">
     <div class="container">
-      <h2>Fra befaring til ferdig anlegg</h2>
+      <h2>{t.stepsH}</h2>
       <Steps steps={steps} />
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container">
-      <h2>Når anlegget overleveres</h2>
-      <ul class="checks">
-        <li>Felles funksjonstest</li>
-        <li>Opplæring av dem som skal bruke anlegget</li>
-        <li>Administratortilgang til deg</li>
-        <li>FDV-dokumentasjon</li>
-        <li>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</li>
-      </ul>
+      <h2>{t.handH}</h2>
+      <ul class="checks">{t.hand.map((item) => <li>{item}</li>)}</ul>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
       <div class="note">
-        <h2>Du er behandlingsansvarlig</h2>
-        <p>
-          Vi leverer oppsett og dokumentasjon for skilting, lagringstid og tilgang. Operiq utleverer ikke opptak.
-          <a href="/kamera-info">Informasjon til dem som blir filmet</a>.
-        </p>
+        <h2>{t.ctrlH}</h2>
+        <p>{t.ctrlP} <a href={pathFor(locale, "notice")}>{t.filmed}</a>.</p>
       </div>
-      <h2>Spørsmål</h2>
-      <details class="fold">
-        <summary>Hva koster det?</summary>
-        <p>Fast pris etter befaring. Tilbudet er skriftlig.</p>
-      </details>
-      <details class="fold">
-        <summary>Må jeg ha abonnement?</summary>
-        <p>Du eier anlegget, og opptakene ligger i bygget. Om en lisens kommer i tillegg, avhenger av produsent og system. Service når du vil ha det.</p>
-      </details>
-      <details class="fold">
-        <summary>Hva dekker garantien?</summary>
-        <p>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</p>
-      </details>
-      <details class="fold">
-        <summary>Leverer dere utenfor Oslo?</summary>
-        <p>Vi leverer i hele landet. Operiq er basert i Oslo.</p>
-      </details>
-      <details class="fold">
-        <summary>Hvem eier opptakene?</summary>
-        <p>Du eier anlegget og er behandlingsansvarlig for overvåkningen.</p>
-      </details>
+      <h2>{t.faqH}</h2>
+      {t.faq.map((item) => <details class="fold"><summary>{item[0]}</summary><p>{item[1]}</p></details>)}
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <CtaBand
-        title="Be om løsningsforslag"
-        text="Si ifra om bygget. Vi avtaler tid og sender tilbud etterpå."
-      />
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=nytt`} label={t.cta} />
     </div>
   </section>
 </Base>

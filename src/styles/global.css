@@ -140,6 +140,11 @@ p { max-width: 65ch; }
 .nav-desktop a[aria-current="page"] { color: var(--ink); }
 
 .header-phone { display: none; color: var(--muted); text-decoration: none; font-family: var(--mono); }
+.lang { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #9aa3ab; }
+.lang a { color: #9aa3ab; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.lang a[aria-current="true"] { color: #c7bda6; }
+.lang-mobile { padding: 0.2rem 0.75rem 0.4rem; }
+.nav-desktop a { white-space: nowrap; }
 
 a.header-cta {
   display: none;
@@ -829,7 +834,8 @@ textarea { min-height: 8rem; }
 @media (min-width: 800px) {
   .container { width: min(1240px, calc(100% - 5rem)); }
   .nav-mobile { display: none; }
-  .nav-desktop, a.header-cta, .header-phone { display: inline-flex; }
+  .nav-desktop, a.header-cta, .header-phone, .lang-desktop { display: inline-flex; }
+  .lang-mobile { display: none; }
   .hero-command { grid-template-columns: 1fr 600px; gap: 3.5rem; padding-top: 9.2rem; padding-bottom: 5.5rem; }
   .c-row { grid-template-columns: 1.25fr 1fr; }
   .strip-row { grid-template-columns: repeat(5, 1fr); }

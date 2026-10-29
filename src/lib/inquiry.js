@@ -1,5 +1,7 @@
 /** Shared contact-form parsing for the page script and the Pages Function. */
 
+import { copyFor } from "../i18n/form-copy.js";
+
 export const CONTACT_EMAIL = "post@operiq.no";
 
 export const TOPICS = {
@@ -58,7 +60,8 @@ function clean(value, max) {
     .slice(0, max);
 }
 
-export function parseInquiry(raw) {
+export function parseInquiry(raw, locale = "nb") {
+  const copy = copyFor(locale);
   const source = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
   const honeypot = clean(source.website, 200);
 
@@ -78,49 +81,51 @@ export function parseInquiry(raw) {
     company: clean(source.company, LIMITS.company),
     location: clean(source.location || source.building, LIMITS.location),
     propertyType,
-    propertyLabel: PROPERTY_TYPES[propertyType] || "",
+    propertyLabel: copy.properties[propertyType] || "",
     existing,
-    existingLabel: EXISTING[existing] || "",
+    existingLabel: copy.existing[existing] || "",
     type: inquiryType,
-    typeLabel: INQUIRY_TYPES[inquiryType] || "",
+    typeLabel: copy.types[inquiryType] || "",
     topic,
-    topicLabel: TOPICS[topic] || INQUIRY_TYPES[inquiryType] || "Henvendelse",
+    topicLabel: copy.topics[topic] || copy.types[inquiryType] || copy.fallbackTopic,
     message: clean(source.message, LIMITS.message),
   };
 
   if (propertyType && !value.propertyLabel) {
-    return { ok: false, error: "Velg type eiendom fra listen." };
+    return { ok: false, error: copy.errProperty };
   }
   if (existing && !value.existingLabel) {
-    return { ok: false, error: "Oppgi om det finnes et kameraanlegg fra før." };
+    return { ok: false, error: copy.errExisting };
   }
 
   if (!value.name || !value.email || !value.message) {
     return {
       ok: false,
-      error: "Fyll inn navn, e-post og hva du trenger hjelp til.",
+      error: copy.errRequired,
     };
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email)) {
-    return { ok: false, error: "Skriv inn en gyldig e-postadresse." };
+    return { ok: false, error: copy.errEmail };
   }
 
   return { ok: true, spam: false, value };
 }
 
-export function buildMailto(inquiry, email = CONTACT_EMAIL) {
-  const subject = `Forespørsel til Operiq – ${inquiry.typeLabel || inquiry.topicLabel}`;
+export function buildMailto(inquiry, email = CONTACT_EMAIL, locale = "nb") {
+  const copy = copyFor(locale);
+  const [name, mail, phone, company, place, property, existing, kind, topic] = copy.labels;
+  const subject = `${copy.subject}${inquiry.typeLabel || inquiry.topicLabel}`;
   const body = [
-    `Navn: ${inquiry.name}`,
-    `E-post: ${inquiry.email}`,
-    `Telefon: ${inquiry.phone || "–"}`,
-    `Firma: ${inquiry.company || "–"}`,
-    `Sted: ${inquiry.location || "–"}`,
-    `Type eiendom: ${inquiry.propertyLabel || "–"}`,
-    `Eksisterende anlegg: ${inquiry.existingLabel || "–"}`,
-    `Type henvendelse: ${inquiry.typeLabel || inquiry.topicLabel}`,
-    `Tema: ${inquiry.topicLabel}`,
+    `${name}: ${inquiry.name}`,
+    `${mail}: ${inquiry.email}`,
+    `${phone}: ${inquiry.phone || copy.empty}`,
+    `${company}: ${inquiry.company || copy.empty}`,
+    `${place}: ${inquiry.location || copy.empty}`,
+    `${property}: ${inquiry.propertyLabel || copy.empty}`,
+    `${existing}: ${inquiry.existingLabel || copy.empty}`,
+    `${kind}: ${inquiry.typeLabel || inquiry.topicLabel}`,
+    `${topic}: ${inquiry.topicLabel}`,
     "",
     inquiry.message,
   ].join("\n");

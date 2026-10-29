@@ -1,73 +1,42 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
 import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 
-const title = "Kameraovervåkning for eiendomsporteføljer – Operiq";
-const description =
-  "Kameraanlegg for eiendomsporteføljer: felles teknisk standard, tilpasset hvert bygg. Start med én eiendom. Operiq leverer i hele Norge.";
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).portfolio;
 ---
 
-<Base title={title} description={description} path="/eiendomsportefoljer">
-  <PageHero
-    kicker="Eiendomsporteføljer"
-    title="Én standard. Hele eiendomsporteføljen."
-    lead="For eiere og forvaltere med flere bygg. Vi starter med én eiendom og bruker samme oppsett videre, tilpasset hvert bygg."
-  />
-
+<Base title={t.title} description={t.description} path={pathFor(locale, "portfolio")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
   <section class="section section-follow">
     <div class="container">
-      <h2>Hva som er likt, og hva som tilpasses</h2>
-      <ul class="service-cards">
-        <li>
-          <h3>Felles oppsett</h3>
-          <p>Samme prinsipper for nett, opptak og tilgang. Det gjør prosjekteringen lik fra bygg til bygg.</p>
-        </li>
-        <li>
-          <h3>Tilpasning per bygg</h3>
-          <p>Dekning, føringsveier og antall kameraer avklares på hvert sted. Vi kopierer ikke et antall fra et annet bygg.</p>
-        </li>
-        <li>
-          <h3>Dokumentasjon per eiendom</h3>
-          <p>Hvert bygg får underlag på det som er montert, når anlegget er levert.</p>
-        </li>
-        <li>
-          <h3>Én kontakt</h3>
-          <p>Du forholder deg til Operiq. Vi leverer i hele Norge.</p>
-        </li>
-      </ul>
+      <h2>{t.sameH}</h2>
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
     </div>
   </section>
-
   <section class="section section-alt">
     <div class="container">
-      <h2>Rekkefølge</h2>
+      <h2>{t.orderH}</h2>
       <ol class="how-steps">
-        <li><span>01</span><h3>Første bygg</h3><p>Vi prosjekterer og monterer ett anlegg, og dokumenterer oppsettet.</p></li>
-        <li><span>02</span><h3>Standard</h3><p>Oppsettet brukes som mal. Avvik skrives inn der bygget krever det.</p></li>
-        <li><span>03</span><h3>Videre bygg</h3><p>Neste eiendommer tas i den rekkefølgen du bestemmer.</p></li>
+        {t.steps.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><h3>{step[0]}</h3><p>{step[1]}</p></li>)}
       </ol>
-      <p>Butikkjeder er beskrevet for seg. <a class="link-arrow" href="/butikk">Kameraanlegg for butikkjeder</a> <a class="link-arrow" href="/naeringsbygg">Ett næringsbygg</a> <a class="link-arrow" href="/lager-og-logistikk">Lager</a></p>
-      <p>Figurer som viser mange bygg på én flate, er en illustrasjon av rekkefølgen. Det er ikke en programvareplattform.</p>
+      <p>{t.aside} <a class="link-arrow" href={pathFor(locale, "retail")}>{t.links[0]}</a> <a class="link-arrow" href={pathFor(locale, "commercial")}>{t.links[1]}</a> <a class="link-arrow" href={pathFor(locale, "warehouse")}>{t.links[2]}</a></p>
+      <p>{t.figure}</p>
     </div>
   </section>
-
   <section class="section">
     <div class="container">
-      <h2>Drift etterpå</h2>
-      <p>Hvert anlegg eies av dere. Opptakene ligger i det enkelte bygget. Tilgang kan samles for dem som skal se flere bygg, der utstyret støtter det.</p>
-      <p>Service og oppdatering av fastvare avtales. Vi lover ikke en fast månedspris på denne siden.</p>
+      <h2>{t.afterH}</h2>
+      <p>{t.after1}</p>
+      <p>{t.after2}</p>
     </div>
   </section>
-
   <section class="section section-tight">
     <div class="container">
-      <CtaBand
-        title="Flere eiendommer"
-        text="Si fra om hvor mange bygg det gjelder, og hvor de ligger."
-        href="/kontakt?type=portefolje"
-        label="Diskuter løsning for flere eiendommer"
-      />
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=portefolje`} label={t.cta} />
     </div>
   </section>
 </Base>

@@ -1,47 +1,46 @@
 ---
-/**
- * Direction A. Panelet er en illustrasjon, ikke et bemannet senter og ikke en agent i drift.
- * Ikke lov pris, besparelse, lisensfrihet eller at befaring er gratis.
- */
 import Base from "../layouts/Base.astro";
 import Coverage from "../components/Coverage.astro";
 import Problems from "../components/Problems.astro";
 import Process from "../components/Process.astro";
 import Reference from "../components/Reference.astro";
+import { pathFor, ui, type Locale } from "../i18n";
 import { site } from "../site";
 
-const title = "Intelligent overvåkning for næringsbygg – Operiq";
-const description =
-  "Kameraovervåkning for næringsbygg og eiendomsporteføljer. Du eier anlegget. Opptak lagres lokalt. Operiq prosjekterer og monterer. Basert i Oslo, leverer i hele landet.";
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).home;
+const tel = site.phone.replace(/\s/g, "");
+const contact = pathFor(locale, "contact");
 ---
 
-<Base title={title} description={description} path="/">
+<Base title={t.title} description={t.description} path={pathFor(locale, "home")} locale={locale}>
   <section class="hero command">
     <div class="hero-bg"></div>
     <div class="hero-gridlines"></div>
     <div class="hero-scan"></div>
     <div class="container hero-command">
       <div>
-        <span class="pill"><i class="dot"></i>Kameraovervåkning for næringsbygg og eiendomsporteføljer</span>
-        <h1>Intelligent overvåkning.<br /><em>Du eier den.</em></h1>
-        <p class="lead">
-          Moderne kameraanlegg for næringsbygg og eiendomsporteføljer. Bedre oversikt, full kontroll over eget utstyr og forutsigbare kostnader – uten unødvendig leverandørbinding.
-        </p>
+        <span class="pill"><i class="dot"></i>{t.pill}</span>
+        <h1>{t.h1a}<br /><em>{t.h1b}</em></h1>
+        <p class="lead">{t.lead}</p>
         <div class="actions">
-          <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="#how" data-track="cta" data-track-type="prosess">Se hvordan vi jobber</a>
+          <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.ctaExisting} <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how" data-track="cta" data-track-type="prosess">{t.ctaProcess}</a>
         </div>
         <div class="facts">
-          <div><b>Lokalt opptak</b>Video lagres i bygget</div>
-          <div><b>3 års garanti på kameraer</b>Øvrig utstyr følger produsent</div>
-          <div><b>Hele Norge</b>Vi leverer i hele landet</div>
+          <div><b>{t.fact1b}</b>{t.fact1}</div>
+          <div><b>{t.fact2b}</b>{t.fact2}</div>
+          <div><b>{t.fact3b}</b>{t.fact3}</div>
         </div>
       </div>
-
       <div class="console-wrap">
         <div class="console glass" aria-hidden="true">
           <div class="c-top">
-            <div class="t"><i class="dot"></i>Anlegg · Næringsbygg</div>
+            <div class="t"><i class="dot"></i>{t.console}</div>
             <div class="clock">23:47:12</div>
           </div>
           <div class="cam-tiles">
@@ -49,154 +48,89 @@ const description =
               <div class="rec"><i></i>REC</div>
               <div class="box"><span>PERSON</span></div>
               <div class="sweep"></div>
-              <div class="lbl">KAM 01 · Hovedinngang</div>
+              <div class="lbl">{t.cam1}</div>
             </div>
-            <div class="cam cam-warehouse">
-              <div class="rec"><i></i>REC</div>
-              <div class="lbl">KAM 07 · Varemottak</div>
-            </div>
-            <div class="cam cam-yard">
-              <div class="rec"><i></i>REC</div>
-              <div class="lbl">KAM 12 · Bakgård</div>
-            </div>
-            <div class="cam cam-shop">
-              <div class="rec"><i></i>REC</div>
-              <div class="lbl">KAM 19 · Butikk 1. etg</div>
-            </div>
+            <div class="cam cam-warehouse"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam2}</div></div>
+            <div class="cam cam-yard"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam3}</div></div>
+            <div class="cam cam-shop"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam4}</div></div>
           </div>
           <div class="c-row">
             <div class="panel">
-              <h5>Hendelser <span>Illustrasjon</span></h5>
-              <div class="ev"><time>23:47</time><div><b>Person ved hovedinngang</b> · der utstyret støtter deteksjon</div></div>
-              <div class="ev"><time>23:41</time><div><b>Lys ved inngang</b> · der utstyret støtter lys</div></div>
-              <div class="ev"><time>23:12</time><div><b>Opptak lokalt</b> · lagret i bygget</div></div>
-              <div class="ev"><time>22:30</time><div><b>Nettverk</b> · eget kameranett</div></div>
+              <h5>{t.events} <span>{ui(locale).illustration}</span></h5>
+              <div class="ev"><time>23:47</time><div><b>{t.ev1}</b> · {t.ev1n}</div></div>
+              <div class="ev"><time>23:41</time><div><b>{t.ev2}</b> · {t.ev2n}</div></div>
+              <div class="ev"><time>23:12</time><div><b>{t.ev3}</b> · {t.ev3n}</div></div>
+              <div class="ev"><time>22:30</time><div><b>{t.ev4}</b> · {t.ev4n}</div></div>
             </div>
             <div class="panel">
-              <h5>Avskrekking <span class="pilot">Konsept</span></h5>
-              <p class="concept-copy">Lys og lyd kan brukes der utstyret støtter det. Agent og styring mot byggets anlegg er ikke i drift.</p>
-              <p class="concept-flag">Konsept – under utvikling</p>
+              <h5>{t.deter} <span class="pilot">{t.concept}</span></h5>
+              <p class="concept-copy">{t.conceptCopy}</p>
+              <p class="concept-flag">{t.conceptFlag}</p>
             </div>
           </div>
         </div>
-        <p class="illu">Illustrasjon av systemgrensesnitt</p>
+        <p class="illu">{t.consoleCaption}</p>
       </div>
     </div>
   </section>
 
   <div class="strip">
     <div class="container strip-row">
-      <div><span>01</span>Du eier anlegget</div>
-      <div><span>02</span>Lokalt opptak</div>
-      <div><span>03</span>Eget nettverk</div>
-      <div><span>04</span>Fast pris i tilbudet</div>
-      <div><span>05</span>Leverer i hele Norge</div>
+      {t.strip.map((item, index) => <div><span>{String(index + 1).padStart(2, "0")}</span>{item}</div>)}
     </div>
   </div>
 
-  <Problems />
+  <Problems locale={locale} />
 
   <section class="section" id="losning">
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Eierskap</p>
-          <h2>Ditt anlegg. Dine opptak. Full kontroll.</h2>
+          <p class="kicker">{t.ownKicker}</p>
+          <h2>{t.ownH}</h2>
         </div>
-        <p>
-          Med Operiq investerer du i et kameraanlegg du selv eier. Vi prosjekterer, installerer og dokumenterer løsningen, tilpasset eiendommen og det som finnes av nett fra før.
-          Opptakene lagres lokalt, og du får tilgang til kameraene fra mobil og PC. Ingen obligatorisk leie av kamerautstyr, og ikke unødvendig leverandørbinding.
-        </p>
+        <p>{t.ownP}</p>
       </div>
       <div class="value-grid">
-        <article class="v v-wide glass">
-          <span class="ic">Infrastruktur</span>
-          <h3>Eget nettverk. Opptakeren står i bygget.</h3>
-          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene lagres i bygget. Fiber brukes der avstanden krever det.</p>
-        </article>
-        <article class="v glass">
-          <span class="ic">Eget anlegg</span>
-          <h3>Du eier utstyret</h3>
-          <p>Du bestemmer hvor opptakene lagres.</p>
-        </article>
-        <article class="v glass">
-          <span class="ic">Garanti</span>
-          <h3>3 års garanti på kameraer</h3>
-          <p>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</p>
-        </article>
-        <article class="v glass">
-          <span class="ic">Tilgang</span>
-          <h3>Mobil og PC</h3>
-          <p>Se direkte og spill av opptak på mobil og PC.</p>
-        </article>
-        <article class="v glass">
-          <span class="ic">Tilbud</span>
-          <h3>Pris før bestilling</h3>
-          <p>Du får et skriftlig tilbud før du bestemmer deg.</p>
-        </article>
-        <article class="v v-sand glass">
-          <span class="ic">Leverandør</span>
-          <h3>Leverandøruavhengig</h3>
-          <p>Vi er ikke bundet til én kameraprodusent. Utstyret velges etter dekning og lys.</p>
-        </article>
+        <article class="v v-wide glass"><span class="ic">{t.infra}</span><h3>{t.infraH}</h3><p>{t.infraP}</p></article>
+        <article class="v glass"><span class="ic">{t.ownEq}</span><h3>{t.ownEqH}</h3><p>{t.ownEqP}</p></article>
+        <article class="v glass"><span class="ic">{t.war}</span><h3>{t.warH}</h3><p>{t.warP}</p></article>
+        <article class="v glass"><span class="ic">{t.access}</span><h3>{t.accessH}</h3><p>{t.accessP}</p></article>
+        <article class="v glass"><span class="ic">{t.quote}</span><h3>{t.quoteH}</h3><p>{t.quoteP}</p></article>
+        <article class="v v-sand glass"><span class="ic">{t.vendor}</span><h3>{t.vendorH}</h3><p>{t.vendorP}</p></article>
       </div>
     </div>
   </section>
 
-  <Coverage />
+  <Coverage locale={locale} />
 
   <section class="section section-alt" id="eksisterende">
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Eksisterende anlegg</p>
-          <h2>Betaler du mer enn nødvendig for kameraovervåkning?</h2>
+          <p class="kicker">{t.exKicker}</p>
+          <h2>{t.exH}</h2>
         </div>
-        <p>
-          Noen leier utstyr eller sitter i en avtale. Andre eier kameraene og vil oppdatere dem. Vi går gjennom investering, drift og funksjon. Vi oppgir ikke en besparelse før anlegget er gjennomgått.
-        </p>
+        <p>{t.exP}</p>
       </div>
       <div class="tco">
         <article>
-          <h3>Leid anlegg eller binding</h3>
-          <ul>
-            <li>Utstyret kan tilhøre leverandøren</li>
-            <li>Løpende kostnad til leie eller service</li>
-            <li>Mindre binding når dere eier utstyret selv</li>
-          </ul>
+          <h3>{t.leaseH}</h3>
+          <ul>{t.lease.map((item) => <li>{item}</li>)}</ul>
         </article>
         <article>
-          <h3>Anlegg dere allerede eier</h3>
-          <ul>
-            <li>Bedre dekning og nyere funksjoner der det trengs</li>
-            <li>Gjenbruk av kabling og nett der det holder</li>
-            <li>Enklere tilgang, der utstyret støtter det</li>
-          </ul>
+          <h3>{t.ownedH}</h3>
+          <ul>{t.owned.map((item) => <li>{item}</li>)}</ul>
         </article>
       </div>
-      <p>Noen ganger er det riktig å beholde deler av anlegget og bare oppgradere det som ikke holder. Utskifting er ikke alltid det som gir lavest kostnad over tid.</p>
+      <p>{t.keep}</p>
       <ul class="service-cards">
-        <li>
-          <h3>Eie fremfor leie</h3>
-          <p>Invester i utstyr som tilhører eiendommen.</p>
-        </li>
-        <li>
-          <h3>Se på totalkostnaden</h3>
-          <p>Sammenlign investering og drift over flere år. Ingen tall før gjennomgang.</p>
-        </li>
-        <li>
-          <h3>Bruk nett som finnes</h3>
-          <p>Gjenbruk nettverk og kabling der det er teknisk forsvarlig.</p>
-        </li>
-        <li>
-          <h3>Funksjon</h3>
-          <p>Hendelsesdeteksjon og tilgang til opptak, der utstyret støtter det.</p>
-        </li>
+        {t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}
       </ul>
       <p class="future-cta">
-        <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens løsning</a>
+        <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.review}</a>
       </p>
-      <p>Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer. <a class="link-arrow" href="/eksisterende-kameraanlegg">Les om eksisterende kameraanlegg</a></p>
+      <p>{t.reviewNote} <a class="link-arrow" href={pathFor(locale, "existing")}>{t.reviewLink}</a></p>
     </div>
   </section>
 
@@ -204,41 +138,30 @@ const description =
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Funksjoner</p>
-          <h2>Fra passiv overvåkning til aktiv avskrekking.</h2>
+          <p class="kicker">{t.fnKicker}</p>
+          <h2>{t.fnH}</h2>
         </div>
-        <p>
-          På kameraer som støtter det, kan anlegget varsle om personer, kjøretøy og dyr, og bruke lys og lyd. Egen AI-agent, KNX og en lokal AI-plattform er under utvikling, og er ikke i leveransen i dag.
-        </p>
+        <p>{t.fnP}</p>
       </div>
       <ul class="pilot-grid">
-        <li class="glass">
-          <h3>Deteksjon og varsel <span class="status now">Tilgjengelig</span></h3>
-          <p>Personer, kjøretøy og dyr, og varsel om hendelser, på kameraer som støtter det.</p>
-        </li>
-        <li class="glass">
-          <h3>Lys og lyd <span class="status now">Tilgjengelig</span></h3>
-          <p>Lys eller lyd på kompatible kameraer, der det passer eiendommen.</p>
-        </li>
-        <li class="glass">
-          <h3>Agent og KNX <span class="status later">Under utvikling</span></h3>
-          <p>Egen AI-agent, KNX-integrasjon og egen lokal AI-plattform. Konsept – under utvikling. Ikke i leveransen i dag.</p>
-        </li>
+        <li class="glass"><h3>{t.fn1h} <span class="status now">{ui(locale).available}</span></h3><p>{t.fn1p}</p></li>
+        <li class="glass"><h3>{t.fn2h} <span class="status now">{ui(locale).available}</span></h3><p>{t.fn2p}</p></li>
+        <li class="glass"><h3>{t.fn3h} <span class="status later">{ui(locale).inDevelopment}</span></h3><p>{t.fn3p}</p></li>
       </ul>
     </div>
   </section>
 
-  <Process />
+  <Process locale={locale} />
 
   <section class="section" id="referanse">
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Referanse</p>
-          <h2>Referanse og prosjekterfaring.</h2>
+          <p class="kicker">{t.refKicker}</p>
+          <h2>{t.refH}</h2>
         </div>
       </div>
-      <Reference />
+      <Reference locale={locale} />
     </div>
   </section>
 
@@ -246,16 +169,12 @@ const description =
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Om Operiq</p>
-          <h2>Teknisk kompetanse møter praktisk eiendomsdrift.</h2>
+          <p class="kicker">{t.aboutKicker}</p>
+          <h2>{t.aboutH}</h2>
         </div>
-        <div>
-          <p>Operiq kombinerer erfaring fra teknisk eiendomsdrift, nettverksinfrastruktur og kameraovervåkning for å utvikle løsninger tilpasset næringseiendom.</p>
-          <p>Vi er leverandøruavhengige og legger vekt på gjennomtenkt prosjektering, driftssikker teknologi og dokumenterte installasjoner.</p>
-          <p>Målet er å levere løsninger som fungerer i praksis, både teknisk og økonomisk.</p>
-        </div>
+        <div>{t.about.map((paragraph) => <p>{paragraph}</p>)}</div>
       </div>
-      <p><a class="link-arrow" href="/om-oss">Selskapsopplysninger</a></p>
+      <p><a class="link-arrow" href={pathFor(locale, "about")}>{t.aboutLink}</a></p>
     </div>
   </section>
 
@@ -269,18 +188,16 @@ const description =
             <i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
             <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
           </div>
-          <div class="legend"><span><i class="pilot"></i>Første bygg</span><span><i class="std"></i>Standard</span><span><i class="rl"></i>Utrulling</span></div>
+          <div class="legend"><span><i class="pilot"></i>{t.legend[0]}</span><span><i class="std"></i>{t.legend[1]}</span><span><i class="rl"></i>{t.legend[2]}</span></div>
         </div>
-        <p class="illu">Konseptuell illustrasjon. Ikke en programvareplattform.</p>
+        <p class="illu">{t.mapNote}</p>
       </div>
       <div>
-        <p class="kicker">Flere eiendommer</p>
-        <h2>Én standard. Hele eiendomsporteføljen.</h2>
-        <p class="lead">
-          Kameraløsninger for flere bygg. Vi lager en felles teknisk standard, og tilpasser den til hvert bygg. Start med én eiendom. Rull ut videre når løsningen er dokumentert.
-        </p>
-        <p>Gjelder porteføljer, lager, logistikk og kjeder. <a class="link-arrow" href="/butikk">Butikkjeder har en egen side</a>. <a class="link-arrow" href="/eiendomsportefoljer">Les om eiendomsporteføljer</a></p>
-        <p class="future-cta"><a class="btn" href="/kontakt?type=portefolje" data-track="cta" data-track-type="portefolje">Diskuter løsning for flere eiendommer</a></p>
+        <p class="kicker">{t.portKicker}</p>
+        <h2>{t.portH}</h2>
+        <p class="lead">{t.portP}</p>
+        <p>{t.portNote} <a class="link-arrow" href={pathFor(locale, "retail")}>{t.portRetail}</a> <a class="link-arrow" href={pathFor(locale, "portfolio")}>{t.portMore}</a></p>
+        <p class="future-cta"><a class="btn" href={`${contact}?type=portefolje`} data-track="cta" data-track-type="portefolje">{t.portCta}</a></p>
       </div>
     </div>
   </section>
@@ -289,22 +206,15 @@ const description =
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Personvern</p>
-          <h2>Kunden er behandlingsansvarlig.</h2>
+          <p class="kicker">{t.gdprKicker}</p>
+          <h2>{t.gdprH}</h2>
         </div>
-        <p>Operiq leverer og dokumenterer anlegget. Operiq overtar ikke ansvaret for overvåkningen.</p>
+        <p>{t.gdprP}</p>
       </div>
       <ul class="service-cards">
-        <li><h3>Plassering og dekning</h3><p>Vi foreslår hvor kameraene står, ut fra det som skal dekkes.</p></li>
-        <li><h3>Skilting</h3><p>Vi leverer underlag til skilting. Teksten på skiltet er eierens ansvar.</p></li>
-        <li><h3>Tilgang</h3><p>Vi setter opp hvem som skal inn i anlegget, etter eierens liste.</p></li>
-        <li><h3>Lagring</h3><p>Opptak ligger i bygget. Lagringstid bestemmes av eieren.</p></li>
-        <li><h3>Fjernvisning</h3><p>Tilgang fra mobil og PC settes opp slik at den kan begrenses.</p></li>
-        <li><h3>Dokumentasjon</h3><p>Du får underlag på det som er montert.</p></li>
-        <li><h3>Individuell GDPR-tilpasning</h3><p>Vi utarbeider dokumentasjon og skilting tilpasset hvert anlegg.</p></li>
-        <li><h3>Installasjon</h3><p>Installasjon etter Nkom-regelverket, utført av registrert installatør.</p></li>
+        {t.gdpr.map((item) => <li><h3>{item[0]}</h3><p>{item[1]}</p></li>)}
       </ul>
-      <p>En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv. <a class="link-arrow" href="/personvern">Personvernerklæring</a> <a class="link-arrow" href="/kamera-info">Informasjon til dem som blir filmet</a></p>
+      <p>{t.gdprNote} <a class="link-arrow" href={pathFor(locale, "privacy")}>{t.privacyLink}</a> <a class="link-arrow" href={pathFor(locale, "notice")}>{t.noticeLink}</a></p>
     </div>
   </section>
 
@@ -312,15 +222,15 @@ const description =
     <div class="container">
       <aside class="cta-band">
         <div>
-          <p class="kicker">Neste steg</p>
-          <h2>Få vurdert dagens kameraanlegg.</h2>
+          <p class="kicker">{t.nextKicker}</p>
+          <h2>{t.nextH}</h2>
         </div>
         <div>
-          <p>Har du ikke anlegg fra før, kan du i stedet be om et løsningsforslag. {site.coverage}.</p>
-          <a class="btn" href="/kontakt?type=eksisterende" data-track="cta" data-track-type="eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
-          <p><a class="link-arrow" href="/kontakt?type=nytt" data-track="cta" data-track-type="nytt">Be om løsningsforslag</a></p>
-          <a class="cta-mail" href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
-          <a class="cta-mail" href={`tel:${site.phone.replace(/\s/g, "")}`} data-track="tel">{site.phone}</a>
+          <p>{t.nextP} {ui(locale).coverageLine}.</p>
+          <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.ctaExisting} <span class="arr">→</span></a>
+          <p><a class="link-arrow" href={`${contact}?type=nytt`} data-track="cta" data-track-type="nytt">{t.proposal}</a></p>
+          <a class="cta-mail" href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
+          <a class="cta-mail" href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>
         </div>
       </aside>
     </div>

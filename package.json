@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "node scripts/check-content.mjs",
-    "test": "node --test scripts/test-contact.mjs scripts/test-preview-robots.mjs scripts/test-track.mjs"
+    "test": "node --test scripts/test-contact.mjs scripts/test-preview-robots.mjs scripts/test-track.mjs scripts/test-i18n.mjs"
   },
   "engines": {
     "node": ">=22"

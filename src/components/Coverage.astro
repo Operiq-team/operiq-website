@@ -1,7 +1,15 @@
 ---
 import map from "../assets/coverage.svg?raw";
+import { localizeMap, ui, type Locale } from "../i18n";
 
-const zoom = map
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).coverage;
+const inline = localizeMap(map, locale);
+const zoom = localizeMap(map, locale)
   .replaceAll('id="', 'id="z')
   .replaceAll("url(#", "url(#z");
 ---
@@ -10,46 +18,44 @@ const zoom = map
   <div class="container">
     <div class="sec-head">
       <div>
-        <p class="kicker">Dekning</p>
-        <h2>Riktig dekning starter med hele eiendommen.</h2>
+        <p class="kicker">{t.kicker}</p>
+        <h2>{t.h}</h2>
       </div>
-      <p>
-        Hver eiendom er ulik. På befaringen går vi gjennom adkomst, fasader, parkering, varemottak, avfall, tekniske rom og grensene mot naboer. Så foreslår vi plassering, lys og nettverk ut fra hva som skal dekkes, og hva som lovlig kan dekkes.
-      </p>
+      <p>{t.p}</p>
     </div>
     <div class="cov">
       <div>
-        <div class="cov-map glass" set:html={map} />
+        <div class="cov-map glass" set:html={inline} />
         <button type="button" class="btn btn-ghost cov-open" aria-haspopup="dialog" aria-controls="cov-dialog">
-          Forstørr kartet
+          {t.enlarge}
         </button>
         <div class="cov-legend">
-          <span><i class="swatch-cover"></i>Dekningsområde</span>
-          <span><i class="swatch-bound"></i>Eiendomsgrense</span>
-          <span><i class="swatch-fiber"></i>Fiber og nett</span>
-          <span>Illustrasjon · ikke et faktisk anlegg</span>
+          <span><i class="swatch-cover"></i>{t.legend[0]}</span>
+          <span><i class="swatch-bound"></i>{t.legend[1]}</span>
+          <span><i class="swatch-fiber"></i>{t.legend[2]}</span>
+          <span>{t.legend[3]}</span>
         </div>
       </div>
       <ol class="cov-list">
-        <li><span class="k">1</span><h3>Inngang og adkomst</h3><p>Hvem som går inn og ut av bygget.</p></li>
-        <li><span class="k">2</span><h3>Fasade</h3><p>Skader og tagging på vegger, vinduer og dører.</p></li>
-        <li><span class="k">3</span><h3>Parkering</h3><p>Kjøretøy inn og ut, og hendelser på plassen.</p></li>
-        <li><span class="k">4</span><h3>Varemottak og bakgård</h3><p>Leveranser og aktivitet utenfor åpningstid.</p></li>
-        <li><span class="k">5</span><h3>Avfallsområde</h3><p>Dumping og uvedkommende ved containerne.</p></li>
-        <li><span class="k">6</span><h3>Tekniske rom og fiber</h3><p>Opptaker og nettverk står innelåst og dokumentert.</p></li>
-        <li><span class="k">7</span><h3>Perimeter</h3><p>Gjerder, porter og overganger mot naboer.</p></li>
+        {
+          t.areas.map((area, index) => (
+            <li>
+              <span class="k">{index + 1}</span>
+              <h3>{area[0]}</h3>
+              <p>{area[1]}</p>
+            </li>
+          ))
+        }
       </ol>
     </div>
     <div class="cov-steps">
-      <div><b>Kartlegge sonene</b><span>Hva skjer hvor, og når på døgnet.</span></div>
-      <div><b>Vurdere lys, avstand og nett</b><span>Kamera velges etter sonen, ikke omvendt.</span></div>
-      <div><b>Plassering i tilbudet</b><span>Du ser hva som dekkes før du bestemmer deg.</span></div>
+      {t.steps.map((step) => <div><b>{step[0]}</b><span>{step[1]}</span></div>)}
     </div>
   </div>
   <dialog id="cov-dialog" class="cov-dialog" aria-labelledby="cov-dialog-title">
     <div class="cov-dialog-bar">
-      <p id="cov-dialog-title">Dekningskart, illustrasjon</p>
-      <button type="button" class="btn btn-ghost cov-close" data-close>Lukk</button>
+      <p id="cov-dialog-title">{t.dialog}</p>
+      <button type="button" class="btn btn-ghost cov-close" data-close>{t.close}</button>
     </div>
     <div class="cov-dialog-scroll" set:html={zoom}></div>
   </dialog>

@@ -1,66 +1,43 @@
 ---
+import { ui, type Locale } from "../i18n";
 import Picture from "./Picture.astro";
 
-const steps = [
-  {
-    picture: "facade",
-    alt: "Næringsbygg sett fra gaten. Illustrasjon, ikke en Operiq-eiendom.",
-    title: "Befaring og behovsanalyse",
-    text: "Vi går gjennom eiendommen, dagens anlegg og nettverk.",
-    out: "Oversikt over soner og behov",
-  },
-  {
-    picture: "plan",
-    alt: "Plantegninger på et bord. Illustrasjon, ikke fra et Operiq-prosjekt.",
-    title: "Prosjektering og fastpristilbud",
-    text: "Plassering, utstyr og nettverk tegnes inn for eiendommen.",
-    out: "Skriftlig tilbud med fast pris",
-  },
-  {
-    picture: "rack",
-    alt: "Fiberkabler i et patchpanel. Illustrasjon, ikke fra et Operiq-anlegg.",
-    title: "Installasjon og nettverk",
-    text: "Montering, kabling og fiber. Kameraene får eget nett.",
-    out: "Ferdig montert anlegg",
-  },
-  {
-    picture: "screen",
-    alt: "Skjermer på et arbeidsbord. Illustrasjon, ikke Operiq-programvare.",
-    title: "Idriftsetting og dokumentasjon",
-    text: "Opptak, tilgang og funksjoner testes før overlevering.",
-    out: "Tilgang, opplæring og dokumentasjon",
-  },
-];
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).process;
 ---
 
 <section class="section section-alt" id="how">
   <div class="container">
     <div class="sec-head">
       <div>
-        <p class="kicker">Slik jobber vi</p>
-        <h2>Én leverandør. Fra befaring til ferdig anlegg.</h2>
+        <p class="kicker">{t.kicker}</p>
+        <h2>{t.h}</h2>
       </div>
-      <p>Du forholder deg til Operiq fra første gjennomgang til dokumentasjonen er levert. Vi leverer i hele Norge.</p>
+      <p>{t.p}</p>
     </div>
     <ol class="proc">
       {
-        steps.map((step, index) => (
+        t.steps.map((step, index) => (
           <li>
             <figure>
               <Picture
-                name={step.picture}
-                alt={step.alt}
+                name={step[0]}
+                alt={step[1]}
                 width={640}
                 height={480}
                 sizes="(max-width: 700px) 100vw, 280px"
                 priority={true}
               />
-              <figcaption>Illustrasjon</figcaption>
+              <figcaption>{ui(locale).illustration}</figcaption>
             </figure>
             <span class="num">{String(index + 1).padStart(2, "0")}</span>
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-            <p class="out"><b>Du får</b> {step.out}</p>
+            <h3>{step[2]}</h3>
+            <p>{step[3]}</p>
+            <p class="out"><b>{ui(locale).youGet}</b> {step[4]}</p>
           </li>
         ))
       }

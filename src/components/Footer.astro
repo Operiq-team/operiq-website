@@ -1,36 +1,46 @@
 ---
+import { pathFor, ui, type Locale } from "../i18n";
 import { legalLine, site } from "../site";
 
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale);
 const tel = site.phone.replace(/\s/g, "");
+const links = [
+  [pathFor(locale, "commercial"), t.nav.commercial],
+  [pathFor(locale, "warehouse"), t.nav.warehouse],
+  [pathFor(locale, "portfolio"), t.nav.portfolio],
+  [pathFor(locale, "existing"), t.footer.existing],
+  [pathFor(locale, "retail"), t.footer.retail],
+  [pathFor(locale, "secure"), t.footer.secure],
+  [pathFor(locale, "about"), t.footer.about],
+  [pathFor(locale, "privacy"), t.footer.privacy],
+  [pathFor(locale, "notice"), t.footer.notice],
+] as const;
 ---
 
 <footer class="site-footer">
   <div class="container">
     <div class="footer-row">
-      <a href="/" aria-label="Operiq, forside">
+      <a href={pathFor(locale, "home")} aria-label={t.homeAria} translate="no">
         <img src="/brand/logo-secure-white-sand.svg" alt="" width="168" height="22" />
       </a>
-      <nav class="footer-links" aria-label="Bunn">
-        <a href="/naeringsbygg">Næringsbygg</a>
-        <a href="/lager-og-logistikk">Lager</a>
-        <a href="/eiendomsportefoljer">Portefølje</a>
-        <a href="/eksisterende-kameraanlegg">Eksisterende anlegg</a>
-        <a href="/butikk">Kjeder</a>
-        <a href="/kameraovervaking">Teknikk</a>
-        <a href="/om-oss">Om oss</a>
-        <a href="/personvern">Personvern</a>
-        <a href="/kamera-info">Kamera på stedet</a>
-        <a href={`mailto:${site.email}`} data-track="mailto">{site.email}</a>
+      <nav class="footer-links" aria-label={t.footerAria}>
+        {links.map(([href, label]) => <a href={href}>{label}</a>)}
+        <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
         {
           site.phone && (
-            <a href={`tel:${tel}`} data-track="tel">{site.phone}</a>
+            <a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>
           )
         }
       </nav>
     </div>
     <div class="legal-line">
-      <p>{legalLine}</p>
-      <p>{site.coverage}</p>
+      <p translate="no">{legalLine}</p>
+      <p>{t.coverageLine}</p>
     </div>
   </div>
 </footer>

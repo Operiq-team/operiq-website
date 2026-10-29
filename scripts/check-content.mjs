@@ -37,7 +37,7 @@ const requiredInSite = [
   "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
   "post@operiq.no",
   "Få vurdert dagens kameraanlegg",
-  'lang="nb"',
+  'lang="nb-NO"',
 ];
 
 async function htmlFiles(dir) {
@@ -88,14 +88,23 @@ for (const file of files) {
   if (!html.includes('property="og:title"') || !html.includes('property="og:image"')) {
     fail(`${rel} is missing Open Graph tags`);
   }
-  if (!html.includes('lang="nb"')) fail(`${rel} is missing lang="nb"`);
+  const english = rel === path.join("en", "index.html") || rel.startsWith(`en${path.sep}`);
+  if (english) {
+    if (!html.includes('lang="en"')) fail(`${rel} is missing lang="en"`);
+    if (/gratis befaring|free site survey|our own installers|round-the-clock|24\/7/i.test(html)) {
+      fail(`${rel} has a forbidden English claim`);
+    }
+  } else if (!html.includes('lang="nb-NO"')) fail(`${rel} is missing lang="nb-NO"`);
+  if (!html.includes('hreflang="nb-NO"') || !html.includes('hreflang="en"') || !html.includes('hreflang="x-default"')) {
+    fail(`${rel} is missing hreflang alternates`);
+  }
   if (!html.includes("Operiq (Godtbo Eiendom AS) · org.nr 927 212 056")) {
     fail(`${rel} is missing the legal footer line`);
   }
   if (!html.includes("Organization") || !html.includes("Service")) {
     fail(`${rel} is missing Organization or Service JSON-LD`);
   }
-  if (html.includes("LocalBusiness") || html.includes("AggregateRating") || html.includes("Review")) {
+  if (html.includes("LocalBusiness") || html.includes("AggregateRating") || html.includes('"@type":"Review"') || html.includes('"@type": "Review"')) {
     fail(`${rel} has ratings or a local-business type in structured data`);
   }
   if (/"address"\s*:/.test(html) || /streetAddress/.test(html)) {
@@ -264,6 +273,24 @@ else {
   const html = await readFile(notFound, "utf8");
   if (!/<meta\b[^>]*\bname="robots"[^>]*\bcontent="[^"]*\bnoindex\b/i.test(html)) {
     fail("404 is missing noindex");
+  }
+}
+
+const englishHome = await readFile(path.join(dist, "en", "index.html"), "utf8");
+if (!englishHome.includes("Intelligent Surveillance.")) fail("English home is missing the hero line");
+if (!englishHome.includes("You Own the System.")) fail("English home is missing the ownership line");
+if (!englishHome.includes("Modern surveillance systems for commercial properties and real estate portfolios.")) {
+  fail("English home is missing the approved supporting copy");
+}
+if (!englishHome.includes("no-obligation site survey") && !englishHome.includes("Book a no-obligation site survey")) {
+  fail("English home is missing the no-obligation survey wording");
+}
+if (!englishHome.includes('hreflang="en" href="https://operiq.no/en"')) fail("English home hreflang is wrong");
+for (const route of ["commercial-buildings", "warehouse-logistics", "portfolios", "existing-systems", "retail-chains", "camera-surveillance", "about", "contact", "privacy", "camera-notice"]) {
+  try {
+    await readFile(path.join(dist, "en", route, "index.html"), "utf8");
+  } catch {
+    fail(`English page /en/${route} was not built`);
   }
 }
 

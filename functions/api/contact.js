@@ -14,6 +14,7 @@
  * Ikke legg token eller URL i dette repoet.
  */
 
+import { copyFor } from "../../src/i18n/form-copy.js";
 import {
   CONTACT_EMAIL,
   buildMailto,
@@ -35,9 +36,12 @@ function json(body, status) {
   });
 }
 
-function htmlPage({ title, body, status }) {
+function htmlPage({ title, body, status, locale = "nb" }) {
+  const back = locale === "en" ? "/en/contact" : "/kontakt";
+  const lang = locale === "en" ? "en" : "nb-NO";
+  const backLabel = locale === "en" ? "Back to the form" : "Tilbake til skjemaet";
   return new Response(
-    `<!doctype html><html lang="nb"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)}</title><body style="font-family:sans-serif;background:#0b1117;color:#e5e7eb;padding:2rem;line-height:1.5"><h1>${escapeHtml(title)}</h1>${body}<p><a style="color:#c7bda6" href="/kontakt">Tilbake til skjemaet</a></p></body></html>`,
+    `<!doctype html><html lang="${lang}"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)}</title><body style="font-family:sans-serif;background:#0b1117;color:#e5e7eb;padding:2rem;line-height:1.5"><h1>${escapeHtml(title)}</h1>${body}<p><a style="color:#c7bda6" href="${back}">${backLabel}</a></p></body></html>`,
     {
       status,
       headers: {
@@ -62,13 +66,14 @@ async function readPayload(request) {
   return payload;
 }
 
-function mailtoFallback(inquiry, status, message) {
-  const href = buildMailto(inquiry, CONTACT_EMAIL);
+function mailtoFallback(inquiry, status, message, locale) {
+  const href = buildMailto(inquiry, CONTACT_EMAIL, locale);
   return { href, status, message };
 }
 
-export async function onRequestGet() {
-  return new Response("Skjemaet sendes fra /kontakt.", {
+export async function onRequestGet(context) {
+  const locale = new URL(context?.request?.url || "https://operiq.no/").pathname.startsWith("/en") ? "en" : "nb";
+  return new Response(copyFor(locale).apiGet, {
     status: 405,
     headers: { "content-type": "text/plain; charset=utf-8", allow: "POST" },
   });
@@ -82,19 +87,22 @@ export async function onRequestPost(context) {
   try {
     payload = await readPayload(request);
   } catch {
-    const error = "Kunne ikke lese skjemaet. Send e-post til post@operiq.no.";
+    const error = copyFor("nb").apiRead;
     return html
-      ? htmlPage({ title: "Skjemaet ble ikke sendt", body: `<p>${error}</p>`, status: 400 })
+      ? htmlPage({ title: copyFor("nb").apiTitleFail, body: `<p>${error}</p>`, status: 400 })
       : json({ ok: false, error }, 400);
   }
 
-  const parsed = parseInquiry(payload);
+  const locale = payload?.locale === "en" ? "en" : "nb";
+  const copy = copyFor(locale);
+  const parsed = parseInquiry(payload, locale);
   if (!parsed.ok) {
     return html
       ? htmlPage({
-          title: "Sjekk feltene",
+          title: copy.apiCheck,
           body: `<p>${escapeHtml(parsed.error)}</p>`,
           status: 400,
+          locale,
         })
       : json({ ok: false, error: parsed.error }, 400);
   }
@@ -102,9 +110,10 @@ export async function onRequestPost(context) {
   if (parsed.spam) {
     return html
       ? htmlPage({
-          title: "Takk",
-          body: "<p>Henvendelsen er registrert.</p>",
+          title: copy.apiThanks,
+          body: `<p>${copy.apiNoted}</p>`,
           status: 200,
+          locale,
         })
       : json({ ok: true, delivered: true }, 200);
   }
@@ -118,16 +127,13 @@ export async function onRequestPost(context) {
   }
 
   if (!forward || forward.protocol !== "https:") {
-    const fallback = mailtoFallback(
-      parsed.value,
-      501,
-      "Skjemaet er ikke koblet til utsending ennå. Send e-posten selv.",
-    );
+    const fallback = mailtoFallback(parsed.value, 501, copy.apiUnconfigured, locale);
     if (html) {
       return htmlPage({
-        title: "Send e-posten",
+        title: copy.apiSend,
         status: 501,
-        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">Åpne e-post til ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
+        locale,
+        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">${copy.apiOpen} ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
       });
     }
     return json(
@@ -157,16 +163,13 @@ export async function onRequestPost(context) {
     });
     if (!response.ok) throw new Error("forward failed");
   } catch {
-    const fallback = mailtoFallback(
-      parsed.value,
-      502,
-      "Utsendingen svarte ikke. Send e-posten selv.",
-    );
+    const fallback = mailtoFallback(parsed.value, 502, copy.apiDown, locale);
     if (html) {
       return htmlPage({
-        title: "Send e-posten",
+        title: copy.apiSend,
         status: 502,
-        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">Åpne e-post til ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
+        locale,
+        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">${copy.apiOpen} ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
       });
     }
     return json(
@@ -183,9 +186,10 @@ export async function onRequestPost(context) {
 
   if (html) {
     return htmlPage({
-      title: "Takk",
+      title: copy.apiThanks,
       status: 200,
-      body: "<p>Vi har mottatt henvendelsen og svarer på e-post.</p>",
+      locale,
+      body: `<p>${copy.apiReceived}</p>`,
     });
   }
 

@@ -65,7 +65,7 @@ npm run preview
 | `/kamera-info` | Kort side for QR på kameraskilt |
 | `/404` | Finnes ikke |
 
-Kanonisk adresse er `https://operiq.no`. Engelsk versjon er ikke med.
+Kanonisk adresse er `https://operiq.no`. Norsk er standardspråk på de eksisterende adressene. Engelsk ligger under `/en` med tilsvarende sider, for eksempel `/en/commercial-buildings`. Bryteren NO / EN i toppen holder besøkende på den tilsvarende siden.
 
 ## Kontakt og telefon
 
