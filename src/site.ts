@@ -21,7 +21,7 @@ export const site = {
   /** Basert i Oslo. Leveranse kan skje i hele Norge. Ingen gateadresse. */
   coverage: "Basert i Oslo, leverer i hele landet",
   description:
-    "Operiq prosjekterer og monterer kameraanlegg for næringsbygg og butikk. Basert i Oslo, leverer i hele landet.",
+    "Operiq prosjekterer og monterer kameraovervåkning for næringsbygg. Du eier anlegget. Opptak lagres lokalt. Basert i Oslo, leverer i hele landet.",
   /**
    * TODO(eier): La contactMode stå som "mailto" til utsending er satt opp.
    * Bytt til "server" først når CONTACT_FORWARD_URL er satt i Cloudflare,
@@ -33,9 +33,9 @@ export const site = {
 export const legalLine = `${site.name} (${site.legalName}) · org.nr ${site.orgNr}`;
 
 export const nav = [
-  { href: "/#losning", label: "Løsning" },
-  { href: "/#how", label: "Slik jobber vi" },
-  { href: "/butikk", label: "Kjeder" },
+  { href: "/naeringsbygg", label: "Næringsbygg" },
+  { href: "/lager-og-logistikk", label: "Lager" },
+  { href: "/eiendomsportefoljer", label: "Portefølje" },
   { href: "/#referanse", label: "Referanser" },
   { href: "/kontakt", label: "Kontakt" },
 ] as const;
@@ -43,6 +43,10 @@ export const nav = [
 export const pages = [
   { path: "/" },
   { path: "/kameraovervaking" },
+  { path: "/naeringsbygg" },
+  { path: "/lager-og-logistikk" },
+  { path: "/eiendomsportefoljer" },
+  { path: "/eksisterende-kameraanlegg" },
   { path: "/butikk" },
   { path: "/om-oss" },
   { path: "/kontakt" },
@@ -55,9 +59,10 @@ export function canonicalUrl(path: string): string {
 }
 
 export function organizationJsonLd(): Record<string, unknown> {
-  const data: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": ["Organization", "LocalBusiness"],
+  const orgId = `${site.url}/#organization`;
+  const organization: Record<string, unknown> = {
+    "@type": "Organization",
+    "@id": orgId,
     name: site.name,
     legalName: site.legalName,
     url: site.url + "/",
@@ -77,8 +82,24 @@ export function organizationJsonLd(): Record<string, unknown> {
   };
 
   if (site.phone) {
-    data.telephone = site.phone;
+    organization.telephone = site.phone;
   }
 
-  return data;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organization,
+      {
+        "@type": "Service",
+        name: "Kameraovervåkning for næringsbygg",
+        serviceType: "Kameraovervåkning",
+        provider: { "@id": orgId },
+        areaServed: {
+          "@type": "Country",
+          name: "Norway",
+        },
+        description: site.description,
+      },
+    ],
+  };
 }

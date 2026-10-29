@@ -1,0 +1,73 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Kameraovervåkning for eiendomsporteføljer – Operiq";
+const description =
+  "Felles teknisk standard for kameraovervåkning på flere bygg. Hvert bygg tilpasses. Dokumentasjon per eiendom. Operiq leverer i hele Norge.";
+---
+
+<Base title={title} description={description} path="/eiendomsportefoljer">
+  <PageHero
+    kicker="Eiendomsporteføljer"
+    title="Én standard. Hele eiendomsporteføljen."
+    lead="For eiere og forvaltere med flere bygg. Vi starter med én eiendom og bruker samme oppsett videre, tilpasset hvert bygg."
+  />
+
+  <section class="section section-follow">
+    <div class="container">
+      <h2>Hva som er likt, og hva som tilpasses</h2>
+      <ul class="service-cards">
+        <li>
+          <h3>Felles oppsett</h3>
+          <p>Samme prinsipper for nett, opptak og tilgang. Det gjør prosjekteringen lik fra bygg til bygg.</p>
+        </li>
+        <li>
+          <h3>Tilpasning per bygg</h3>
+          <p>Dekning, føringsveier og antall kameraer avklares på hvert sted. Vi kopierer ikke et antall fra et annet bygg.</p>
+        </li>
+        <li>
+          <h3>Dokumentasjon per eiendom</h3>
+          <p>Hvert bygg får underlag på det som er montert, når anlegget er levert.</p>
+        </li>
+        <li>
+          <h3>Én kontakt</h3>
+          <p>Du forholder deg til Operiq. Montører i hele landet.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Rekkefølge</h2>
+      <ol class="how-steps">
+        <li><span>01</span><h3>Første bygg</h3><p>Vi prosjekterer og monterer ett anlegg, og dokumenterer oppsettet.</p></li>
+        <li><span>02</span><h3>Standard</h3><p>Oppsettet brukes som mal. Avvik skrives inn der bygget krever det.</p></li>
+        <li><span>03</span><h3>Videre bygg</h3><p>Neste eiendommer tas i den rekkefølgen du bestemmer.</p></li>
+      </ol>
+      <p>Butikkjeder er beskrevet for seg. <a class="link-arrow" href="/butikk">Kameraanlegg for butikkjeder</a></p>
+      <p>Figurer som viser mange bygg på én flate, er en illustrasjon av rekkefølgen. Det er ikke en programvareplattform.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Drift etterpå</h2>
+      <p>Hvert anlegg eies av dere. Opptakene ligger i det enkelte bygget. Tilgang kan samles for dem som skal se flere bygg, der utstyret støtter det.</p>
+      <p>Service og oppdatering av fastvare avtales. Vi lover ikke en fast månedspris på denne siden.</p>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Flere eiendommer"
+        text="Si fra om hvor mange bygg det gjelder, og hvor de ligger."
+        href="/kontakt?tema=portefolje"
+        label="Diskuter løsning for flere eiendommer"
+      />
+    </div>
+  </section>
+</Base>

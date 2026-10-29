@@ -1,0 +1,76 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Kameraovervåkning for næringsbygg – Operiq";
+const description =
+  "Kameraanlegg for næringsbygg og blandede eiendommer. Du eier utstyret. Opptak lagres lokalt. Eget nett. Operiq prosjekterer og monterer i hele Norge.";
+---
+
+<Base title={title} description={description} path="/naeringsbygg">
+  <PageHero
+    kicker="Næringsbygg"
+    title="Kameraovervåkning for næringsbygg"
+    lead="For gårdeiere og forvaltere som vil ha et anlegg på eiendommen, med opptak i bygget og tilgang fra mobil og PC."
+  />
+
+  <section class="section section-follow">
+    <div class="container">
+      <h2>Hva anlegget består av</h2>
+      <ul class="service-cards">
+        <li>
+          <h3>Kameraer etter dekning</h3>
+          <p>Inngang, fasade, fellesareal, garasje og bakgård dekkes der det trengs. Plasseringen avklares på befaring.</p>
+        </li>
+        <li>
+          <h3>Eget nett</h3>
+          <p>Kameranettet skilles fra det øvrige nettet i bygget. Kabel er Cat6, og fiber der avstanden krever det.</p>
+        </li>
+        <li>
+          <h3>Lokalt opptak</h3>
+          <p>Opptakeren står i bygget. Avspilling og eksport skjer der. 3 års garanti på kameraer. Garanti på øvrig utstyr følger produsent.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container split">
+      <div class="frame">
+        <img src="/img/building-night.jpg" alt="Næringsbygg i kveldslys" width="1200" height="900" />
+      </div>
+      <div>
+        <h2>Nytt anlegg eller det som står der</h2>
+        <p>Noen bygg har ikke kamera. Andre har et anlegg med leie eller en avtale som er vanskelig å endre. Vi ser på begge.</p>
+        <p>Finnes det kabling eller svitsjer som kan brukes, tar vi det med i prosjekteringen. Det som ikke holder mål, byttes.</p>
+        <p>Du får et skriftlig tilbud før montering. Montører i hele landet. Operiq er basert i Oslo.</p>
+        <p><a class="link-arrow" href="/eksisterende-kameraanlegg">Har dere anlegg fra før</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Slik går det for seg</h2>
+      <ol class="how-steps">
+        <li><span>01</span><h3>Befaring</h3><p>Vi går gjennom bygget, dekning og føringsveier.</p></li>
+        <li><span>02</span><h3>Tilbud</h3><p>Løsning og pris står skriftlig før du bestemmer deg.</p></li>
+        <li><span>03</span><h3>Montering</h3><p>Nett, opptak og visning settes opp og testes.</p></li>
+        <li><span>04</span><h3>Dokumentasjon</h3><p>Du får tilgang, opplæring og underlag på det som er montert.</p></li>
+      </ol>
+      <p>Du er behandlingsansvarlig for overvåkningen. En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv. <a class="link-arrow" href="/personvern">Personvern</a></p>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Få vurdert bygget"
+        text="Si fra om eiendommen og om det finnes kamera fra før."
+        href="/kontakt?tema=vurdering"
+        label="Få vurdert dagens kameraanlegg"
+      />
+    </div>
+  </section>
+</Base>

@@ -17,7 +17,7 @@ const valid = {
 test("parseInquiry accepts a complete request", () => {
   const parsed = parseInquiry(valid);
   assert.equal(parsed.ok, true);
-  assert.equal(parsed.value.topicLabel, "Kameraovervåking");
+  assert.equal(parsed.value.topicLabel, "Kameraovervåkning");
 });
 
 test("parseInquiry rejects a missing message", () => {
@@ -35,7 +35,7 @@ test("mailto contains the public address and escaped subject", () => {
   const parsed = parseInquiry(valid);
   const href = buildMailto(parsed.value);
   assert.ok(href.startsWith("mailto:post@operiq.no?"));
-  assert.ok(href.includes(encodeURIComponent("Kameraovervåking")));
+  assert.ok(href.includes(encodeURIComponent("Kameraovervåkning")));
   assert.ok(href.includes(encodeURIComponent("Ada Nord")));
 });
 

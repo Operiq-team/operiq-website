@@ -3,9 +3,26 @@
 export const CONTACT_EMAIL = "post@operiq.no";
 
 export const TOPICS = {
-  kamera: "Kameraovervåking",
+  vurdering: "Vurdering av dagens anlegg",
+  forslag: "Løsningsforslag",
+  portefolje: "Flere eiendommer",
+  kamera: "Kameraovervåkning",
   butikk: "Butikk og kjeder",
   annet: "Annet",
+};
+
+export const PROPERTY_TYPES = {
+  naering: "Næringsbygg",
+  lager: "Lager og logistikk",
+  portefolje: "Eiendomsportefølje",
+  butikk: "Butikk",
+  annet: "Annet",
+};
+
+export const EXISTING = {
+  ja: "Ja",
+  nei: "Nei",
+  usikker: "Usikker",
 };
 
 const LIMITS = {
@@ -14,6 +31,7 @@ const LIMITS = {
   phone: 40,
   company: 160,
   building: 240,
+  location: 240,
   message: 4000,
 };
 
@@ -33,21 +51,34 @@ export function parseInquiry(raw) {
   }
 
   const topic = clean(source.topic, 20);
+  const propertyType = clean(source.propertyType, 20);
+  const existing = clean(source.existing, 20);
   const value = {
     name: clean(source.name, LIMITS.name),
     email: clean(source.email, LIMITS.email),
     phone: clean(source.phone, LIMITS.phone),
     company: clean(source.company, LIMITS.company),
-    building: clean(source.building, LIMITS.building),
+    location: clean(source.location || source.building, LIMITS.location),
+    propertyType,
+    propertyLabel: PROPERTY_TYPES[propertyType] || "",
+    existing,
+    existingLabel: EXISTING[existing] || "",
     topic,
-    topicLabel: TOPICS[topic] || "",
+    topicLabel: TOPICS[topic] || "Henvendelse",
     message: clean(source.message, LIMITS.message),
   };
 
-  if (!value.name || !value.email || !value.message || !value.topicLabel) {
+  if (propertyType && !value.propertyLabel) {
+    return { ok: false, error: "Velg type eiendom fra listen." };
+  }
+  if (existing && !value.existingLabel) {
+    return { ok: false, error: "Oppgi om det finnes et kameraanlegg fra før." };
+  }
+
+  if (!value.name || !value.email || !value.message) {
     return {
       ok: false,
-      error: "Fyll inn navn, e-post, tema og hva du trenger hjelp til.",
+      error: "Fyll inn navn, e-post og hva du trenger hjelp til.",
     };
   }
 
@@ -65,8 +96,10 @@ export function buildMailto(inquiry, email = CONTACT_EMAIL) {
     `E-post: ${inquiry.email}`,
     `Telefon: ${inquiry.phone || "–"}`,
     `Firma: ${inquiry.company || "–"}`,
-    `Bygg: ${inquiry.building || "–"}`,
-    `Tema: ${inquiry.topicLabel}`,
+    `Sted: ${inquiry.location || "–"}`,
+    `Type eiendom: ${inquiry.propertyLabel || "–"}`,
+    `Eksisterende anlegg: ${inquiry.existingLabel || "–"}`,
+    `Henvendelse: ${inquiry.topicLabel}`,
     "",
     inquiry.message,
   ].join("\n");

@@ -1,15 +1,15 @@
 ---
 /**
- * Forsiden er Concept A, kommandosenter. Panelet er en illustrasjon, ikke et anlegg i drift.
- * Befaring omtales som uforpliktende. Ikke skriv at den er gratis eller hva den koster.
+ * Direction A. Panelet er en illustrasjon, ikke et bemannet senter og ikke en agent i drift.
+ * Ikke lov pris, besparelse, lisensfrihet eller at befaring er gratis.
  */
 import Base from "../layouts/Base.astro";
 import Reference from "../components/Reference.astro";
 import { site } from "../site";
 
-const title = "Intelligent overvåking for næringsbygg – Operiq";
+const title = "Intelligent overvåkning for næringsbygg – Operiq";
 const description =
-  "Operiq prosjekterer og monterer kameraanlegg med lokalt opptak og eget nett. Du eier anlegget. Basert i Oslo, leverer i hele landet.";
+  "Kameraovervåkning for næringsbygg og eiendomsporteføljer. Du eier anlegget. Opptak lagres lokalt. Operiq prosjekterer og monterer. Basert i Oslo, leverer i hele landet.";
 ---
 
 <Base title={title} description={description} path="/">
@@ -19,18 +19,18 @@ const description =
     <div class="hero-scan"></div>
     <div class="container hero-command">
       <div>
-        <span class="pill"><i class="dot"></i>Kameraovervåking for næringsbygg og kjeder</span>
-        <h1>Intelligent overvåking.<br /><em>Du eier den.</em></h1>
+        <span class="pill"><i class="dot"></i>Kameraovervåkning for næringsbygg og eiendomsporteføljer</span>
+        <h1>Intelligent overvåkning.<br /><em>Du eier den.</em></h1>
         <p class="lead">
-          Lokalt opptak i bygget, eget nett og visning på mobil. Fast pris etter befaring.
+          Moderne kameraanlegg for næringsbygg og eiendomsporteføljer. Bedre oversikt, full kontroll over eget utstyr og forutsigbare kostnader – uten unødvendig leverandørbinding.
         </p>
         <div class="actions">
-          <a class="btn" href="#cta">Bestill uforpliktende befaring <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="#how">Se hvordan det virker</a>
+          <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how">Se hvordan vi jobber</a>
         </div>
         <div class="facts">
           <div><b>Lokalt opptak</b>Video lagres i bygget</div>
-          <div><b>3 års garanti</b>På kameraene</div>
+          <div><b>3 års garanti på kameraer</b>Øvrig utstyr følger produsent</div>
           <div><b>Hele Norge</b>Vi kommer til bygget</div>
         </div>
       </div>
@@ -63,17 +63,16 @@ const description =
           </div>
           <div class="c-row">
             <div class="panel">
-              <h5>Hendelser <span>I natt</span></h5>
-              <div class="ev hot"><time>23:47</time><div><b>Person ved hovedinngang</b> · utenfor åpningstid</div></div>
-              <div class="ev"><time>23:47</time><div><b>Fasadelys aktivert</b> · via KNX</div></div>
-              <div class="ev"><time>23:12</time><div><b>Kjøretøy varemottak</b> · kjent</div></div>
-              <div class="ev"><time>22:30</time><div><b>Anlegg kontrollert</b> · alt i drift</div></div>
+              <h5>Hendelser <span>Illustrasjon</span></h5>
+              <div class="ev"><time>23:47</time><div><b>Person ved hovedinngang</b> · der utstyret støtter deteksjon</div></div>
+              <div class="ev"><time>23:41</time><div><b>Lys ved inngang</b> · der utstyret støtter lys</div></div>
+              <div class="ev"><time>23:12</time><div><b>Opptak lokalt</b> · lagret i bygget</div></div>
+              <div class="ev"><time>22:30</time><div><b>Nettverk</b> · eget kameranett</div></div>
             </div>
             <div class="panel">
-              <h5>Agent <span class="pilot">Pilot</span></h5>
-              <div class="agent"><div class="orb"></div><div><b>Vurderer hendelse</b>KAM 01 · ber om avklaring</div></div>
-              <div class="knx"><span>KNX · Fasadelys</span><span class="sw on"></span></div>
-              <div class="knx"><span>Høyttaler · Inngang</span><span class="sw"></span></div>
+              <h5>Avskrekking <span class="pilot">Konsept</span></h5>
+              <p class="concept-copy">Lys og lyd kan brukes der utstyret støtter det. Agent og styring mot byggets anlegg er ikke i drift.</p>
+              <p class="concept-flag">Konsept – under utvikling</p>
             </div>
           </div>
         </div>
@@ -87,7 +86,7 @@ const description =
       <div><span>01</span>Du eier anlegget</div>
       <div><span>02</span>Lokalt opptak</div>
       <div><span>03</span>Eget nettverk</div>
-      <div><span>04</span>Fast pris</div>
+      <div><span>04</span>Fast pris i tilbudet</div>
       <div><span>05</span>Montører i hele landet</div>
     </div>
   </div>
@@ -96,132 +95,191 @@ const description =
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Løsningen</p>
-          <h2>Et anlegg du eier. Opptakene ligger i bygget.</h2>
+          <p class="kicker">Eierskap</p>
+          <h2>Ditt anlegg. Dine opptak. Full kontroll.</h2>
         </div>
-        <p>Vi prosjekterer, monterer og dokumenterer anlegget. Når det er overlevert, er det ditt. Opptakene ligger i bygget. Du kan se dem på mobil.</p>
+        <p>
+          Med Operiq investerer du i et kameraanlegg du selv eier. Vi prosjekterer, installerer og dokumenterer løsningen, tilpasset eiendommen og det som finnes av nett fra før.
+          Opptakene lagres lokalt, og du får tilgang til kameraene fra mobil og PC. Ingen obligatorisk leie av kamerautstyr, og ikke unødvendig leverandørbinding.
+        </p>
       </div>
       <div class="value-grid">
         <article class="v v-wide glass">
           <span class="ic">Infrastruktur</span>
-          <h3>Eget nettverk og fiber. Opptakeren står i ditt bygg.</h3>
-          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene lagres i bygget.</p>
+          <h3>Eget nettverk. Opptakeren står i bygget.</h3>
+          <p>Kameraene går på et separat nett, skilt fra resten av byggets IT. Opptakene lagres i bygget. Fiber brukes der avstanden krever det.</p>
         </article>
         <article class="v glass">
-          <span class="ic">Eierskap</span>
-          <ul class="cmp">
-            <li>Utstyret <b>Du eier det</b></li>
-            <li>Opptak <b>I bygget</b></li>
-            <li>Tilgang <b>På mobil</b></li>
-          </ul>
+          <span class="ic">Eget anlegg</span>
+          <h3>Du eier utstyret</h3>
+          <p>Du bestemmer hvor opptakene lagres.</p>
         </article>
         <article class="v glass">
           <span class="ic">Garanti</span>
-          <p class="big">3 <small>år</small></p>
-          <h3>Garanti på kameraene</h3>
+          <h3>3 års garanti på kameraer</h3>
+          <p>Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.</p>
         </article>
         <article class="v glass">
-          <span class="ic">Mobil</span>
-          <h3>Visning på mobil</h3>
-          <p>Se direkte og spill av opptak på mobil eller PC.</p>
+          <span class="ic">Tilgang</span>
+          <h3>Mobil og PC</h3>
+          <p>Se direkte og spill av opptak på mobil og PC.</p>
         </article>
         <article class="v glass">
-          <span class="ic">Pris</span>
-          <h3>Fast pris etter befaring</h3>
-          <p>Tilbudet er skriftlig, med fast pris.</p>
+          <span class="ic">Tilbud</span>
+          <h3>Pris før bestilling</h3>
+          <p>Du får et skriftlig tilbud før du bestemmer deg.</p>
         </article>
         <article class="v v-sand glass">
-          <span class="ic">Pilot</span>
-          <h3>Aktiv avskrekking</h3>
-          <p>Lys via KNX, høyttaler og en AI-agent som følger anlegget. Under utvikling.</p>
+          <span class="ic">Leverandør</span>
+          <h3>Leverandøruavhengig</h3>
+          <p>Vi er ikke bundet til én kameraprodusent. Utstyret velges etter dekning og lys.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section section-alt" id="neste">
+  <section class="section section-alt" id="eksisterende">
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Under utvikling · Pilot</p>
-          <h2>Aktiv avskrekking</h2>
+          <p class="kicker">Eksisterende anlegg</p>
+          <h2>Betaler du mer enn nødvendig for kameraovervåkning?</h2>
         </div>
-        <p>Vi bygger dette nå. Det er ikke en del av anlegget som leveres i dag.</p>
+        <p>
+          Mange næringsbygg har kameraanlegg med løpende kostnader til leie, service og vedlikehold. Over tid kan den samlede kostnaden bli betydelig.
+          Vi vurderer dagens løsning opp mot et anlegg du eier, og ser på investering, drift og funksjon. Vi oppgir ikke en besparelse før anlegget er gjennomgått.
+        </p>
       </div>
-      <ul class="pilot-grid">
-        <li class="glass">
-          <h3>Bygg og lys</h3>
-          <p>Integrasjon med byggets systemer og belysning via KNX og buss, så lyset kan reagere på en hendelse.</p>
+      <ul class="service-cards">
+        <li>
+          <h3>Eie fremfor leie</h3>
+          <p>Invester i utstyr som tilhører eiendommen.</p>
         </li>
-        <li class="glass">
-          <h3>Avskrekking</h3>
-          <p>Lys og en talemelding som ber folk forlate området.</p>
+        <li>
+          <h3>Se på totalkostnaden</h3>
+          <p>Sammenlign investering og drift over flere år. Ingen tall før gjennomgang.</p>
         </li>
-        <li class="glass">
-          <h3>Agent</h3>
-          <p>En AI-agent følger med på kamera, nett og opptaker, og setter i gang avskrekkingen.</p>
+        <li>
+          <h3>Bruk nett som finnes</h3>
+          <p>Gjenbruk nettverk og kabling der det er teknisk forsvarlig.</p>
+        </li>
+        <li>
+          <h3>Funksjon</h3>
+          <p>Hendelsesdeteksjon og tilgang til opptak, der utstyret støtter det.</p>
         </li>
       </ul>
-      <ol class="flow" aria-label="Slik er piloten tenkt å virke">
-        <li><span>01</span> Hendelse oppdaget</li>
-        <li><span>02</span> Agent vurderer</li>
-        <li><span>03</span> Lys og lyd aktiveres</li>
-        <li><span>04</span> Varsel til eier</li>
-      </ol>
       <p class="future-cta">
-        Vil du være pilotkunde?
-        <a href={`mailto:${site.email}`}>Ta kontakt</a>
-        eller <a href="/kontakt">bestill en samtale</a>.
+        <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens løsning</a>
       </p>
+      <p>Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer. <a class="link-arrow" href="/eksisterende-kameraanlegg">Les om eksisterende kameraanlegg</a></p>
     </div>
   </section>
 
-  <section class="section" id="how">
+  <section class="section" id="neste">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Konsept – under utvikling</p>
+          <h2>Fra passiv overvåkning til aktiv avskrekking.</h2>
+        </div>
+        <p>
+          Et kameraanlegg kan gjøre mer enn å lagre video. Der utstyret støtter det, kan det registrere person eller kjøretøy og utløse lys eller lyd.
+          Mer enn det, som agent og styring mot byggets anlegg, er ikke i leveransen i dag.
+        </p>
+      </div>
+      <ul class="pilot-grid">
+        <li class="glass">
+          <h3>Hendelsesdeteksjon</h3>
+          <p>Person, kjøretøy og bevegelse, der kameraene støtter det.</p>
+        </li>
+        <li class="glass">
+          <h3>Lys og lyd</h3>
+          <p>Lys eller en talemelding, der utstyret støtter det og det passer eiendommen.</p>
+        </li>
+        <li class="glass">
+          <h3>Integrasjon og agent</h3>
+          <p>Kobling mot bygg og en agent som følger anlegget. Konsept – under utvikling.</p>
+        </li>
+      </ul>
+      <p class="concept-flag">Konsept – under utvikling</p>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="how">
     <div class="container">
       <div class="sec-head">
         <div>
           <p class="kicker">Slik jobber vi</p>
-          <h2>Fra befaring til ferdig anlegg.</h2>
+          <h2>Én leverandør. Fra behovsanalyse til ferdig anlegg.</h2>
         </div>
-        <p>Befaring, tilbud, montering og dokumentasjon. Prisen står i tilbudet.</p>
+        <p>Du forholder deg til Operiq fra første gjennomgang til dokumentasjonen er levert. Montører i hele landet.</p>
       </div>
       <ol class="how-steps">
-        <li><span>01</span><h3>Uforpliktende befaring</h3><p>Vi går gjennom bygget, dekning og føringsveier sammen med deg.</p></li>
-        <li><span>02</span><h3>Prosjektering og fast pris</h3><p>Kameraplassering, nettverk og opptak tegnes inn. Du får fast pris.</p></li>
-        <li><span>03</span><h3>Installasjon</h3><p>Vi kommer til bygget. Montører i hele landet.</p></li>
-        <li><span>04</span><h3>Overlevering</h3><p>Opplæring, dokumentasjon og app på plass. Anlegget er ditt.</p></li>
+        <li><span>01</span><h3>Befaring og behovsanalyse</h3><p>Vi kartlegger eksisterende anlegg, behov og infrastruktur.</p></li>
+        <li><span>02</span><h3>Prosjektering og fastpristilbud</h3><p>Vi beskriver løsningen og kostnadene før du bestemmer deg.</p></li>
+        <li><span>03</span><h3>Installasjon og konfigurering</h3><p>Montering, nettverk, opptak og funksjoner settes opp og testes.</p></li>
+        <li><span>04</span><h3>Overlevering og dokumentasjon</h3><p>Du får tilgang, opplæring og dokumentasjon.</p></li>
       </ol>
     </div>
   </section>
 
-  <section class="section section-tight" id="referanse">
+  <section class="section" id="referanse">
     <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Referanser</p>
+          <h2>To anlegg. Ulik status.</h2>
+        </div>
+        <p>Bildene er illustrasjonsfoto, ikke fra eiendommene. Ingen sitater.</p>
+      </div>
       <Reference />
     </div>
   </section>
 
-  <section class="section" id="kjeder">
+  <section class="section section-alt" id="portefolje">
     <div class="container chain">
-      <div class="map glass" aria-hidden="true">
-        <div class="stores">
-          <i class="pilot"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i>
-          <i class="std"></i><i class="std"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
-          <i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
-          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <div>
+        <div class="map glass" aria-hidden="true">
+          <div class="stores">
+            <i class="pilot"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i>
+            <i class="std"></i><i class="std"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+            <i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="legend"><span><i class="pilot"></i>Første bygg</span><span><i class="std"></i>Standard</span><span><i class="rl"></i>Utrulling</span></div>
         </div>
-        <div class="legend"><span><i class="pilot"></i>Pilotbutikk</span><span><i class="std"></i>Kjedestandard</span><span><i class="rl"></i>Utrulling</span></div>
+        <p class="illu">Konseptuell illustrasjon. Ikke en programvareplattform.</p>
       </div>
       <div>
-        <p class="kicker">For kjeder</p>
-        <h2>Én standard. Alle butikkene.</h2>
-        <p class="lead">Vi tester oppsettet i én butikk. Deretter bruker vi det samme i flere butikker. Én kontakt hos Operiq.</p>
-        <ol class="roll">
-          <li class="glass"><span>01</span><div><h3>Pilotbutikk</h3><p>Vi bygger og tester løsningen i én butikk.</p></div><b>Test</b></li>
-          <li class="glass"><span>02</span><div><h3>Kjedestandard</h3><p>Fast oppsett, fast pris per butikktype.</p></div><b>Dokumentert</b></li>
-          <li class="glass"><span>03</span><div><h3>Utrulling i hele landet</h3><p>Montører lokalt. Samme oppsett i butikkene.</p></div><b>Hele Norge</b></li>
-        </ol>
-        <p><a class="link-arrow" href="/butikk">Les om butikk og kjeder</a></p>
+        <p class="kicker">Flere eiendommer</p>
+        <h2>Én standard. Hele eiendomsporteføljen.</h2>
+        <p class="lead">
+          Kameraløsninger for flere bygg. Vi lager en felles teknisk standard, og tilpasser den til hvert bygg. Start med én eiendom. Rull ut videre når løsningen er dokumentert.
+        </p>
+        <p>Gjelder porteføljer, lager, logistikk og kjeder. <a class="link-arrow" href="/butikk">Butikkjeder har en egen side</a>. <a class="link-arrow" href="/eiendomsportefoljer">Les om eiendomsporteføljer</a></p>
+        <p class="future-cta"><a class="btn" href="/kontakt?tema=portefolje">Diskuter løsning for flere eiendommer</a></p>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="ansvar">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Personvern</p>
+          <h2>Kunden er behandlingsansvarlig.</h2>
+        </div>
+        <p>Operiq leverer og dokumenterer anlegget. Operiq overtar ikke ansvaret for overvåkningen.</p>
+      </div>
+      <ul class="service-cards">
+        <li><h3>Plassering og dekning</h3><p>Vi foreslår hvor kameraene står, ut fra det som skal dekkes.</p></li>
+        <li><h3>Skilting</h3><p>Vi leverer underlag til skilting. Teksten på skiltet er eierens ansvar.</p></li>
+        <li><h3>Tilgang</h3><p>Vi setter opp hvem som skal inn i anlegget, etter eierens liste.</p></li>
+        <li><h3>Lagring</h3><p>Opptak ligger i bygget. Lagringstid bestemmes av eieren.</p></li>
+        <li><h3>Fjernvisning</h3><p>Tilgang fra mobil og PC settes opp slik at den kan begrenses.</p></li>
+        <li><h3>Dokumentasjon</h3><p>Du får underlag på det som er montert.</p></li>
+      </ul>
+      <p>En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv. <a class="link-arrow" href="/personvern">Personvernerklæring</a> <a class="link-arrow" href="/kamera-info">Informasjon til dem som blir filmet</a></p>
     </div>
   </section>
 
@@ -230,11 +288,12 @@ const description =
       <aside class="cta-band">
         <div>
           <p class="kicker">Neste steg</p>
-          <h2>Start med en uforpliktende befaring.</h2>
+          <h2>Få vurdert dagens kameraanlegg.</h2>
         </div>
         <div>
-          <p>Vi kommer på befaring, prosjekterer anlegget og gir deg fast pris. {site.coverage}.</p>
-          <a class="btn" href="/kontakt">Bestill uforpliktende befaring <span class="arr">→</span></a>
+          <p>Har du ikke anlegg fra før, kan du i stedet be om et løsningsforslag. {site.coverage}.</p>
+          <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <p><a class="link-arrow" href="/kontakt?tema=forslag">Be om løsningsforslag</a></p>
           <a class="cta-mail" href={`mailto:${site.email}`}>{site.email}</a>
         </div>
       </aside>

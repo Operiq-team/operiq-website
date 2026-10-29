@@ -7,7 +7,7 @@ export const GET: APIRoute = () => {
   const body = pages
     .map((page) => {
       const loc = new URL(page.path, site.url).href;
-      return `  <url><loc>${loc}</loc><lastmod>2026-10-28</lastmod></url>`;
+      return `  <url><loc>${loc}</loc><lastmod>2026-10-29</lastmod></url>`;
     })
     .join("\n");
 

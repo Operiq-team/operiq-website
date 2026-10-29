@@ -25,22 +25,19 @@ const forbidden = [
 const referenceFacts = [
   "Referanse",
   "Kirkeristen, Oslo sentrum",
-  "Næringskvartal. 26 kameraer, ny fiberinfrastruktur og eget nettverk.",
-  "Under installasjon, ferdig desember 2026",
-  "byggets belysning (KNX) som del av piloten for aktiv avskrekking",
-  "Integrasjonen er planlagt.",
   "Illustrasjonsfoto",
   "Hegdehaugsveien 36",
   "Kameraanlegg i næringsbygg, Oslo",
   "Ferdigstilt",
-  "Flere kameraer",
+  "Pågående prosjekt",
+  "26 kameraer, ny fiber og eget nettverk",
+  "Planlagt ferdig desember 2026",
 ];
 
 const requiredInSite = [
   "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
   "post@operiq.no",
-  "Be om befaring",
-  "Bestill uforpliktende befaring",
+  "Få vurdert dagens kameraanlegg",
   'lang="nb"',
 ];
 
@@ -56,8 +53,8 @@ async function htmlFiles(dir) {
 }
 
 const files = await htmlFiles(dist);
-if (files.length < 8) {
-  console.error(`Expected at least 8 HTML files, found ${files.length}`);
+if (files.length < 12) {
+  console.error(`Expected at least 12 HTML files, found ${files.length}`);
   process.exit(1);
 }
 
@@ -96,7 +93,12 @@ for (const file of files) {
   if (!html.includes("Operiq (Godtbo Eiendom AS) · org.nr 927 212 056")) {
     fail(`${rel} is missing the legal footer line`);
   }
-  if (!html.includes("LocalBusiness")) fail(`${rel} is missing LocalBusiness JSON-LD`);
+  if (!html.includes("Organization") || !html.includes("Service")) {
+    fail(`${rel} is missing Organization or Service JSON-LD`);
+  }
+  if (html.includes("LocalBusiness") || html.includes("AggregateRating") || html.includes("Review")) {
+    fail(`${rel} has ratings or a local-business type in structured data`);
+  }
   if (/"address"\s*:/.test(html) || /streetAddress/.test(html)) {
     fail(`${rel} includes a street address in structured data`);
   }
@@ -106,17 +108,29 @@ const home = await readFile(path.join(dist, "index.html"), "utf8");
 for (const snippet of requiredInSite) {
   if (!home.includes(snippet)) fail(`Home is missing ${snippet}`);
 }
-if (!home.includes("Intelligent overvåking")) fail("Home is missing the headline");
-if (!home.includes("Start med en uforpliktende befaring.")) fail("Home is missing the closing survey heading");
-if (!home.includes("<h3>Uforpliktende befaring</h3>")) fail("Home is missing the survey step");
+if (!home.includes("Intelligent overvåkning")) fail("Home is missing the headline");
+if (!home.includes("Ditt anlegg. Dine opptak. Full kontroll.")) fail("Home is missing the ownership heading");
+if (!home.includes("Betaler du mer enn nødvendig for kameraovervåkning?")) fail("Home is missing the existing-system section");
+if (!home.includes("Fra passiv overvåkning til aktiv avskrekking.")) fail("Home is missing the deterrence heading");
+if (!home.includes("Konsept – under utvikling")) fail("Home must label undeveloped deterrence as a concept");
+if (!home.includes("Én leverandør. Fra behovsanalyse til ferdig anlegg.")) fail("Home is missing the process heading");
+if (!home.includes("Én standard. Hele eiendomsporteføljen.")) fail("Home is missing the portfolio heading");
+if (!home.includes("Konseptuell illustrasjon. Ikke en programvareplattform.")) {
+  fail("Home must label the portfolio graphic as an illustration");
+}
+if (!home.includes("3 års garanti på kameraer")) fail("Home must limit the camera warranty");
+if (!home.includes("En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv.")) {
+  fail("Home must say installation does not make surveillance lawful");
+}
+if (home.includes("Agent vurderer")) fail("Home still shows an agent deciding events");
 if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing the console caption");
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
   fail("Home still promotes property operations");
 }
 if (!home.includes("Montører i hele landet")) fail("Home is missing nationwide installers");
-if (!home.includes("Aktiv avskrekking")) fail("Home is missing the pilot section");
-if (!home.includes("Det er ikke en del av anlegget som leveres i dag.")) {
-  fail("Home must keep deterrence as not part of today's delivery");
+if (!home.includes("aktiv avskrekking")) fail("Home is missing the deterrence section");
+if (!home.includes("er ikke i leveransen i dag")) {
+  fail("Home must keep advanced deterrence out of today's delivery");
 }
 if (home.includes("ingen prisliste") || home.includes("AI-videoanalyse")) {
   fail("Home still has defensive copy that should be gone");
@@ -133,7 +147,7 @@ if (secure.includes("ingen referanse") || secure.includes("vi oppgir ikke")) {
   fail("Kamera page still says there are no references");
 }
 if (!secure.includes("IP-kameraer")) fail("Kamera page is missing IP cameras");
-if (!secure.includes("Bestill uforpliktende befaring")) fail("Kamera page is missing the survey button");
+if (!secure.includes("Be om løsningsforslag")) fail("Kamera page is missing the inquiry button");
 if (!secure.includes("PoE")) fail("Kamera page is missing PoE");
 if (!secure.includes("Porter åpnes ikke mot internett som utgangspunkt.")) {
   fail("Kamera page is missing the closed-network principle");
@@ -150,8 +164,8 @@ for (const [name, html] of [
     if (!html.includes(fact)) fail(`${name} is missing reference fact: ${fact}`);
   }
   const hegde = html.match(/id="ref-hegdehaugsveien"[\s\S]*?<\/article>/)?.[0] ?? "";
-  const text = hegde.replace(/<[^>]+>/g, " ").replace("36", "");
-  if (/\d/.test(text)) fail(`${name} puts a number other than the address on Hegdehaugsveien`);
+  const text = hegde.replace(/<[^>]+>/g, " ").replaceAll("36", "").replaceAll("2026", "");
+  if (/\d/.test(text)) fail(`${name} puts a number other than the address or 2026 on Hegdehaugsveien`);
 }
 
 const butikk = await readFile(path.join(dist, "butikk/index.html"), "utf8");
@@ -171,7 +185,7 @@ if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) 
 }
 
 const contact = await readFile(path.join(dist, "kontakt/index.html"), "utf8");
-if (!contact.includes("Bestill uforpliktende befaring")) fail("Contact page is missing the survey heading");
+if (!contact.includes("Få vurdert dagens kameraanlegg")) fail("Contact page is missing the inquiry heading");
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");
 if (!privacy.includes("behandlingsansvarlig")) fail("Privacy page is missing controller language");
@@ -185,7 +199,7 @@ const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: https://operiq.no/sitemap.xml")) fail("robots.txt is missing the sitemap");
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
-for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/butikk", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
+for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/naeringsbygg", "https://operiq.no/lager-og-logistikk", "https://operiq.no/eiendomsportefoljer", "https://operiq.no/eksisterende-kameraanlegg", "https://operiq.no/butikk", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
   if (!sitemap.includes(route)) fail(`Sitemap is missing ${route}`);
 }
 if (sitemap.includes("eiendomsdrift")) fail("Sitemap still lists eiendomsdrift");

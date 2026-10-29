@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Kameraovervåkning for lager og logistikk – Operiq";
+const description =
+  "Kameraanlegg for lager, port og uteareal. Lokalt opptak, eget nett og fiber der avstanden krever det. Operiq monterer i hele Norge.";
+---
+
+<Base title={title} description={description} path="/lager-og-logistikk">
+  <PageHero
+    kicker="Lager og logistikk"
+    title="Kameraovervåkning for lager og logistikk"
+    lead="For hall, port, varemottak og uteareal. Anlegget står på eiendommen, med opptak i bygget."
+  />
+
+  <section class="section section-follow">
+    <div class="container">
+      <div class="split">
+        <div class="frame">
+          <img src="/img/warehouse-night.jpg" alt="Lagerhall" width="1200" height="900" />
+        </div>
+        <div>
+          <h2>Det som vanligvis skal dekkes</h2>
+          <ul class="checks">
+            <li>Port og varemottak</li>
+            <li>Kjørevei og uteareal</li>
+            <li>Inngang for ansatte</li>
+            <li>Areal inne i hallen, der det er avtalt</li>
+          </ul>
+          <p>Hvor mange kameraer som trengs, avklares på befaring. Vi oppgir ikke et antall før vi har sett lokalet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Nett over lengre avstander</h2>
+      <ul class="service-cards">
+        <li>
+          <h3>Eget kameranett</h3>
+          <p>Nettverket til kameraene skilles fra det øvrige nettet. Switchene er PoE.</p>
+        </li>
+        <li>
+          <h3>Fiber når det trengs</h3>
+          <p>Cat6 brukes på korte strekk. Fiber brukes der avstanden krever det.</p>
+        </li>
+        <li>
+          <h3>Opptak i bygget</h3>
+          <p>Opptakeren står i bygget. Du ser direkte og spiller av på mobil eller PC. 3 års garanti på kameraer.</p>
+        </li>
+      </ul>
+      <p>Natt og motlys tas med når vi velger kamera. Vi lover ikke en bestemt bildekvalitet før utstyret er valgt.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Flere haller</h2>
+      <p>Har dere flere lager, kan samme oppsett brukes som utgangspunkt. Hvert bygg tilpasses. <a class="link-arrow" href="/eiendomsportefoljer">Les om flere eiendommer</a></p>
+      <p>Du er behandlingsansvarlig. Skilting, lagringstid og hvem som har tilgang, avtales med deg og dokumenteres.</p>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Be om løsningsforslag"
+        text="Si fra om hall, port og hvor bygget ligger. Montører i hele landet."
+        href="/kontakt?tema=forslag"
+        label="Be om løsningsforslag"
+      />
+    </div>
+  </section>
+</Base>

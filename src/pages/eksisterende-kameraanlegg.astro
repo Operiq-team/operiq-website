@@ -1,0 +1,74 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const title = "Vurdering av eksisterende kameraanlegg – Operiq";
+const description =
+  "Gjennomgang av kameraanlegg som allerede står i næringsbygg. Eie fremfor leie, lokalt opptak og skriftlig tilbud. Ingen oppgitt besparelse før gjennomgang.";
+---
+
+<Base title={title} description={description} path="/eksisterende-kameraanlegg">
+  <PageHero
+    kicker="Eksisterende anlegg"
+    title="Betaler du mer enn nødvendig for kameraovervåkning?"
+    lead="Mange bygg har kamera med leie, serviceavtale eller utstyr som er vanskelig å bytte. Vi går gjennom det som står der, og sammenligner med et anlegg dere eier."
+  />
+
+  <section class="section section-follow">
+    <div class="container">
+      <h2>Det vi ser på</h2>
+      <ul class="service-cards">
+        <li>
+          <h3>Avtalen</h3>
+          <p>Leie, service og binding. Vi ber om det dere har av avtaler. Vi finner ikke på tall.</p>
+        </li>
+        <li>
+          <h3>Utstyret</h3>
+          <p>Kamera, opptak og nett. Det som kan brukes videre, blir stående. Det som ikke holder, foreslås byttet.</p>
+        </li>
+        <li>
+          <h3>Funksjon</h3>
+          <p>Bilde, deteksjon der utstyret støtter det, og om dere kommer inn på mobil og PC.</p>
+        </li>
+        <li>
+          <h3>Dokumentasjon</h3>
+          <p>Om det finnes underlag på det som er montert, og hvem som har tilgang.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2>Eie eller fortsette som i dag</h2>
+      <p>Et anlegg dere eier, har en investering først og drift etterpå. Et leid anlegg har ofte en løpende kostnad. Hva som lønner seg, avhenger av avtalen og bygget.</p>
+      <p>Vi setter ikke opp en kalkulator og oppgir ikke en besparelse på forhånd. Etter gjennomgang får dere et skriftlig tilbud på det som foreslås byttet eller beholdt.</p>
+      <ul class="checks">
+        <li>Utstyret kan tilhøre eiendommen</li>
+        <li>Opptak kan ligge i bygget</li>
+        <li>Nett og kabling gjenbrukes der det er forsvarlig</li>
+        <li>3 års garanti på kameraer i et nytt anlegg. Garanti på øvrig utstyr følger produsent</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Ikke bundet til ett merke</h2>
+      <p>Operiq er leverandøruavhengig. Vi navngir ikke kameramerke her. Valget gjøres etter dekning, lys og det som allerede står i bygget.</p>
+      <p><a class="link-arrow" href="/naeringsbygg">Kameraovervåkning for næringsbygg</a> <a class="link-arrow" href="/kameraovervaking">Teknisk beskrivelse</a></p>
+    </div>
+  </section>
+
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand
+        title="Få vurdert dagens løsning"
+        text="Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer."
+        href="/kontakt?tema=vurdering"
+        label="Få vurdert dagens løsning"
+      />
+    </div>
+  </section>
+</Base>

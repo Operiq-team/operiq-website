@@ -512,6 +512,16 @@ h3 {
 .sw.on { background: rgba(199, 189, 166, 0.35); }
 .sw.on::after { left: 17px; background: var(--sand); }
 .illu { margin: 0.7rem 0 0; text-align: right; color: var(--muted); }
+.concept-copy { margin: 0; color: #c9ced4; font-size: 0.92rem; }
+.concept-flag {
+  margin: 0.8rem 0 0;
+  color: var(--sand);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 
 .strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); }
 .strip-row { display: grid; }

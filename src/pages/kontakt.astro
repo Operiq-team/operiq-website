@@ -11,15 +11,15 @@ import { site } from "../site";
 
 const title = "Kontakt – Operiq";
 const description =
-  "Bestill uforpliktende befaring av kameraanlegg. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
+  "Be om vurdering eller løsningsforslag for kameraovervåkning. E-post post@operiq.no. Basert i Oslo, leverer i hele landet.";
 const tel = site.phone.replace(/\s/g, "");
 ---
 
 <Base title={title} description={description} path="/kontakt">
   <PageHero
     kicker="Kontakt"
-    title="Bestill uforpliktende befaring"
-    lead="Fortell kort om bygget. Vi avtaler befaring og gir et skriftlig tilbud."
+    title="Få vurdert dagens kameraanlegg"
+    lead="Fortell kort om eiendommen. Skjemaet åpner en e-post til oss. Ingenting sendes før du sender e-posten."
   />
 
   <section class="section section-follow">
@@ -43,7 +43,7 @@ const tel = site.phone.replace(/\s/g, "");
             </p>
           )
         }
-        <p>Skjemaet lager en e-post til {site.email}. Det lagres ikke på nettsiden.</p>
+        <p>Skjemaet åpner e-postprogrammet med ferdig tekst til {site.email}. Henvendelsen lagres ikke på nettsiden. Ingenting er sendt før du sender e-posten.</p>
       </aside>
 
       <form
@@ -59,35 +59,49 @@ const tel = site.phone.replace(/\s/g, "");
             <input name="name" type="text" autocomplete="name" required maxlength="120" />
           </label>
           <label>
-            <span>E-post</span>
-            <input name="email" type="email" autocomplete="email" required maxlength="160" />
-          </label>
-        </div>
-        <div class="form-row two">
-          <label>
-            <span>Telefon</span>
-            <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
-          </label>
-          <label>
             <span>Firma</span>
             <input name="company" type="text" autocomplete="organization" maxlength="160" />
           </label>
         </div>
+        <div class="form-row two">
+          <label>
+            <span>E-post</span>
+            <input name="email" type="email" autocomplete="email" required maxlength="160" />
+          </label>
+          <label>
+            <span>Telefon, valgfritt</span>
+            <input name="phone" type="tel" autocomplete="tel" maxlength="40" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>
+            <span>Sted</span>
+            <input name="location" type="text" maxlength="240" />
+          </label>
+          <label>
+            <span>Type eiendom</span>
+            <select name="propertyType">
+              <option value="">Velg, valgfritt</option>
+              <option value="naering">Næringsbygg</option>
+              <option value="lager">Lager og logistikk</option>
+              <option value="portefolje">Eiendomsportefølje</option>
+              <option value="butikk">Butikk</option>
+              <option value="annet">Annet</option>
+            </select>
+          </label>
+        </div>
         <label>
-          <span>Adresse til bygget</span>
-          <input name="building" type="text" autocomplete="street-address" maxlength="240" />
-        </label>
-        <label>
-          <span>Tema</span>
-          <select name="topic" required>
-            <option value="">Velg</option>
-            <option value="kamera">Kameraovervåking</option>
-            <option value="butikk">Butikk og kjeder</option>
-            <option value="annet">Annet</option>
+          <span>Har dere kameraanlegg fra før?</span>
+          <select name="existing">
+            <option value="">Velg, valgfritt</option>
+            <option value="ja">Ja</option>
+            <option value="nei">Nei</option>
+            <option value="usikker">Usikker</option>
           </select>
         </label>
+        <input type="hidden" name="topic" value="" />
         <label>
-          <span>Antall kameraer, eller hva du trenger hjelp til</span>
+          <span>Hva trenger dere hjelp til?</span>
           <textarea name="message" required maxlength="4000"></textarea>
         </label>
         <div class="hp" aria-hidden="true">
@@ -96,7 +110,7 @@ const tel = site.phone.replace(/\s/g, "");
             <input name="website" type="text" tabindex="-1" autocomplete="off" />
           </label>
         </div>
-        <button class="btn" type="submit">Bestill uforpliktende befaring</button>
+        <button class="btn" type="submit">Send forespørsel</button>
         <p id="form-status" role="status"></p>
         <noscript>
           <p class="form-note">
@@ -119,9 +133,9 @@ const tel = site.phone.replace(/\s/g, "");
   if (form && status) {
     const params = new URLSearchParams(window.location.search);
     const topic = params.get("tema");
-    const select = form.querySelector<HTMLSelectElement>('[name="topic"]');
-    if (select && topic && ["kamera", "butikk", "annet"].includes(topic)) {
-      select.value = topic;
+    const topicInput = form.querySelector<HTMLInputElement>('[name="topic"]');
+    if (topicInput && topic && ["vurdering", "forslag", "portefolje", "kamera", "butikk", "annet"].includes(topic)) {
+      topicInput.value = topic;
     }
 
     const showMailto = (href: string, email: string) => {
