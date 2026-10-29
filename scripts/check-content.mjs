@@ -197,8 +197,11 @@ if (!secure.includes("PoE")) fail("Kamera page is missing PoE");
 if (!secure.includes("Porter åpnes ikke mot internett som utgangspunkt.")) {
   fail("Kamera page is missing the closed-network principle");
 }
-if (!secure.includes("Kameraene har 3 års garanti. Garanti på øvrig utstyr følger produsent.")) {
+if (!secure.includes("3 års garanti på kameraer, i henhold til leveransevilkårene.")) {
   fail("Kamera page must limit the 3-year warranty to cameras");
+}
+if (/garanti på (anlegget|installasjonen|kabling|øvrig utstyr)|livstidsgaranti|full garanti/i.test(secure)) {
+  fail("Kamera page extends the warranty beyond the cameras");
 }
 
 for (const [name, html] of [
@@ -243,7 +246,10 @@ if (!contact.includes("Be om vurdering av kameraovervåkning")) fail("Contact pa
 if (!contact.includes("post@operiq.no") || !contact.includes("+47 919 94 544")) {
   fail("Contact page is missing the email and phone fallback");
 }
-if (!contact.includes("lagres ikke på nettstedet")) fail("Contact page must say the enquiry is not stored on the website");
+if (!contact.includes("Enten dere vurderer et nytt kameraanlegg eller ønsker å forbedre en eksisterende løsning")) {
+  fail("Contact page is missing the approved subtitle");
+}
+if (!contact.includes("Vi bruker opplysningene til å svare deg.")) fail("Contact page is missing the short privacy line");
 if (!contact.includes("+47 919 94 544") || !contact.includes("tel:+4791994544")) {
   fail("Contact page is missing the phone number");
 }
@@ -345,7 +351,13 @@ if (englishContact.includes(">Place<") || englishContact.includes("email program
   fail("English contact page still says Place or email program");
 }
 if (!englishContact.includes("Request a Surveillance System Assessment")) fail("English contact headline is missing");
-if (!englishContact.includes("Planning a new installation?")) fail("English contact page is missing the new-installation line");
+if (!englishContact.includes("Whether you’re planning a new surveillance installation or looking to upgrade an existing system, tell us about your property and requirements.")) {
+  fail("English contact page is missing the approved subtitle");
+}
+if (!englishContact.includes("We use these details to reply to you.")) fail("English contact page is missing the short privacy line");
+if (/nothing is sent|not stored on the website|if the form cannot be sent/i.test(englishContact)) {
+  fail("English contact page still explains how the form is delivered");
+}
 if (!englishContact.includes("post@operiq.no") || !englishContact.includes("+47 919 94 544")) {
   fail("English contact page is missing the fallback contact details");
 }

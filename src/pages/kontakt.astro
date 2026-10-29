@@ -19,7 +19,7 @@ const tel = site.phone.replace(/\s/g, "");
         <p>{t.email}<br /><a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a></p>
         <p>{t.place}<br />{ui(locale).coverageLine}</p>
         <p>{t.phone}<br /><a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a></p>
-        <p>{t.aside}</p>
+        {t.aside ? <p>{t.aside}</p> : null}
       </aside>
       <form id="contact-form" method="post" action="/api/contact" data-mode={site.contactMode} data-email={site.email} data-locale={locale}>
         <div class="form-row two">
