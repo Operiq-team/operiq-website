@@ -39,8 +39,8 @@ const authorityUrl = locale === "en" ? "https://www.datatilsynet.no/en/" : "http
         <h2>{t.rightsH}</h2>
         <p>{t.rights}</p>
         <p>
-          {t.send} <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
-          {t.orCall} <a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>.
+          {t.send} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          {t.orCall} <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>.
           {t.authority} <a href={authorityUrl}>datatilsynet.no</a>.
         </p>
         <h2>{t.changesH}</h2>

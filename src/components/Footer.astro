@@ -30,10 +30,10 @@ const links = [
       </a>
       <nav class="footer-links" aria-label={t.footerAria}>
         {links.map(([href, label]) => <a href={href}>{label}</a>)}
-        <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
+        <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
         {
           site.phone && (
-            <a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>
+            <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>
           )
         }
       </nav>

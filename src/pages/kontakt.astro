@@ -16,15 +16,15 @@ const tel = site.phone.replace(/\s/g, "");
     <div class="container contact-grid">
       <aside class="contact-aside">
         <h2>{t.direct}</h2>
-        <p>{t.email}<br /><a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a></p>
+        <p>{t.email}<br /><a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a></p>
         <p>{t.place}<br />{ui(locale).coverageLine}</p>
-        <p>{t.phone}<br /><a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a></p>
+        <p>{t.phone}<br /><a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a></p>
         <p>{t.aside}</p>
       </aside>
       <form id="contact-form" method="post" action="/api/contact" data-mode={site.contactMode} data-email={site.email} data-locale={locale}>
         <div class="form-row two">
           <label><span>{t.name}</span><input name="name" type="text" autocomplete="name" required maxlength="120" /></label>
-          <label><span>{t.company}</span><input name="company" type="text" autocomplete="organization" maxlength="160" /></label>
+          <label><span>{t.company}</span><input name="company" type="text" autocomplete="organization" required maxlength="160" /></label>
         </div>
         <div class="form-row two">
           <label><span>{t.emailField}</span><input name="email" type="email" autocomplete="email" required maxlength="160" /></label>
@@ -61,9 +61,13 @@ const tel = site.phone.replace(/\s/g, "");
         </div>
         <button class="btn" type="submit">{t.submit}</button>
         <p class="form-note">{t.note} <a href={pathFor(locale, "privacy")}>{t.privacy}</a></p>
+        <p class="form-note" id="form-fallback">
+          {t.fallback} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          {t.fallbackOr} <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>.
+        </p>
         <p id="form-status" role="status"></p>
         <noscript>
-          <p class="form-note">{t.noscript} <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>.</p>
+          <p class="form-note">{t.noscript} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>.</p>
         </noscript>
       </form>
     </div>
@@ -72,7 +76,7 @@ const tel = site.phone.replace(/\s/g, "");
 
 <script>
   import { copyFor } from "../i18n/form-copy.js";
-  import { buildMailto, parseInquiry } from "../lib/inquiry.js";
+  import { parseInquiry } from "../lib/inquiry.js";
   import { track } from "../lib/track.js";
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
@@ -95,44 +99,23 @@ const tel = site.phone.replace(/\s/g, "");
     const typeInput = form.querySelector<HTMLInputElement>('[name="type"]');
     if (typeInput && chosen) typeInput.value = chosen;
 
-    const showMailto = (href: string, email: string) => {
-      status.replaceChildren();
-      status.append(copy.mailtoIntro);
-      const link = document.createElement("a");
-      link.href = href;
-      link.textContent = email;
-      status.append(link);
-      status.append(copy.mailtoOutro);
-    };
-
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const email = form.dataset.email || "post@operiq.no";
-      const mode = form.dataset.mode || "mailto";
+      if (form.dataset.sending === "1") return;
       const raw = Object.fromEntries(new FormData(form).entries());
       const parsed = parseInquiry(raw, locale);
-
       if (!parsed.ok) {
         status.textContent = parsed.error;
         return;
       }
-
       if (parsed.spam) {
         form.reset();
-        status.textContent = copy.spam;
-        return;
-      }
-
-      const href = buildMailto(parsed.value, email, locale);
-      track("form_submit", { type: parsed.value.type || parsed.value.topic || "", locale });
-
-      if (mode !== "server") {
-        showMailto(href, email);
-        window.location.href = href;
+        status.textContent = copy.delivered;
         return;
       }
 
       const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      form.dataset.sending = "1";
       if (button) button.disabled = true;
       status.textContent = copy.sending;
 
@@ -143,23 +126,19 @@ const tel = site.phone.replace(/\s/g, "");
           body: JSON.stringify(raw),
         });
         const payload = await response.json().catch(() => null);
-        if (response.ok && payload?.delivered) {
+        if (response.ok && payload?.delivered === true) {
+          track("form_submit_success", { type: parsed.value.type || "", locale });
           form.reset();
           status.textContent = copy.delivered;
           return;
         }
-        if (response.status === 400 && payload?.error) {
-          status.textContent = payload.error;
-          return;
-        }
+        status.textContent = payload?.error || copy.errSend;
       } catch {
-        // Static preview has no function. Fall through to mailto.
+        status.textContent = copy.errSend;
       } finally {
+        delete form.dataset.sending;
         if (button) button.disabled = false;
       }
-
-      showMailto(href, email);
-      window.location.href = href;
     });
   }
 </script>

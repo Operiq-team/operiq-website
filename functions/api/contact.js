@@ -1,26 +1,21 @@
 /**
- * Cloudflare Pages Function – stub for skjemaet på /kontakt.
+ * Cloudflare Pages Function for the contact form.
  *
- * TODO(eier): Funksjonen sender ikke e-post av seg selv, og trenger ingen
- * hemmelighet for å ligge i repoet. Uten miljøvariabelen CONTACT_FORWARD_URL
- * svarer den med en ferdig mailto-lenke til post@operiq.no.
- *
- * Når du vil ha serversending (fortsatt uten hemmeligheter i git):
- * 1. Sett CONTACT_FORWARD_URL til en https-adresse du kontrollerer.
- * 2. Valgfritt: CONTACT_FORWARD_TOKEN sendes som Bearer-token.
- * 3. Sett contactMode til "server" i src/site.ts og bygg på nytt,
- *    ellers åpner skjemaet e-postprogrammet før funksjonen blir brukt.
- *
- * Ikke legg token eller URL i dette repoet.
+ * Delivery is Resend's HTTP API. Set these in the Cloudflare dashboard only,
+ * never in git:
+ *   RESEND_API_KEY
+ *   CONTACT_TO     for example post@operiq.no
+ *   CONTACT_FROM   for example Operiq <skjema@send.operiq.no>
+ * If any of them is missing, the function returns 503 and sends nothing.
  */
 
 import { copyFor } from "../../src/i18n/form-copy.js";
-import {
-  CONTACT_EMAIL,
-  buildMailto,
-  escapeHtml,
-  parseInquiry,
-} from "../../src/lib/inquiry.js";
+import { escapeHtml, parseInquiry } from "../../src/lib/inquiry.js";
+import { mailConfig, sendEnquiry } from "../../src/lib/mailer.js";
+import { allowIp } from "../../src/lib/rate-limit.js";
+
+const PUBLIC_EMAIL = "post@operiq.no";
+const PUBLIC_PHONE = "+47 919 94 544";
 
 function wantsHtml(request) {
   return (request.headers.get("accept") || "").includes("text/html");
@@ -41,7 +36,7 @@ function htmlPage({ title, body, status, locale = "nb" }) {
   const lang = locale === "en" ? "en" : "nb-NO";
   const backLabel = locale === "en" ? "Back to the form" : "Tilbake til skjemaet";
   return new Response(
-    `<!doctype html><html lang="${lang}"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)}</title><body style="font-family:sans-serif;background:#0b1117;color:#e5e7eb;padding:2rem;line-height:1.5"><h1>${escapeHtml(title)}</h1>${body}<p><a style="color:#c7bda6" href="${back}">${backLabel}</a></p></body></html>`,
+    `<!doctype html><html lang="${lang}"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)}</title><body style="font-family:sans-serif;background:#0b1117;color:#e5e7eb;padding:2rem;line-height:1.5"><h1>${escapeHtml(title)}</h1>${body}<p><a style="color:#c7bda6" href="${back}">${backLabel}</a></p><p><a style="color:#c7bda6" href="mailto:${PUBLIC_EMAIL}">${PUBLIC_EMAIL}</a> · <a style="color:#c7bda6" href="tel:+4791994544">${PUBLIC_PHONE}</a></p></body></html>`,
     {
       status,
       headers: {
@@ -54,10 +49,7 @@ function htmlPage({ title, body, status, locale = "nb" }) {
 
 async function readPayload(request) {
   const type = request.headers.get("content-type") || "";
-  if (type.includes("application/json")) {
-    const data = await request.json();
-    return data;
-  }
+  if (type.includes("application/json")) return request.json();
   const form = await request.formData();
   const payload = {};
   for (const [key, value] of form.entries()) {
@@ -66,9 +58,18 @@ async function readPayload(request) {
   return payload;
 }
 
-function mailtoFallback(inquiry, status, message, locale) {
-  const href = buildMailto(inquiry, CONTACT_EMAIL, locale);
-  return { href, status, message };
+function clientIp(request) {
+  return (
+    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    "unknown"
+  );
+}
+
+function fail(html, copy, locale, status, error) {
+  return html
+    ? htmlPage({ title: copy.apiTitleFail, body: `<p>${escapeHtml(error)}</p>`, status, locale })
+    : json({ ok: false, delivered: false, error }, status);
 }
 
 export async function onRequestGet(context) {
@@ -88,110 +89,43 @@ export async function onRequestPost(context) {
     payload = await readPayload(request);
   } catch {
     const error = copyFor("nb").apiRead;
-    return html
-      ? htmlPage({ title: copyFor("nb").apiTitleFail, body: `<p>${error}</p>`, status: 400 })
-      : json({ ok: false, error }, 400);
+    return fail(html, copyFor("nb"), "nb", 400, error);
   }
 
   const locale = payload?.locale === "en" ? "en" : "nb";
   const copy = copyFor(locale);
   const parsed = parseInquiry(payload, locale);
-  if (!parsed.ok) {
-    return html
-      ? htmlPage({
-          title: copy.apiCheck,
-          body: `<p>${escapeHtml(parsed.error)}</p>`,
-          status: 400,
-          locale,
-        })
-      : json({ ok: false, error: parsed.error }, 400);
-  }
+  if (!parsed.ok) return fail(html, copy, locale, 400, parsed.error);
 
   if (parsed.spam) {
     return html
-      ? htmlPage({
-          title: copy.apiThanks,
-          body: `<p>${copy.apiNoted}</p>`,
-          status: 200,
-          locale,
-        })
+      ? htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale })
       : json({ ok: true, delivered: true }, 200);
   }
 
-  const forwardUrl = env?.CONTACT_FORWARD_URL || "";
-  let forward;
-  try {
-    forward = forwardUrl ? new URL(forwardUrl) : null;
-  } catch {
-    forward = null;
-  }
+  const allowed = await allowIp(clientIp(request), {
+    limiter: context.limiter,
+    cache: context.cache ?? globalThis.caches?.default,
+  });
+  if (!allowed) return fail(html, copy, locale, 429, copy.errRate);
 
-  if (!forward || forward.protocol !== "https:") {
-    const fallback = mailtoFallback(parsed.value, 501, copy.apiUnconfigured, locale);
-    if (html) {
-      return htmlPage({
-        title: copy.apiSend,
-        status: 501,
-        locale,
-        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">${copy.apiOpen} ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
-      });
-    }
-    return json(
-      {
-        ok: false,
-        delivered: false,
-        fallback: "mailto",
-        mailto: fallback.href,
-        error: fallback.message,
-      },
-      501,
-    );
-  }
+  const config = mailConfig(env);
+  if (!config) return fail(html, copy, locale, 503, copy.errUnavailable);
 
   try {
-    const headers = { "content-type": "application/json" };
-    if (env.CONTACT_FORWARD_TOKEN) {
-      headers.authorization = `Bearer ${env.CONTACT_FORWARD_TOKEN}`;
-    }
-    const response = await globalThis.fetch(forward.href, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        ...parsed.value,
-        source: "operiq.no",
-      }),
+    const sent = await sendEnquiry({
+      config,
+      inquiry: parsed.value,
+      locale,
+      fetchImpl: context.fetchImpl || globalThis.fetch,
     });
-    if (!response.ok) throw new Error("forward failed");
+    if (!sent.ok) return fail(html, copy, locale, 502, copy.errSend);
   } catch {
-    const fallback = mailtoFallback(parsed.value, 502, copy.apiDown, locale);
-    if (html) {
-      return htmlPage({
-        title: copy.apiSend,
-        status: 502,
-        locale,
-        body: `<p>${escapeHtml(fallback.message)}</p><p><a style="color:#c7bda6" href="${escapeHtml(fallback.href)}">${copy.apiOpen} ${escapeHtml(CONTACT_EMAIL)}</a></p>`,
-      });
-    }
-    return json(
-      {
-        ok: false,
-        delivered: false,
-        fallback: "mailto",
-        mailto: fallback.href,
-        error: fallback.message,
-      },
-      502,
-    );
+    return fail(html, copy, locale, 502, copy.errSend);
   }
 
   if (html) {
-    return htmlPage({
-      title: copy.apiThanks,
-      status: 200,
-      locale,
-      body: `<p>${copy.apiReceived}</p>`,
-    });
+    return htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale });
   }
-
-  return json({ ok: true, delivered: true }, 200);
+  return json({ ok: true, delivered: true, message: copy.delivered }, 200);
 }

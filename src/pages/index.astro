@@ -28,8 +28,8 @@ const contact = pathFor(locale, "contact");
         <h1>{t.h1a}<br /><em>{t.h1b}</em></h1>
         <p class="lead">{t.lead}</p>
         <div class="actions">
-          <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.ctaExisting} <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="#how" data-track="cta" data-track-type="prosess">{t.ctaProcess}</a>
+          <a class="btn" href={contact} data-track="primary_cta_click">{t.ctaExisting} <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how" data-track="primary_cta_click" data-track-type="prosess">{t.ctaProcess}</a>
         </div>
         <div class="facts">
           <div><b>{t.fact1b}</b>{t.fact1}</div>
@@ -128,7 +128,7 @@ const contact = pathFor(locale, "contact");
         {t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}
       </ul>
       <p class="future-cta">
-        <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.review}</a>
+        <a class="btn" href={`${contact}?type=eksisterende`} data-track="primary_cta_click" data-track-type="eksisterende">{t.review}</a>
       </p>
       <p>{t.reviewNote} <a class="link-arrow" href={pathFor(locale, "existing")}>{t.reviewLink}</a></p>
     </div>
@@ -197,7 +197,7 @@ const contact = pathFor(locale, "contact");
         <h2>{t.portH}</h2>
         <p class="lead">{t.portP}</p>
         <p>{t.portNote} <a class="link-arrow" href={pathFor(locale, "retail")}>{t.portRetail}</a> <a class="link-arrow" href={pathFor(locale, "portfolio")}>{t.portMore}</a></p>
-        <p class="future-cta"><a class="btn" href={`${contact}?type=portefolje`} data-track="cta" data-track-type="portefolje">{t.portCta}</a></p>
+        <p class="future-cta"><a class="btn" href={`${contact}?type=portefolje`} data-track="primary_cta_click" data-track-type="portefolje">{t.portCta}</a></p>
       </div>
     </div>
   </section>
@@ -227,10 +227,10 @@ const contact = pathFor(locale, "contact");
         </div>
         <div>
           <p>{t.nextP} {ui(locale).coverageLine}.</p>
-          <a class="btn" href={`${contact}?type=eksisterende`} data-track="cta" data-track-type="eksisterende">{t.ctaExisting} <span class="arr">→</span></a>
-          <p><a class="link-arrow" href={`${contact}?type=nytt`} data-track="cta" data-track-type="nytt">{t.proposal}</a></p>
-          <a class="cta-mail" href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
-          <a class="cta-mail" href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>
+          <a class="btn" href={contact} data-track="primary_cta_click">{t.ctaExisting} <span class="arr">→</span></a>
+          <p><a class="link-arrow" href={`${contact}?type=nytt`} data-track="primary_cta_click" data-track-type="nytt">{t.proposal}</a></p>
+          <a class="cta-mail" href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          <a class="cta-mail" href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>
         </div>
       </aside>
     </div>

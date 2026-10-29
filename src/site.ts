@@ -21,11 +21,11 @@ export const site = {
   description:
     "Operiq prosjekterer og monterer kameraovervåkning for næringsbygg. Du eier anlegget. Opptak lagres lokalt. Basert i Oslo, leverer i hele landet.",
   /**
-   * TODO(eier): La contactMode stå som "mailto" til utsending er satt opp.
-   * Bytt til "server" først når CONTACT_FORWARD_URL er satt i Cloudflare,
-   * ellers åpner skjemaet e-postprogrammet i stedet for å poste til funksjonen.
+   * The form posts to /api/contact. Delivery uses Resend only when
+   * RESEND_API_KEY, CONTACT_TO and CONTACT_FROM are set in the host.
+   * Do not put those values in the repo. Without them the endpoint returns 503.
    */
-  contactMode: "mailto" as "mailto" | "server",
+  contactMode: "server" as const,
 };
 
 export function legalLineFor(locale: "nb" | "en" = "nb"): string {

@@ -21,7 +21,7 @@ const steps = t.steps.map((step) => ({ title: step[0], text: step[1] }));
         <h1>{t.h}</h1>
         <p class="lead">{t.lead}</p>
         <div class="actions">
-          <a class="btn" href={`${pathFor(locale, "contact")}?type=nytt`} data-track="cta" data-track-type="nytt">{t.cta}</a>
+          <a class="btn" href={`${pathFor(locale, "contact")}?type=nytt`} data-track="primary_cta_click" data-track-type="nytt">{t.cta}</a>
         </div>
       </div>
       <div class="frame">

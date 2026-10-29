@@ -22,7 +22,7 @@ const items = [
   { href: `${home === "/" ? "/" : home}#referanse`, label: t.nav.references },
   { href: pathFor(locale, "contact"), label: t.nav.contact },
 ];
-const cta = `${pathFor(locale, "contact")}?type=eksisterende`;
+const cta = pathFor(locale, "contact");
 
 function isCurrent(href: string) {
   return current === href.split("#")[0];
@@ -50,14 +50,14 @@ function isCurrent(href: string) {
     </nav>
     {
       site.phone && (
-        <a class="header-phone" href={`tel:${tel}`} data-track="tel" translate="no">
+        <a class="header-phone" href={`tel:${tel}`} data-track="phone_click" translate="no">
           {site.phone}
         </a>
       )
     }
     {
       showCta && (
-        <a class="btn header-cta" href={cta} data-track="cta" data-track-type="eksisterende">
+        <a class="btn header-cta" href={cta} data-track="primary_cta_click">
           {t.ctaShort} <span class="arr">→</span>
         </a>
       )
@@ -78,7 +78,7 @@ function isCurrent(href: string) {
           }
           {
             site.phone && (
-              <a href={`tel:${tel}`} data-track="tel" translate="no">
+              <a href={`tel:${tel}`} data-track="phone_click" translate="no">
                 {site.phone}
               </a>
             )
@@ -91,7 +91,7 @@ function isCurrent(href: string) {
         </nav>
         {
           showCta && (
-            <a class="btn" href={cta} data-track="cta" data-track-type="eksisterende">
+            <a class="btn" href={cta} data-track="primary_cta_click">
               {t.ctaShort}
             </a>
           )

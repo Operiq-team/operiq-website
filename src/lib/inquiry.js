@@ -98,7 +98,7 @@ export function parseInquiry(raw, locale = "nb") {
     return { ok: false, error: copy.errExisting };
   }
 
-  if (!value.name || !value.email || !value.message) {
+  if (!value.name || !value.company || !value.email || !value.message) {
     return {
       ok: false,
       error: copy.errRequired,

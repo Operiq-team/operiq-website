@@ -36,7 +36,7 @@ const referenceFacts = [
 const requiredInSite = [
   "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
   "post@operiq.no",
-  "Få vurdert dagens kameraanlegg",
+  "Bestill en uforpliktende befaring",
   'lang="nb-NO"',
 ];
 
@@ -127,7 +127,7 @@ for (const snippet of requiredInSite) {
 }
 if (!home.includes("Intelligent overvåkning")) fail("Home is missing the headline");
 if (!home.includes("Ditt anlegg. Dine opptak. Full kontroll.")) fail("Home is missing the ownership heading");
-if (!home.includes("Betaler du mer enn nødvendig for kameraovervåkning?")) fail("Home is missing the existing-system section");
+if (!home.includes("Kan kameraanlegget koste mer enn det bør?")) fail("Home is missing the existing-system section");
 if (!home.includes("Fra passiv overvåkning til aktiv avskrekking.")) fail("Home is missing the deterrence heading");
 if (!home.includes("Konsept – under utvikling")) fail("Home must label undeveloped deterrence as a concept");
 if (!home.includes("Én leverandør. Fra befaring til ferdig anlegg.")) fail("Home is missing the process heading");
@@ -143,11 +143,14 @@ for (const zone of ["Inngang og adkomst", "Fasade", "Parkering", "Varemottak og 
 if (!home.includes(">Du får<") && !home.includes(">Du får ")) fail("Home process steps are missing Du får");
 if (!home.includes("+47 919 94 544")) fail("Home is missing the phone number");
 if (!home.includes("tel:+4791994544")) fail("Home is missing the tel link");
-if (!home.includes('data-track="cta"')) fail("Home is missing tracked calls to action");
+if (!home.includes('data-track="primary_cta_click"')) fail("Home is missing tracked calls to action");
+if (!home.includes('data-track="phone_click"') || !home.includes('data-track="email_click"')) {
+  fail("Home is missing phone or email tracking");
+}
 if (!home.includes("Tilgjengelig") || !home.includes("Under utvikling")) {
   fail("Home must separate available functions from work in development");
 }
-if (!home.includes("Én standard. Hele eiendomsporteføljen.")) fail("Home is missing the portfolio heading");
+if (!home.includes("Én standard. På tvers av eiendomsporteføljen.")) fail("Home is missing the portfolio heading");
 if (!home.includes("Konseptuell illustrasjon. Ikke en programvareplattform.")) {
   fail("Home must label the portfolio graphic as an illustration");
 }
@@ -236,7 +239,11 @@ if (!/Basert i Oslo, leverer i hele landet/.test(home) || !/Norway/.test(home)) 
 }
 
 const contact = await readFile(path.join(dist, "kontakt/index.html"), "utf8");
-if (!contact.includes("Få vurdert dagens kameraanlegg")) fail("Contact page is missing the inquiry heading");
+if (!contact.includes("Be om vurdering av kameraovervåkning")) fail("Contact page is missing the inquiry heading");
+if (!contact.includes("post@operiq.no") || !contact.includes("+47 919 94 544")) {
+  fail("Contact page is missing the email and phone fallback");
+}
+if (!contact.includes("lagres ikke på nettstedet")) fail("Contact page must say the enquiry is not stored on the website");
 if (!contact.includes("+47 919 94 544") || !contact.includes("tel:+4791994544")) {
   fail("Contact page is missing the phone number");
 }
@@ -294,6 +301,12 @@ else {
 }
 
 const englishHome = await readFile(path.join(dist, "en", "index.html"), "utf8");
+if (!englishHome.includes("Request a System Assessment")) fail("English home is missing the assessment call to action");
+if (!englishHome.includes("One Standard. Across Your Property Portfolio.")) fail("English home is missing the portfolio headline");
+if (!englishHome.includes("Privacy, Security and Compliance.")) fail("English home is missing the compliance headline");
+if (!englishHome.includes("Site Assessment") || !englishHome.includes("Testing, Handover")) {
+  fail("English home is missing the process step names");
+}
 if (!englishHome.includes("Intelligent Surveillance.")) fail("English home is missing the hero line");
 if (!englishHome.includes("You Own the System.")) fail("English home is missing the ownership line");
 if (!englishHome.includes("Modern surveillance systems for commercial properties and real estate portfolios.")) {
@@ -330,6 +343,11 @@ if (!englishPrivacy.includes("https://www.datatilsynet.no/en/")) {
 const englishContact = await readFile(path.join(dist, "en", "contact", "index.html"), "utf8");
 if (englishContact.includes(">Place<") || englishContact.includes("email program")) {
   fail("English contact page still says Place or email program");
+}
+if (!englishContact.includes("Request a Surveillance System Assessment")) fail("English contact headline is missing");
+if (!englishContact.includes("Planning a new installation?")) fail("English contact page is missing the new-installation line");
+if (!englishContact.includes("post@operiq.no") || !englishContact.includes("+47 919 94 544")) {
+  fail("English contact page is missing the fallback contact details");
 }
 if ((englishContact.match(/Nothing (?:is|has been) sent/g) || []).length > 1) {
   fail("English contact page repeats the nothing-is-sent note");
