@@ -7,10 +7,22 @@
 import { inquirySubject } from "./inquiry.js";
 import { copyFor } from "../i18n/form-copy.js";
 
+/** Keep a display name such as Operiq <skjema@send.operiq.no>, and drop wrapping quotes. */
+export function parseAddress(value) {
+  let raw = String(value || "").trim();
+  if (
+    (raw.startsWith('"') && raw.endsWith('"')) ||
+    (raw.startsWith("'") && raw.endsWith("'"))
+  ) {
+    raw = raw.slice(1, -1).trim();
+  }
+  return raw.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+}
+
 export function mailConfig(env) {
   const apiKey = String(env?.RESEND_API_KEY || "").trim();
-  const to = String(env?.CONTACT_TO || "").trim();
-  const from = String(env?.CONTACT_FROM || "").trim();
+  const to = parseAddress(env?.CONTACT_TO);
+  const from = parseAddress(env?.CONTACT_FROM);
   if (!apiKey || !to || !from) return null;
   return { apiKey, to, from };
 }
@@ -33,6 +45,7 @@ export function inquiryText(inquiry, locale = "nb") {
 }
 
 export async function sendEnquiry({ config, inquiry, locale, fetchImpl = globalThis.fetch }) {
+  const subject = inquirySubject(inquiry, locale);
   const response = await fetchImpl("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -43,9 +56,16 @@ export async function sendEnquiry({ config, inquiry, locale, fetchImpl = globalT
       from: config.from,
       to: [config.to],
       reply_to: inquiry.email,
-      subject: inquirySubject(inquiry, locale),
+      subject,
       text: inquiryText(inquiry, locale),
     }),
   });
-  return { ok: response.status >= 200 && response.status < 300, status: response.status };
+  let id = "";
+  try {
+    const data = await response.json();
+    if (typeof data?.id === "string") id = data.id;
+  } catch {
+    id = "";
+  }
+  return { ok: response.status >= 200 && response.status < 300, status: response.status, id, subject };
 }

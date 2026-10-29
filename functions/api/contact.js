@@ -120,12 +120,11 @@ export async function onRequestPost(context) {
       fetchImpl: context.fetchImpl || globalThis.fetch,
     });
     if (!sent.ok) return fail(html, copy, locale, 502, copy.errSend);
+    if (html) {
+      return htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale });
+    }
+    return json({ ok: true, delivered: true, message: copy.delivered, id: sent.id, subject: sent.subject }, 200);
   } catch {
     return fail(html, copy, locale, 502, copy.errSend);
   }
-
-  if (html) {
-    return htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale });
-  }
-  return json({ ok: true, delivered: true, message: copy.delivered }, 200);
 }

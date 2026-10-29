@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { onRequestGet, onRequestPost } from "../functions/api/contact.js";
 import { buildMailto, parseInquiry } from "../src/lib/inquiry.js";
+import { mailConfig, sendEnquiry } from "../src/lib/mailer.js";
 import { createRateLimiter } from "../src/lib/rate-limit.js";
-import { sendEnquiry } from "../src/lib/mailer.js";
 
 function mailtoSubject(href) {
   return new URLSearchParams(href.slice(href.indexOf("?") + 1)).get("subject");
@@ -44,6 +44,16 @@ test("mailto contains the public address and escaped subject", () => {
   assert.ok(href.includes(encodeURIComponent("Kameraovervåkning")));
   assert.ok(href.includes(encodeURIComponent("Ada Nord")));
   assert.equal(mailtoSubject(href), "Forespørsel til Operiq – Nytt anlegg");
+});
+
+test("a quoted display-name sender is kept for Resend", () => {
+  const config = mailConfig({
+    RESEND_API_KEY: "test-key",
+    CONTACT_TO: "post@operiq.no",
+    CONTACT_FROM: '"Operiq <skjema@send.operiq.no>"',
+  });
+  assert.equal(config.from, "Operiq <skjema@send.operiq.no>");
+  assert.equal(config.to, "post@operiq.no");
 });
 
 test("company is required", () => {
@@ -132,6 +142,8 @@ test("a mocked provider success is only reported on 2xx", async () => {
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.delivered, true);
+  assert.equal(body.id, "email_1");
+  assert.equal(body.subject, "Forespørsel til Operiq – Nytt anlegg");
   assert.equal(body.message, "Takk for henvendelsen. Vi har mottatt forespørselen din og tar kontakt så snart vi kan.");
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, "https://api.resend.com/emails");
