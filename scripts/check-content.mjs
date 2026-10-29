@@ -212,13 +212,18 @@ const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: https://operiq.no/sitemap.xml")) fail("robots.txt is missing the sitemap");
 
 const headers = await readFile(path.join(dist, "_headers"), "utf8");
-const previewBuild = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== "main";
-if (previewBuild) {
-  if (!headers.includes("X-Robots-Tag: noindex, nofollow")) {
-    fail("Preview dist/_headers is missing X-Robots-Tag: noindex, nofollow");
-  }
-} else if (/X-Robots-Tag:\s*noindex/i.test(headers)) {
-  fail("Indexable dist/_headers must not send noindex");
+for (const rule of ["https://:project.pages.dev/*", "https://:version.:project.pages.dev/*"]) {
+  if (!headers.includes(rule)) fail(`dist/_headers is missing ${rule}`);
+}
+if (!headers.includes("X-Robots-Tag: noindex, nofollow")) {
+  fail("dist/_headers is missing X-Robots-Tag: noindex, nofollow");
+}
+const catchAllAt = headers.indexOf("/*\n");
+const catchAllRest = catchAllAt < 0 ? "" : headers.slice(catchAllAt + 3);
+const catchAllEnd = catchAllRest.search(/\n(?:\/|https:)/);
+const catchAll = catchAllEnd < 0 ? catchAllRest : catchAllRest.slice(0, catchAllEnd);
+if (/X-Robots-Tag:\s*noindex/i.test(catchAll)) {
+  fail("The /* header block must not send noindex");
 }
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");

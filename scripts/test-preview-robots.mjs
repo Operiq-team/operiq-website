@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { onRequest } from "../functions/_middleware.js";
+import { readFile } from "node:fs/promises";
 import {
   applyPreviewRobots,
   isIndexableHost,
   isPagesPreviewBuild,
-  withPreviewRobotsHeader,
 } from "../src/lib/preview-robots.js";
 
 test("only operiq.no is indexable", () => {
@@ -39,10 +39,16 @@ test("robots meta is added or replaced", () => {
   assert.equal(applyPreviewRobots("<p>Ingen head</p>"), "<p>Ingen head</p>");
 });
 
-test("preview header block is appended once", () => {
-  const once = withPreviewRobotsHeader("/*\n  X-Frame-Options: SAMEORIGIN\n");
-  assert.match(once, /\n\/\*\n {2}X-Robots-Tag: noindex, nofollow\n$/);
-  assert.equal(withPreviewRobotsHeader(once), once);
+test("pages.dev hosts are noindexed in _headers and the catch-all is not", async () => {
+  const headers = await readFile(new URL("../public/_headers", import.meta.url), "utf8");
+  assert.match(headers, /https:\/\/:project\.pages\.dev\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
+  assert.match(headers, /https:\/\/:version\.:project\.pages\.dev\/\*\n {2}X-Robots-Tag: noindex, nofollow/);
+  const catchAllAt = headers.indexOf("/*\n");
+  const catchAllRest = headers.slice(catchAllAt + 3);
+  const catchAllEnd = catchAllRest.search(/\n(?:\/|https:)/);
+  const catchAll = catchAllRest.slice(0, catchAllEnd);
+  assert.equal(/X-Robots-Tag:\s*noindex/i.test(catchAll), false);
+  assert.match(catchAll, /X-Frame-Options: SAMEORIGIN/);
 });
 
 async function respond(url, body = "<head><title>Operiq</title></head>", contentType = "text/html; charset=utf-8") {
@@ -57,9 +63,10 @@ async function respond(url, body = "<head><title>Operiq</title></head>", content
   });
 }
 
-test("pages.dev responses are noindex", async () => {
+test("pages.dev html is noindex and keeps security headers", async () => {
   const response = await respond("https://d981e9d.operiq-website.pages.dev/");
   assert.equal(response.headers.get("X-Robots-Tag"), "noindex, nofollow");
+  assert.equal(response.headers.get("X-Frame-Options"), "SAMEORIGIN");
   assert.equal(response.headers.get("content-length"), null);
   const html = await response.text();
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
@@ -72,8 +79,9 @@ test("operiq.no responses stay indexable", async () => {
   assert.equal(html.includes("noindex"), false);
 });
 
-test("non-html preview assets only get the header", async () => {
+test("non-html preview assets are left unchanged for _headers", async () => {
   const response = await respond("https://operiq-website.pages.dev/og.jpg", "bytes", "image/jpeg");
-  assert.equal(response.headers.get("X-Robots-Tag"), "noindex, nofollow");
+  assert.equal(response.headers.get("X-Robots-Tag"), null);
+  assert.equal(response.headers.get("X-Frame-Options"), null);
   assert.equal(await response.text(), "bytes");
 });

@@ -1,14 +1,19 @@
 /**
  * operiq.no is the only host that should be indexed.
- * *.pages.dev previews, including the production branch's pages.dev alias,
- * must send noindex. Cloudflare Pages `_headers` cannot vary by host, so
- * preview branch builds append the header in dist, and functions/_middleware.js
- * applies it per request.
+ * public/_headers noindexes https://:project.pages.dev and
+ * https://:version.:project.pages.dev. The middleware adds the same header,
+ * plus a robots meta tag, when it rewrites HTML for any other host.
  */
 
 export const INDEXABLE_HOST = "operiq.no";
 export const PREVIEW_ROBOTS = "noindex, nofollow";
-export const PREVIEW_ROBOTS_HEADER = `X-Robots-Tag: ${PREVIEW_ROBOTS}`;
+
+export const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+};
 
 export function isIndexableHost(host) {
   const name = String(host || "")
@@ -40,9 +45,4 @@ export function applyPreviewRobots(html) {
     return html.replace(/<head\b[^>]*>/i, (open) => `${open}${tag}`);
   }
   return html;
-}
-
-export function withPreviewRobotsHeader(headersText) {
-  if (headersText.includes(PREVIEW_ROBOTS_HEADER)) return headersText;
-  return `${headersText.replace(/\s*$/, "")}\n\n/*\n  ${PREVIEW_ROBOTS_HEADER}\n`;
 }
