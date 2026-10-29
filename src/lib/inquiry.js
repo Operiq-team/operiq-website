@@ -25,6 +25,22 @@ export const EXISTING = {
   usikker: "Usikker",
 };
 
+export const INQUIRY_TYPES = {
+  eksisterende: "Eksisterende kameraanlegg",
+  nytt: "Nytt anlegg",
+  portefolje: "Flere eiendommer",
+};
+
+const TOPIC_TO_TYPE = {
+  vurdering: "eksisterende",
+  eksisterende: "eksisterende",
+  forslag: "nytt",
+  nytt: "nytt",
+  kamera: "nytt",
+  portefolje: "portefolje",
+  butikk: "portefolje",
+};
+
 const LIMITS = {
   name: 120,
   email: 160,
@@ -51,6 +67,8 @@ export function parseInquiry(raw) {
   }
 
   const topic = clean(source.topic, 20);
+  const requestedType = clean(source.type, 20);
+  const inquiryType = INQUIRY_TYPES[requestedType] ? requestedType : TOPIC_TO_TYPE[topic] || "";
   const propertyType = clean(source.propertyType, 20);
   const existing = clean(source.existing, 20);
   const value = {
@@ -63,8 +81,10 @@ export function parseInquiry(raw) {
     propertyLabel: PROPERTY_TYPES[propertyType] || "",
     existing,
     existingLabel: EXISTING[existing] || "",
+    type: inquiryType,
+    typeLabel: INQUIRY_TYPES[inquiryType] || "",
     topic,
-    topicLabel: TOPICS[topic] || "Henvendelse",
+    topicLabel: TOPICS[topic] || INQUIRY_TYPES[inquiryType] || "Henvendelse",
     message: clean(source.message, LIMITS.message),
   };
 
@@ -90,7 +110,7 @@ export function parseInquiry(raw) {
 }
 
 export function buildMailto(inquiry, email = CONTACT_EMAIL) {
-  const subject = `Forespørsel til Operiq – ${inquiry.topicLabel}`;
+  const subject = `Forespørsel til Operiq – ${inquiry.typeLabel || inquiry.topicLabel}`;
   const body = [
     `Navn: ${inquiry.name}`,
     `E-post: ${inquiry.email}`,
@@ -99,7 +119,8 @@ export function buildMailto(inquiry, email = CONTACT_EMAIL) {
     `Sted: ${inquiry.location || "–"}`,
     `Type eiendom: ${inquiry.propertyLabel || "–"}`,
     `Eksisterende anlegg: ${inquiry.existingLabel || "–"}`,
-    `Henvendelse: ${inquiry.topicLabel}`,
+    `Type henvendelse: ${inquiry.typeLabel || inquiry.topicLabel}`,
+    `Tema: ${inquiry.topicLabel}`,
     "",
     inquiry.message,
   ].join("\n");

@@ -99,7 +99,7 @@ const tel = site.phone.replace(/\s/g, "");
             <option value="usikker">Usikker</option>
           </select>
         </label>
-        <input type="hidden" name="topic" value="" />
+        <input type="hidden" name="type" value="" />
         <label>
           <span>Hva trenger dere hjelp til?</span>
           <textarea name="message" required maxlength="4000"></textarea>
@@ -111,6 +111,10 @@ const tel = site.phone.replace(/\s/g, "");
           </label>
         </div>
         <button class="btn" type="submit">Send forespørsel</button>
+        <p class="form-note">
+          Opplysningene brukes til å svare på henvendelsen.
+          <a href="/personvern">Personvernerklæring</a>
+        </p>
         <p id="form-status" role="status"></p>
         <noscript>
           <p class="form-note">
@@ -132,11 +136,18 @@ const tel = site.phone.replace(/\s/g, "");
 
   if (form && status) {
     const params = new URLSearchParams(window.location.search);
-    const topic = params.get("tema");
-    const topicInput = form.querySelector<HTMLInputElement>('[name="topic"]');
-    if (topicInput && topic && ["vurdering", "forslag", "portefolje", "kamera", "butikk", "annet"].includes(topic)) {
-      topicInput.value = topic;
-    }
+    const map: Record<string, string> = {
+      eksisterende: "eksisterende",
+      nytt: "nytt",
+      portefolje: "portefolje",
+      vurdering: "eksisterende",
+      forslag: "nytt",
+      butikk: "portefolje",
+      kamera: "nytt",
+    };
+    const chosen = map[params.get("type") || ""] || map[params.get("tema") || ""] || "";
+    const typeInput = form.querySelector<HTMLInputElement>('[name="type"]');
+    if (typeInput && chosen) typeInput.value = chosen;
 
     const showMailto = (href: string, email: string) => {
       status.replaceChildren();

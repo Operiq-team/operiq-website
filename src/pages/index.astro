@@ -25,13 +25,13 @@ const description =
           Moderne kameraanlegg for næringsbygg og eiendomsporteføljer. Bedre oversikt, full kontroll over eget utstyr og forutsigbare kostnader – uten unødvendig leverandørbinding.
         </p>
         <div class="actions">
-          <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
           <a class="btn btn-ghost" href="#how">Se hvordan vi jobber</a>
         </div>
         <div class="facts">
           <div><b>Lokalt opptak</b>Video lagres i bygget</div>
           <div><b>3 års garanti på kameraer</b>Øvrig utstyr følger produsent</div>
-          <div><b>Hele Norge</b>Vi kommer til bygget</div>
+          <div><b>Hele Norge</b>Vi leverer i hele landet</div>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ const description =
       <div><span>02</span>Lokalt opptak</div>
       <div><span>03</span>Eget nettverk</div>
       <div><span>04</span>Fast pris i tilbudet</div>
-      <div><span>05</span>Montører i hele landet</div>
+      <div><span>05</span>Leverer i hele Norge</div>
     </div>
   </div>
 
@@ -150,6 +150,24 @@ const description =
           Vi vurderer dagens løsning opp mot et anlegg du eier, og ser på investering, drift og funksjon. Vi oppgir ikke en besparelse før anlegget er gjennomgått.
         </p>
       </div>
+      <div class="tco">
+        <article>
+          <h3>Leid anlegg eller avtale</h3>
+          <ul>
+            <li>Utstyret tilhører ofte leverandøren</li>
+            <li>Løpende kostnad til leie eller service</li>
+            <li>Binding kan gjøre det vanskelig å bytte</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Anlegg du eier</h3>
+          <ul>
+            <li>Utstyret tilhører eiendommen</li>
+            <li>Opptak lagres i bygget</li>
+            <li>Investering først. Drift avtales etterpå</li>
+          </ul>
+        </article>
+      </div>
       <ul class="service-cards">
         <li>
           <h3>Eie fremfor leie</h3>
@@ -169,7 +187,7 @@ const description =
         </li>
       </ul>
       <p class="future-cta">
-        <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens løsning</a>
+        <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens løsning</a>
       </p>
       <p>Vi gjennomgår eksisterende anlegg, kostnader og mulige forbedringer. <a class="link-arrow" href="/eksisterende-kameraanlegg">Les om eksisterende kameraanlegg</a></p>
     </div>
@@ -212,7 +230,7 @@ const description =
           <p class="kicker">Slik jobber vi</p>
           <h2>Én leverandør. Fra behovsanalyse til ferdig anlegg.</h2>
         </div>
-        <p>Du forholder deg til Operiq fra første gjennomgang til dokumentasjonen er levert. Montører i hele landet.</p>
+        <p>Du forholder deg til Operiq fra første gjennomgang til dokumentasjonen er levert. Vi leverer i hele Norge.</p>
       </div>
       <ol class="how-steps">
         <li><span>01</span><h3>Befaring og behovsanalyse</h3><p>Vi kartlegger eksisterende anlegg, behov og infrastruktur.</p></li>
@@ -227,16 +245,31 @@ const description =
     <div class="container">
       <div class="sec-head">
         <div>
-          <p class="kicker">Referanser</p>
-          <h2>To anlegg. Ulik status.</h2>
+          <p class="kicker">Referanse</p>
+          <h2>Ett ferdigstilt anlegg.</h2>
         </div>
-        <p>Bildene er illustrasjonsfoto, ikke fra eiendommene. Ingen sitater.</p>
+        <p>Bildet er et illustrasjonsfoto, ikke fra eiendommen. Ingen sitater.</p>
       </div>
       <Reference />
     </div>
   </section>
 
-  <section class="section section-alt" id="portefolje">
+  <section class="section section-alt" id="om">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">Om Operiq</p>
+          <h2>Et norsk selskap for kameraanlegg.</h2>
+        </div>
+        <p>
+          Operiq er et norsk selskap. Erfaringen kommer fra teknisk eiendomsdrift og næringseiendom, og fra nettverksinfrastruktur og kameraovervåkning. Vi er leverandøruavhengige. Installasjonen dokumenteres. Vi leverer i hele Norge.
+        </p>
+      </div>
+      <p><a class="link-arrow" href="/om-oss">Selskapsopplysninger</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="portefolje">
     <div class="container chain">
       <div>
         <div class="map glass" aria-hidden="true">
@@ -257,7 +290,7 @@ const description =
           Kameraløsninger for flere bygg. Vi lager en felles teknisk standard, og tilpasser den til hvert bygg. Start med én eiendom. Rull ut videre når løsningen er dokumentert.
         </p>
         <p>Gjelder porteføljer, lager, logistikk og kjeder. <a class="link-arrow" href="/butikk">Butikkjeder har en egen side</a>. <a class="link-arrow" href="/eiendomsportefoljer">Les om eiendomsporteføljer</a></p>
-        <p class="future-cta"><a class="btn" href="/kontakt?tema=portefolje">Diskuter løsning for flere eiendommer</a></p>
+        <p class="future-cta"><a class="btn" href="/kontakt?type=portefolje">Diskuter løsning for flere eiendommer</a></p>
       </div>
     </div>
   </section>
@@ -292,8 +325,8 @@ const description =
         </div>
         <div>
           <p>Har du ikke anlegg fra før, kan du i stedet be om et løsningsforslag. {site.coverage}.</p>
-          <a class="btn" href="/kontakt?tema=vurdering">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
-          <p><a class="link-arrow" href="/kontakt?tema=forslag">Be om løsningsforslag</a></p>
+          <a class="btn" href="/kontakt?type=eksisterende">Få vurdert dagens kameraanlegg <span class="arr">→</span></a>
+          <p><a class="link-arrow" href="/kontakt?type=nytt">Be om løsningsforslag</a></p>
           <a class="cta-mail" href={`mailto:${site.email}`}>{site.email}</a>
         </div>
       </aside>

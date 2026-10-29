@@ -30,8 +30,10 @@ const referenceFacts = [
   "Kameraanlegg i næringsbygg, Oslo",
   "Ferdigstilt",
   "Pågående prosjekt",
+  "Relevant prosjekterfaring",
   "26 kameraer, ny fiber og eget nettverk",
-  "Planlagt ferdig desember 2026",
+  "Under installasjon",
+  "Ikke en leveranse fra Operiq til en kunde",
 ];
 
 const requiredInSite = [
@@ -127,7 +129,10 @@ if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing t
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
   fail("Home still promotes property operations");
 }
-if (!home.includes("Montører i hele landet")) fail("Home is missing nationwide installers");
+if (!/leverer i hele landet/i.test(home)) fail("Home is missing nationwide delivery");
+if (home.includes("Montører i hele landet") || home.includes("Egne montører")) {
+  fail("Home implies Operiq employs the installers");
+}
 if (!home.includes("aktiv avskrekking")) fail("Home is missing the deterrence section");
 if (!home.includes("er ikke i leveransen i dag")) {
   fail("Home must keep advanced deterrence out of today's delivery");
@@ -166,6 +171,8 @@ for (const [name, html] of [
   const hegde = html.match(/id="ref-hegdehaugsveien"[\s\S]*?<\/article>/)?.[0] ?? "";
   const text = hegde.replace(/<[^>]+>/g, " ").replaceAll("36", "").replaceAll("2026", "");
   if (/\d/.test(text)) fail(`${name} puts a number other than the address or 2026 on Hegdehaugsveien`);
+  const kirk = html.match(/id="ref-kirkeristen"[\s\S]*?<\/section>/)?.[0] ?? "";
+  if (/Ferdigstilt|Operiq-kunde/.test(kirk)) fail(`${name} presents Kirkeristen as a finished customer job`);
 }
 
 const butikk = await readFile(path.join(dist, "butikk/index.html"), "utf8");
