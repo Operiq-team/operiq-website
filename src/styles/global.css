@@ -140,7 +140,9 @@ p { max-width: 65ch; }
 .nav-desktop a[aria-current="page"] { color: var(--ink); }
 
 .header-phone { display: none; color: var(--muted); text-decoration: none; font-family: var(--mono); }
-.lang { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #9aa3ab; }
+.lang { align-items: center; gap: 0.35rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; color: #9aa3ab; }
+.lang-desktop { display: none; }
+.lang-mobile { display: inline-flex; }
 .lang a { color: #9aa3ab; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
 .lang a[aria-current="true"] { color: #c7bda6; }
 .lang-mobile { padding: 0.2rem 0.75rem 0.4rem; }
