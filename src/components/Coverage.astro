@@ -1,5 +1,9 @@
 ---
 import map from "../assets/coverage.svg?raw";
+
+const zoom = map
+  .replaceAll('id="', 'id="z')
+  .replaceAll("url(#", "url(#z");
 ---
 
 <section class="section section-alt" id="dekning">
@@ -7,7 +11,7 @@ import map from "../assets/coverage.svg?raw";
     <div class="sec-head">
       <div>
         <p class="kicker">Dekning</p>
-        <h2>Vi ser på hele eiendommen, ikke enkeltkameraer.</h2>
+        <h2>Riktig dekning starter med hele eiendommen.</h2>
       </div>
       <p>
         Hver eiendom er ulik. På befaringen går vi gjennom adkomst, fasader, parkering, varemottak, avfall, tekniske rom og grensene mot naboer. Så foreslår vi plassering, lys og nettverk ut fra hva som skal dekkes, og hva som lovlig kan dekkes.
@@ -16,7 +20,9 @@ import map from "../assets/coverage.svg?raw";
     <div class="cov">
       <div>
         <div class="cov-map glass" set:html={map} />
-        <p class="swipe">Sveip for å se kartet</p>
+        <button type="button" class="btn btn-ghost cov-open" aria-haspopup="dialog" aria-controls="cov-dialog">
+          Forstørr kartet
+        </button>
         <div class="cov-legend">
           <span><i class="swatch-cover"></i>Dekningsområde</span>
           <span><i class="swatch-bound"></i>Eiendomsgrense</span>
@@ -40,4 +46,23 @@ import map from "../assets/coverage.svg?raw";
       <div><b>Plassering i tilbudet</b><span>Du ser hva som dekkes før du bestemmer deg.</span></div>
     </div>
   </div>
+  <dialog id="cov-dialog" class="cov-dialog" aria-labelledby="cov-dialog-title">
+    <div class="cov-dialog-bar">
+      <p id="cov-dialog-title">Dekningskart, illustrasjon</p>
+      <button type="button" class="btn btn-ghost cov-close" data-close>Lukk</button>
+    </div>
+    <div class="cov-dialog-scroll" set:html={zoom}></div>
+  </dialog>
+  <script>
+    const dialog = document.getElementById("cov-dialog");
+    const open = document.querySelector(".cov-open");
+    const close = dialog?.querySelector("[data-close]");
+    if (dialog instanceof HTMLDialogElement && open instanceof HTMLButtonElement) {
+      open.addEventListener("click", () => dialog.showModal());
+      close?.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    }
+  </script>
 </section>
