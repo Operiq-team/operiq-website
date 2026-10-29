@@ -29,11 +29,9 @@ const referenceFacts = [
   "Hegdehaugsveien 36",
   "Kameraanlegg i næringsbygg, Oslo",
   "Ferdigstilt",
-  "Pågående prosjekt",
-  "Relevant prosjekterfaring",
-  "26 kameraer, ny fiber og eget nettverk",
-  "Under installasjon",
-  "Ikke en leveranse fra Operiq til en kunde",
+  "Prosjekterfaring",
+  "26 kameraer, ny fiberinfrastruktur og eget nettverk",
+  "Under installasjon, ferdig desember 2026",
 ];
 
 const requiredInSite = [
@@ -124,6 +122,12 @@ if (!home.includes("3 års garanti på kameraer")) fail("Home must limit the cam
 if (!home.includes("En teknisk installasjon gjør ikke overvåkningen lovlig i seg selv.")) {
   fail("Home must say installation does not make surveillance lawful");
 }
+if (!home.includes("Individuell GDPR-tilpasning")) fail("Home is missing the GDPR service point");
+if (!home.includes("Installasjon etter Nkom-regelverket, utført av registrert installatør")) {
+  fail("Home is missing the Nkom wording");
+}
+if (/sertifisert/i.test(home)) fail("Home must not say certified");
+if (/underleverand/i.test(home)) fail("Home must not mention subcontractors");
 if (home.includes("Agent vurderer")) fail("Home still shows an agent deciding events");
 if (!home.includes("Illustrasjon av systemgrensesnitt")) fail("Home is missing the console caption");
 if (home.includes("/eiendomsdrift") || home.includes("Eiendomsdrift")) {
@@ -172,7 +176,9 @@ for (const [name, html] of [
   const text = hegde.replace(/<[^>]+>/g, " ").replaceAll("36", "").replaceAll("2026", "");
   if (/\d/.test(text)) fail(`${name} puts a number other than the address or 2026 on Hegdehaugsveien`);
   const kirk = html.match(/id="ref-kirkeristen"[\s\S]*?<\/section>/)?.[0] ?? "";
-  if (/Ferdigstilt|Operiq-kunde/.test(kirk)) fail(`${name} presents Kirkeristen as a finished customer job`);
+  if (/Ferdigstilt|Operiq-kunde|Sebastian Godtfredsen/.test(kirk)) {
+    fail(`${name} presents Kirkeristen as a finished customer job or names the founder on the card`);
+  }
 }
 
 const butikk = await readFile(path.join(dist, "butikk/index.html"), "utf8");

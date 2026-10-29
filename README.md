@@ -10,7 +10,7 @@ Merket er Plate 1.1. Topp og mørk bunntekst bruker `logo-white.svg` (symbol + n
 
 Én Operiq-referanse står på forsiden og `/kameraovervaking`: Hegdehaugsveien 36. Kameraanlegg i næringsbygg, Oslo. Ferdigstilt 2026. Bildet er illustrasjonsfoto, ikke fra stedet.
 
-Kirkeristen står for seg som relevant prosjekterfaring, ikke som kundeleveranse. Kompleks næringseiendom i Oslo sentrum. 26 kameraer, ny fiber og eget nettverk. Under installasjon.
+Kirkeristen står for seg som prosjekterfaring. Kompleks næringseiendom i Oslo sentrum. 26 kameraer, ny fiberinfrastruktur og eget nettverk. Under installasjon, ferdig desember 2026.
 
 Ikke legg til gateadresse, eierselskap, sitater, bilder fra stedet eller andre tall. Andre kundenavn skal ikke med.
 
