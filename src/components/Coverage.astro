@@ -1,0 +1,74 @@
+---
+import map from "../assets/coverage.svg?raw";
+import { localizeMap, ui, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).coverage;
+const inline = localizeMap(map, locale);
+const zoom = localizeMap(map, locale)
+  .replaceAll('id="', 'id="z')
+  .replaceAll("url(#", "url(#z");
+---
+
+<section class="section section-alt" id="dekning">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">{t.kicker}</p>
+        <h2>{t.h}</h2>
+      </div>
+      <p>{t.p}</p>
+    </div>
+    <div class="cov">
+      <div>
+        <div class="cov-map glass" set:html={inline} />
+        <button type="button" class="btn btn-ghost cov-open" aria-haspopup="dialog" aria-controls="cov-dialog">
+          {t.enlarge}
+        </button>
+        <div class="cov-legend">
+          <span><i class="swatch-cover"></i>{t.legend[0]}</span>
+          <span><i class="swatch-bound"></i>{t.legend[1]}</span>
+          <span><i class="swatch-fiber"></i>{t.legend[2]}</span>
+          <span>{t.legend[3]}</span>
+        </div>
+      </div>
+      <ol class="cov-list">
+        {
+          t.areas.map((area, index) => (
+            <li>
+              <span class="k">{index + 1}</span>
+              <h3>{area[0]}</h3>
+              <p>{area[1]}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    <div class="cov-steps">
+      {t.steps.map((step) => <div><b>{step[0]}</b><span>{step[1]}</span></div>)}
+    </div>
+  </div>
+  <dialog id="cov-dialog" class="cov-dialog" aria-labelledby="cov-dialog-title">
+    <div class="cov-dialog-bar">
+      <p id="cov-dialog-title">{t.dialog}</p>
+      <button type="button" class="btn btn-ghost cov-close" data-close>{t.close}</button>
+    </div>
+    <div class="cov-dialog-scroll" set:html={zoom}></div>
+  </dialog>
+  <script>
+    const dialog = document.getElementById("cov-dialog");
+    const open = document.querySelector(".cov-open");
+    const close = dialog?.querySelector("[data-close]");
+    if (dialog instanceof HTMLDialogElement && open instanceof HTMLButtonElement) {
+      open.addEventListener("click", () => dialog.showModal());
+      close?.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    }
+  </script>
+</section>

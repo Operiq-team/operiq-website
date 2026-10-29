@@ -1,0 +1,46 @@
+---
+import { ui, type Locale } from "../i18n";
+import Picture from "./Picture.astro";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).process;
+---
+
+<section class="section section-alt" id="how">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">{t.kicker}</p>
+        <h2>{t.h}</h2>
+      </div>
+      <p>{t.p}</p>
+    </div>
+    <ol class="proc">
+      {
+        t.steps.map((step, index) => (
+          <li>
+            <figure>
+              <Picture
+                name={step[0]}
+                alt={step[1]}
+                width={640}
+                height={480}
+                sizes="(max-width: 700px) 100vw, 280px"
+                priority={true}
+              />
+              <figcaption>{ui(locale).illustration}</figcaption>
+            </figure>
+            <span class="num">{String(index + 1).padStart(2, "0")}</span>
+            <h3>{step[2]}</h3>
+            <p>{step[3]}</p>
+            <p class="out"><b>{ui(locale).youGet}</b> {step[4]}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

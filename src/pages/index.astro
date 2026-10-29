@@ -1,0 +1,238 @@
+---
+import Base from "../layouts/Base.astro";
+import Coverage from "../components/Coverage.astro";
+import Problems from "../components/Problems.astro";
+import Process from "../components/Process.astro";
+import Reference from "../components/Reference.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+import { site } from "../site";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).home;
+const tel = site.phone.replace(/\s/g, "");
+const contact = pathFor(locale, "contact");
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "home")} locale={locale}>
+  <section class="hero command">
+    <div class="hero-bg"></div>
+    <div class="hero-gridlines"></div>
+    <div class="hero-scan"></div>
+    <div class="container hero-command">
+      <div>
+        <span class="pill"><i class="dot"></i>{t.pill}</span>
+        <h1>{t.h1a}<br /><em>{t.h1b}</em></h1>
+        <p class="lead">{t.lead}</p>
+        <div class="actions">
+          <a class="btn" href={contact} data-track="primary_cta_click">{t.ctaExisting} <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#how" data-track="primary_cta_click" data-track-type="prosess">{t.ctaProcess}</a>
+        </div>
+        <div class="facts">
+          <div><b>{t.fact1b}</b>{t.fact1}</div>
+          <div><b>{t.fact2b}</b>{t.fact2}</div>
+          <div><b>{t.fact3b}</b>{t.fact3}</div>
+        </div>
+      </div>
+      <div class="console-wrap">
+        <div class="console glass" aria-hidden="true">
+          <div class="c-top">
+            <div class="t"><i class="dot"></i>{t.console}</div>
+            <div class="clock">23:47:12</div>
+          </div>
+          <div class="cam-tiles">
+            <div class="cam" style="background-image:url(/img/facade-night.webp)">
+              <div class="rec"><i></i>REC</div>
+              <div class="box"><span>PERSON</span></div>
+              <div class="sweep"></div>
+              <div class="lbl">{t.cam1}</div>
+            </div>
+            <div class="cam cam-warehouse"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam2}</div></div>
+            <div class="cam cam-yard"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam3}</div></div>
+            <div class="cam cam-shop"><div class="rec"><i></i>REC</div><div class="lbl">{t.cam4}</div></div>
+          </div>
+          <div class="c-row">
+            <div class="panel">
+              <h5>{t.events} <span>{ui(locale).illustration}</span></h5>
+              <div class="ev"><time>23:47</time><div><b>{t.ev1}</b> · {t.ev1n}</div></div>
+              <div class="ev"><time>23:41</time><div><b>{t.ev2}</b> · {t.ev2n}</div></div>
+              <div class="ev"><time>23:12</time><div><b>{t.ev3}</b> · {t.ev3n}</div></div>
+              <div class="ev"><time>22:30</time><div><b>{t.ev4}</b> · {t.ev4n}</div></div>
+            </div>
+            <div class="panel">
+              <h5>{t.deter} <span class="pilot">{t.concept}</span></h5>
+              <p class="concept-copy">{t.conceptCopy}</p>
+              <p class="concept-flag">{t.conceptFlag}</p>
+            </div>
+          </div>
+        </div>
+        <p class="illu">{t.consoleCaption}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="container strip-row">
+      {t.strip.map((item, index) => <div><span>{String(index + 1).padStart(2, "0")}</span>{item}</div>)}
+    </div>
+  </div>
+
+  <Problems locale={locale} />
+
+  <section class="section" id="losning">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.ownKicker}</p>
+          <h2>{t.ownH}</h2>
+        </div>
+        <p>{t.ownP}</p>
+      </div>
+      <div class="value-grid">
+        <article class="v v-wide glass"><span class="ic">{t.infra}</span><h3>{t.infraH}</h3><p>{t.infraP}</p></article>
+        <article class="v glass"><span class="ic">{t.ownEq}</span><h3>{t.ownEqH}</h3><p>{t.ownEqP}</p></article>
+        <article class="v glass"><span class="ic">{t.war}</span><h3>{t.warH}</h3><p>{t.warP}</p></article>
+        <article class="v glass"><span class="ic">{t.access}</span><h3>{t.accessH}</h3><p>{t.accessP}</p></article>
+        <article class="v glass"><span class="ic">{t.quote}</span><h3>{t.quoteH}</h3><p>{t.quoteP}</p></article>
+        <article class="v v-sand glass"><span class="ic">{t.vendor}</span><h3>{t.vendorH}</h3><p>{t.vendorP}</p></article>
+      </div>
+    </div>
+  </section>
+
+  <Coverage locale={locale} />
+
+  <section class="section section-alt" id="eksisterende">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.exKicker}</p>
+          <h2>{t.exH}</h2>
+        </div>
+        <p>{t.exP}</p>
+      </div>
+      <div class="tco">
+        <article>
+          <h3>{t.leaseH}</h3>
+          <ul>{t.lease.map((item) => <li>{item}</li>)}</ul>
+        </article>
+        <article>
+          <h3>{t.ownedH}</h3>
+          <ul>{t.owned.map((item) => <li>{item}</li>)}</ul>
+        </article>
+      </div>
+      <p>{t.keep}</p>
+      <ul class="service-cards">
+        {t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}
+      </ul>
+      <p class="future-cta">
+        <a class="btn" href={`${contact}?type=eksisterende`} data-track="primary_cta_click" data-track-type="eksisterende">{t.review}</a>
+      </p>
+      <p>{t.reviewNote} <a class="link-arrow" href={pathFor(locale, "existing")}>{t.reviewLink}</a></p>
+    </div>
+  </section>
+
+  <section class="section section-compact" id="neste">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.fnKicker}</p>
+          <h2>{t.fnH}</h2>
+        </div>
+        <p>{t.fnP}</p>
+      </div>
+      <ul class="pilot-grid">
+        <li class="glass"><h3>{t.fn1h} <span class="status now">{ui(locale).available}</span></h3><p>{t.fn1p}</p></li>
+        <li class="glass"><h3>{t.fn2h} <span class="status now">{ui(locale).available}</span></h3><p>{t.fn2p}</p></li>
+        <li class="glass"><h3>{t.fn3h} <span class="status later">{ui(locale).inDevelopment}</span></h3><p>{t.fn3p}</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <Process locale={locale} />
+
+  <section class="section" id="referanse">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.refKicker}</p>
+          <h2>{t.refH}</h2>
+        </div>
+      </div>
+      <Reference locale={locale} />
+    </div>
+  </section>
+
+  <section class="section section-alt" id="om">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.aboutKicker}</p>
+          <h2>{t.aboutH}</h2>
+        </div>
+        <div>{t.about.map((paragraph) => <p>{paragraph}</p>)}</div>
+      </div>
+      <p><a class="link-arrow" href={pathFor(locale, "about")}>{t.aboutLink}</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="portefolje">
+    <div class="container chain">
+      <div>
+        <div class="map glass" aria-hidden="true">
+          <div class="stores">
+            <i class="pilot"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i><i class="std"></i>
+            <i class="std"></i><i class="std"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+            <i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i><i class="rl"></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="legend"><span><i class="pilot"></i>{t.legend[0]}</span><span><i class="std"></i>{t.legend[1]}</span><span><i class="rl"></i>{t.legend[2]}</span></div>
+        </div>
+        <p class="illu">{t.mapNote}</p>
+      </div>
+      <div>
+        <p class="kicker">{t.portKicker}</p>
+        <h2>{t.portH}</h2>
+        <p class="lead">{t.portP}</p>
+        <p>{t.portNote} <a class="link-arrow" href={pathFor(locale, "retail")}>{t.portRetail}</a> <a class="link-arrow" href={pathFor(locale, "portfolio")}>{t.portMore}</a></p>
+        <p class="future-cta"><a class="btn" href={`${contact}?type=portefolje`} data-track="primary_cta_click" data-track-type="portefolje">{t.portCta}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ansvar">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">{t.gdprKicker}</p>
+          <h2>{t.gdprH}</h2>
+        </div>
+        <p>{t.gdprP}</p>
+      </div>
+      <ul class="service-cards">
+        {t.gdpr.map((item) => <li><h3>{item[0]}</h3><p>{item[1]}</p></li>)}
+      </ul>
+      <p>{t.gdprNote} <a class="link-arrow" href={pathFor(locale, "privacy")}>{t.privacyLink}</a> <a class="link-arrow" href={pathFor(locale, "notice")}>{t.noticeLink}</a></p>
+    </div>
+  </section>
+
+  <section class="section section-tight" id="cta">
+    <div class="container">
+      <aside class="cta-band">
+        <div>
+          <p class="kicker">{t.nextKicker}</p>
+          <h2>{t.nextH}</h2>
+        </div>
+        <div>
+          <p>{t.nextP} {ui(locale).coverageLine}.</p>
+          <a class="btn" href={contact} data-track="primary_cta_click">{t.ctaExisting} <span class="arr">→</span></a>
+          <p><a class="link-arrow" href={`${contact}?type=nytt`} data-track="primary_cta_click" data-track-type="nytt">{t.proposal}</a></p>
+          <a class="cta-mail" href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          <a class="cta-mail" href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

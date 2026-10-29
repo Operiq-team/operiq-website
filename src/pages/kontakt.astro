@@ -1,0 +1,146 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+import { site } from "../site";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).contact;
+const tel = site.phone.replace(/\s/g, "");
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "contact")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
+  <section class="section section-follow">
+    <div class="container contact-grid">
+      <aside class="contact-aside">
+        <h2>{t.direct}</h2>
+        <p>{t.email}<br /><a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a></p>
+        <p>{t.place}<br />{ui(locale).coverageLine}</p>
+        <p>{t.phone}<br /><a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a></p>
+        {t.aside ? <p>{t.aside}</p> : null}
+      </aside>
+      <form id="contact-form" method="post" action="/api/contact" data-mode={site.contactMode} data-email={site.email} data-locale={locale}>
+        <div class="form-row two">
+          <label><span>{t.name}</span><input name="name" type="text" autocomplete="name" required maxlength="120" /></label>
+          <label><span>{t.company}</span><input name="company" type="text" autocomplete="organization" required maxlength="160" /></label>
+        </div>
+        <div class="form-row two">
+          <label><span>{t.emailField}</span><input name="email" type="email" autocomplete="email" required maxlength="160" /></label>
+          <label><span>{t.phoneOpt}</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+        </div>
+        <div class="form-row two">
+          <label><span>{t.location}</span><input name="location" type="text" maxlength="240" /></label>
+          <label>
+            <span>{t.property}</span>
+            <select name="propertyType">
+              <option value="">{t.propertyPh}</option>
+              <option value="naering">{t.properties[0]}</option>
+              <option value="lager">{t.properties[1]}</option>
+              <option value="portefolje">{t.properties[2]}</option>
+              <option value="butikk">{t.properties[3]}</option>
+              <option value="annet">{t.properties[4]}</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          <span>{t.existing}</span>
+          <select name="existing">
+            <option value="">{t.existingPh}</option>
+            <option value="ja">{t.existingOpts[0]}</option>
+            <option value="nei">{t.existingOpts[1]}</option>
+            <option value="usikker">{t.existingOpts[2]}</option>
+          </select>
+        </label>
+        <input type="hidden" name="type" value="" />
+        <input type="hidden" name="locale" value={locale} />
+        <label><span>{t.message}</span><textarea name="message" required maxlength="4000"></textarea></label>
+        <div class="hp" aria-hidden="true">
+          <label>{t.honeypot}<input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <button class="btn" type="submit">{t.submit}</button>
+        <p class="form-note">{t.note} <a href={pathFor(locale, "privacy")}>{t.privacy}</a></p>
+        <p class="form-note" id="form-fallback">
+          {t.fallback} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          {t.fallbackOr} <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>.
+        </p>
+        <p id="form-status" role="status"></p>
+        <noscript>
+          <p class="form-note">{t.noscript} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>.</p>
+        </noscript>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { copyFor } from "../i18n/form-copy.js";
+  import { parseInquiry } from "../lib/inquiry.js";
+  import { track } from "../lib/track.js";
+
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const status = document.querySelector<HTMLElement>("#form-status");
+
+  if (form && status) {
+    const locale = form.dataset.locale === "en" ? "en" : "nb";
+    const copy = copyFor(locale);
+    const params = new URLSearchParams(window.location.search);
+    const map: Record<string, string> = {
+      eksisterende: "eksisterende",
+      nytt: "nytt",
+      portefolje: "portefolje",
+      vurdering: "eksisterende",
+      forslag: "nytt",
+      butikk: "portefolje",
+      kamera: "nytt",
+    };
+    const chosen = map[params.get("type") || ""] || map[params.get("tema") || ""] || "";
+    const typeInput = form.querySelector<HTMLInputElement>('[name="type"]');
+    if (typeInput && chosen) typeInput.value = chosen;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (form.dataset.sending === "1" || form.dataset.sent === "1") return;
+      const raw = Object.fromEntries(new FormData(form).entries());
+      const parsed = parseInquiry(raw, locale);
+      if (!parsed.ok) {
+        status.textContent = parsed.error;
+        return;
+      }
+      if (parsed.spam) {
+        form.reset();
+        status.textContent = copy.delivered;
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      form.dataset.sending = "1";
+      if (button) button.disabled = true;
+      status.textContent = copy.sending;
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "content-type": "application/json", accept: "application/json" },
+          body: JSON.stringify(raw),
+        });
+        const payload = await response.json().catch(() => null);
+        if (response.ok && payload?.delivered === true) {
+          form.dataset.sent = "1";
+          track("form_submit_success", { type: parsed.value.type || "", locale });
+          form.reset();
+          status.textContent = copy.delivered;
+          return;
+        }
+        status.textContent = payload?.error || copy.errSend;
+      } catch {
+        status.textContent = copy.errSend;
+      } finally {
+        if (form.dataset.sent === "1") return;
+        delete form.dataset.sending;
+        if (button) button.disabled = false;
+      }
+    });
+  }
+</script>

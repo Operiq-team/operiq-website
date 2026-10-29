@@ -1,0 +1,51 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+import { legalLineFor, site } from "../site";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).privacy;
+const tel = site.phone.replace(/\s/g, "");
+const orgLabel = locale === "en" ? "Org. no." : "org.nr";
+const authorityUrl = locale === "en" ? "https://www.datatilsynet.no/en/" : "https://www.datatilsynet.no/";
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "privacy")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
+  <section class="section section-follow">
+    <div class="container">
+      <article class="prose">
+        <h2>{t.whoH}</h2>
+        <p>{t.who1} <a href={`mailto:${site.email}`} translate="no">{site.email}</a>. {t.who2}</p>
+        <p translate="no">{legalLineFor(locale)}.</p>
+        <h2>{t.whatH}</h2>
+        <p>{t.whatP}</p>
+        <ul>{t.what.map((item) => <li>{item}</li>)}</ul>
+        <p>{t.cookies}</p>
+        <h2>{t.whyH}</h2>
+        <p>{t.why}</p>
+        <h2>{t.howH}</h2>
+        <p>{t.how1}</p>
+        <p>{t.how2}</p>
+        <h2>{t.whoRecH}</h2>
+        <p>{t.whoRec}</p>
+        <h2>{t.timeH}</h2>
+        <p>{t.time}</p>
+        <h2>{t.camH}</h2>
+        <p>{t.cam}</p>
+        <p><a href={pathFor(locale, "notice")}>{t.filmed}</a>.</p>
+        <h2>{t.rightsH}</h2>
+        <p>{t.rights}</p>
+        <p>
+          {t.send} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+          {t.orCall} <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>.
+          {t.authority} <a href={authorityUrl}>datatilsynet.no</a>.
+        </p>
+        <h2>{t.changesH}</h2>
+        <p>{t.changes} <span translate="no">{site.legalName}, {orgLabel} {site.orgNr}.</span></p>
+      </article>
+    </div>
+  </section>
+</Base>

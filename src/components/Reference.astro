@@ -1,0 +1,37 @@
+---
+import { ui, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).reference;
+const label = ui(locale).illustrationPhoto;
+---
+
+<article class="ref glass" id="ref-hegdehaugsveien">
+  <div class="ref-visual building">
+    <span class="pill"><i class="dot sand"></i>{label}</span>
+  </div>
+  <div class="ref-body">
+    <p class="kicker">{t.ref}</p>
+    <h2 translate="no">{t.name}</h2>
+    <p>{t.line}</p>
+    <p>{t.body}</p>
+    <p class="case-status">{t.done}</p>
+  </div>
+</article>
+
+<section class="experience" id="ref-kirkeristen">
+  <div class="ref-visual fiber">
+    <span class="pill"><i class="dot sand"></i>{label}</span>
+  </div>
+  <div class="ref-body">
+    <p class="kicker">{t.exp}</p>
+    <h2 translate="no">{t.kirk}</h2>
+    <p>{t.kirkLead}</p>
+    <p>{t.kirkBody}</p>
+    <p class="case-status">{t.ongoing}</p>
+  </div>
+</section>

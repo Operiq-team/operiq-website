@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import CtaBand from "../components/CtaBand.astro";
+import PageHero from "../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).portfolio;
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "portfolio")} locale={locale}>
+  <PageHero kicker={t.kicker} title={t.h} lead={t.lead} />
+  <section class="section section-follow">
+    <div class="container">
+      <h2>{t.sameH}</h2>
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{t.orderH}</h2>
+      <ol class="how-steps">
+        {t.steps.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><h3>{step[0]}</h3><p>{step[1]}</p></li>)}
+      </ol>
+      <p>{t.aside} <a class="link-arrow" href={pathFor(locale, "retail")}>{t.links[0]}</a> <a class="link-arrow" href={pathFor(locale, "commercial")}>{t.links[1]}</a> <a class="link-arrow" href={pathFor(locale, "warehouse")}>{t.links[2]}</a></p>
+      <p>{t.figure}</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2>{t.afterH}</h2>
+      <p>{t.after1}</p>
+      <p>{t.after2}</p>
+    </div>
+  </section>
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=portefolje`} label={t.cta} />
+    </div>
+  </section>
+</Base>

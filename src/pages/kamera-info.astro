@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+import { site } from "../site";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).notice;
+const tel = site.phone.replace(/\s/g, "");
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "notice")} locale={locale} showCta={false}>
+  <header class="page-hero">
+    <div class="container">
+      <p class="kicker">{t.kicker}</p>
+      <h1>{t.h}</h1>
+      <p class="lead">{t.lead}</p>
+    </div>
+  </header>
+  <section class="section section-follow">
+    <div class="container info-stack">
+      <article class="info-box emphasis">
+        <h2>{t.h2}</h2>
+        <p>{t.p2}</p>
+      </article>
+      <article class="info-box">
+        <h2>{t.h3}</h2>
+        <p>{t.p3}</p>
+        <p>{t.p4}</p>
+        <p>{t.p5} <a href={`mailto:${site.email}`} translate="no">{site.email}</a> {t.p5b}</p>
+      </article>
+      <article class="info-box">
+        <h2>{t.h4}</h2>
+        <p>
+          <a href={`mailto:${site.email}`} translate="no">{site.email}</a><br />
+          {ui(locale).coverageLine}<br />
+          <a href={`tel:${tel}`} translate="no">{site.phone}</a>
+        </p>
+        <p>{t.org} <span translate="no">{site.orgNr}</span>.</p>
+      </article>
+      <p class="form-note">{t.foot} <a href={pathFor(locale, "privacy")}>{t.footLink}</a>. {t.foot2}</p>
+    </div>
+  </section>
+</Base>

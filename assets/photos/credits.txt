@@ -1,0 +1,19 @@
+Bilder til ny operiq.no – alle fra Pexels (https://www.pexels.com/license/), lastet ned 28.10.2026.
+Pexels-lisens: gratis, også kommersielt; kreditering ikke påkrevd (men pent); fritt å beskjære/redigere.
+Ikke lov: selge uendrede kopier, antyde at personer/merker på bildet anbefaler oss, bruke bildet som del av logo/varemerke, videreselge på andre bildebanker.
+Kreditering (valgfri) kan stå på /personvern eller i bunntekst: «Foto: <fotograf> / Pexels».
+
+fil | motiv | fotograf | side
+hero-kamera-fasade-pexels-37591149.jpg | doble domekamera på arm, lys fasade, blå himmel | Giant Asparagus | https://www.pexels.com/photo/outdoor-surveillance-camera-on-building-wall-37591149/
+kamera-bygningshjorne-pexels-37591159.jpg | to kamera på hjørne av steinbygg (bygård-følelse) | Giant Asparagus | https://www.pexels.com/photo/modern-security-cameras-on-urban-building-corner-37591159/
+dome-betongvegg-mork-pexels-29866272.jpg | domekamera på mørk betongvegg | Thomas VEILLON | https://www.pexels.com/photo/outdoor-security-camera-on-concrete-wall-29866272/
+dome-innendors-tak-pexels-7508684.jpg | dome i himling (butikk/kontor) – OBS: delvis produsenttekst på kanten, beskjær/retusjer | David Yu | https://www.pexels.com/photo/a-round-white-cctv-camera-7508684/
+kameraer-konstruksjon-pexels-38999359.jpg | panorama + bullet på stolpe | Giant Asparagus | https://www.pexels.com/photo/modern-surveillance-cameras-on-urban-structure-38999359/
+fiber-patchpanel-pexels-4425157.jpg | fiber-patchkabler i panel | Brett Sayles | https://www.pexels.com/photo/blue-patch-cables-plugged-on-patch-panel-4425157/
+nettverk-switch-pexels-6466143.jpg | nettverkskabler i switch – OBS: «PBI»-merking synlig, bruk beskjært/uskarpt eller dropp | Sergei Starostin | https://www.pexels.com/photo/close-up-photo-of-ethernet-cables-on-network-switch-6466143/
+naeringsbygg-fasade-pexels-12955940.jpg | moderne næringsbygg-fasade | Atlantic Ambience | https://www.pexels.com/photo/exterior-design-of-a-commercial-building-12955940/
+bygg-hjorne-lys-pexels-3137040.jpg | lyst kontorbygg, lav vinkel (stående) | Adrien Olichon | https://www.pexels.com/photo/low-angle-shot-of-a-building-perspective-with-white-and-black-exterior-3137040/
+lager-interior-pexels-36122954.jpg | lager/industrihall | James Richardson | https://www.pexels.com/photo/spacious-industrial-warehouse-interior-with-storage-racks-36122954/
+butikk-hyller-pexels-1884579.jpg | lys butikk med hyller (stående) | Tembela Bohle | https://www.pexels.com/photo/black-gondola-shelf-1884579/
+montor-under-tak-pexels-38524262.jpg | montør monterer under takskjegg, ansikt skjult | Bulat843 | https://www.pexels.com/photo/handyman-installing-outdoor-lighting-fixture-under-roof-38524262/
+montor-stige-tak-pexels-32391477.jpg | montør på stige mot himling (reserve; installerer lampe, ikke kamera) | El Jundi | https://www.pexels.com/photo/man-fixing-ceiling-light-in-empty-room-32391477/

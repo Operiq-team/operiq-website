@@ -1,0 +1,26 @@
+{
+  "name": "operiq-website",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "images": "node scripts/images.mjs",
+    "predev": "node scripts/images.mjs",
+    "prebuild": "node scripts/images.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "node scripts/check-content.mjs",
+    "test": "node --test scripts/test-contact.mjs scripts/test-preview-robots.mjs scripts/test-track.mjs scripts/test-i18n.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "astro": "^5.15.9",
+    "sharp": "^0.35.5"
+  }
+}

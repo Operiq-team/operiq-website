@@ -1,0 +1,92 @@
+---
+import Base from "../layouts/Base.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import Reference from "../components/Reference.astro";
+import Steps from "../components/Steps.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).secure;
+const icons = ["camera", "cable", "network", "disk", "phone", "file"] as const;
+const steps = t.steps.map((step) => ({ title: step[0], text: step[1] }));
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "secure")} locale={locale}>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker" translate="no">{t.kicker}</p>
+        <h1>{t.h}</h1>
+        <p class="lead">{t.lead}</p>
+        <div class="actions">
+          <a class="btn" href={`${pathFor(locale, "contact")}?type=nytt`} data-track="primary_cta_click" data-track-type="nytt">{t.cta}</a>
+        </div>
+      </div>
+      <div class="frame">
+        <img src="/img/facade-night.jpg" alt={t.alt} width="1200" height="900" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <ul class="service-cards">{t.cards.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <p class="kicker">{t.delKicker}</p>
+      <h2>{t.delH}</h2>
+      <ul class="icon-grid">
+        {t.deliver.map((item, index) => (
+          <li><Icon name={icons[index]} /><div><h3>{item[0]}</h3><p>{item[1]}</p></div></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <p class="kicker">{t.netKicker}</p>
+      <h2>{t.netH}</h2>
+      <ul class="service-cards pairs">{t.net.map((card) => <li><h3>{card[0]}</h3><p>{card[1]}</p></li>)}</ul>
+      <details class="fold">
+        <summary>{t.more}</summary>
+        <ul>{t.moreItems.map((item) => <li>{item}</li>)}</ul>
+      </details>
+    </div>
+  </section>
+  <section class="section section-alt" id="referanse">
+    <div class="container"><Reference locale={locale} /></div>
+  </section>
+  <figure class="band">
+    <img src="/img/fiber-night.jpg" alt={t.fiberAlt} width="1600" height="900" loading="lazy" decoding="async" />
+  </figure>
+  <section class="section">
+    <div class="container">
+      <h2>{t.stepsH}</h2>
+      <Steps steps={steps} />
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <h2>{t.handH}</h2>
+      <ul class="checks">{t.hand.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="note">
+        <h2>{t.ctrlH}</h2>
+        <p>{t.ctrlP} <a href={pathFor(locale, "notice")}>{t.filmed}</a>.</p>
+      </div>
+      <h2>{t.faqH}</h2>
+      {t.faq.map((item) => <details class="fold"><summary>{item[0]}</summary><p>{item[1]}</p></details>)}
+    </div>
+  </section>
+  <section class="section section-tight">
+    <div class="container">
+      <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=nytt`} label={t.cta} />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,44 @@
+---
+import { pathFor, ui, type Locale } from "../i18n";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).problems;
+const href = pathFor(locale, "contact");
+---
+
+<section class="section" id="utfordringer">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker">{t.kicker}</p>
+        <h2>{t.h}</h2>
+      </div>
+      <p>{t.p}</p>
+    </div>
+    <ul class="prob-grid">
+      {
+        t.items.map((item, index) => (
+          <li class="prob glass">
+            <div class="n"><span>{String(index + 1).padStart(2, "0")}</span></div>
+            <h3>{item[0]}</h3>
+            <p>{item[1]}</p>
+            <div class="cons">
+              <b>{t.cost}</b>
+              <div class="chips">{item[2].map((chip) => <span>{chip}</span>)}</div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="prob-foot">
+      <p><b>{t.footB}</b> {t.foot}</p>
+      <a class="btn" href={href} data-track="primary_cta_click" data-track-type="survey">
+        {t.cta} <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>

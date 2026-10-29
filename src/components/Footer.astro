@@ -1,0 +1,46 @@
+---
+import { pathFor, ui, type Locale } from "../i18n";
+import { legalLineFor, site } from "../site";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "nb" } = Astro.props;
+const t = ui(locale);
+const tel = site.phone.replace(/\s/g, "");
+const links = [
+  [pathFor(locale, "commercial"), t.nav.commercial],
+  [pathFor(locale, "warehouse"), t.nav.warehouse],
+  [pathFor(locale, "portfolio"), t.nav.portfolio],
+  [pathFor(locale, "existing"), t.footer.existing],
+  [pathFor(locale, "retail"), t.footer.retail],
+  [pathFor(locale, "secure"), t.footer.secure],
+  [pathFor(locale, "about"), t.footer.about],
+  [pathFor(locale, "privacy"), t.footer.privacy],
+  [pathFor(locale, "notice"), t.footer.notice],
+] as const;
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-row">
+      <a href={pathFor(locale, "home")} aria-label={t.homeAria} translate="no">
+        <img src="/brand/logo-secure-white-sand.svg" alt="" width="168" height="22" />
+      </a>
+      <nav class="footer-links" aria-label={t.footerAria}>
+        {links.map(([href, label]) => <a href={href}>{label}</a>)}
+        <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
+        {
+          site.phone && (
+            <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>
+          )
+        }
+      </nav>
+    </div>
+    <div class="legal-line">
+      <p translate="no">{legalLineFor(locale)}</p>
+      <p>{t.coverageLine}</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import { pathFor, ui, type Locale } from "../i18n";
+
+interface Props { locale?: Locale }
+const { locale = "nb" } = Astro.props;
+const t = ui(locale).notFound;
+---
+
+<Base title={t.title} description={t.description} path={pathFor(locale, "notFound")} locale={locale} noindex={true} showCta={false}>
+  <header class="page-hero">
+    <div class="container">
+      <p class="kicker">{t.kicker}</p>
+      <h1>{t.h}</h1>
+      <p class="lead">{t.lead}</p>
+      <div class="actions">
+        <a class="btn" href={pathFor(locale, "home")}>{t.home}</a>
+        <a class="link-quiet" href={pathFor(locale, "contact")}>{t.contact}</a>
+      </div>
+    </div>
+  </header>
+</Base>

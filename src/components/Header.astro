@@ -1,0 +1,116 @@
+---
+import { pageIdFromPath, pathFor, ui, type Locale } from "../i18n";
+import { site } from "../site";
+
+interface Props {
+  showCta?: boolean;
+  locale?: Locale;
+}
+
+const { showCta = true, locale = "nb" } = Astro.props;
+const t = ui(locale);
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+const tel = site.phone.replace(/\s/g, "");
+const home = pathFor(locale, "home");
+const pageId = pageIdFromPath(current);
+const nbHref = pathFor("nb", pageId);
+const enHref = pathFor("en", pageId);
+const items = [
+  { href: pathFor(locale, "commercial"), label: t.nav.commercial },
+  { href: pathFor(locale, "warehouse"), label: t.nav.warehouse },
+  { href: pathFor(locale, "portfolio"), label: t.nav.portfolio },
+  { href: `${home === "/" ? "/" : home}#referanse`, label: t.nav.references },
+  { href: pathFor(locale, "contact"), label: t.nav.contact },
+];
+const cta = pathFor(locale, "contact");
+
+function isCurrent(href: string) {
+  return current === href.split("#")[0];
+}
+---
+
+<header class="site-header">
+  <div class="container header-bar">
+    <a class="brand" href={home} aria-label={t.homeAria} translate="no">
+      <img class="lockup-nav" src="/brand/logo-secure-white-sand.svg" alt="" width="186" height="24" />
+    </a>
+    <nav class="nav-desktop" aria-label={t.navAria}>
+      {
+        items.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <nav class="lang lang-desktop" aria-label={t.langLabel}>
+      <a href={nbHref} hreflang="nb-NO" lang="nb-NO" aria-current={locale === "nb" ? "true" : undefined}>NO</a>
+      <span aria-hidden="true">/</span>
+      <a href={enHref} hreflang="en" lang="en" aria-current={locale === "en" ? "true" : undefined}>EN</a>
+    </nav>
+    {
+      site.phone && (
+        <a class="header-phone" href={`tel:${tel}`} data-track="phone_click" translate="no">
+          {site.phone}
+        </a>
+      )
+    }
+    {
+      showCta && (
+        <a class="btn header-cta" href={cta} data-track="primary_cta_click">
+          {t.ctaShort} <span class="arr">→</span>
+        </a>
+      )
+    }
+    <details class="nav-mobile">
+      <summary>
+        <span class="when-closed">{t.menu}</span>
+        <span class="when-open">{t.menuClose}</span>
+      </summary>
+      <div class="nav-mobile-panel">
+        <nav aria-label={t.mobileAria}>
+          {
+            items.map((item) => (
+              <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+          {
+            site.phone && (
+              <a href={`tel:${tel}`} data-track="phone_click" translate="no">
+                {site.phone}
+              </a>
+            )
+          }
+        </nav>
+        <nav class="lang lang-mobile" aria-label={t.langLabel}>
+          <a href={nbHref} data-switch="nb" hreflang="nb-NO" lang="nb-NO" aria-current={locale === "nb" ? "true" : undefined}>NO</a>
+          <span aria-hidden="true">/</span>
+          <a href={enHref} data-switch="en" hreflang="en" lang="en" aria-current={locale === "en" ? "true" : undefined}>EN</a>
+        </nav>
+        {
+          showCta && (
+            <a class="btn" href={cta} data-track="primary_cta_click">
+              {t.ctaShort}
+            </a>
+          )
+        }
+      </div>
+    </details>
+  </div>
+</header>
+<script>
+  import { pathFor, pageIdFromPath } from "../i18n";
+  const path = location.pathname.replace(/\/$/, "") || "/";
+  const id = pageIdFromPath(path);
+  const hash = location.hash;
+  if (!hash) {
+    /* Equivalent page is already in the href. */
+  } else {
+    for (const link of document.querySelectorAll(".lang a")) {
+      const locale = link.getAttribute("hreflang") === "en" ? "en" : "nb";
+      link.setAttribute("href", pathFor(locale, id) + hash);
+    }
+  }
+</script>

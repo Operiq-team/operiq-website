@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  href?: string;
+  label?: string;
+}
+
+const { title, text, href = "/kontakt?type=nytt", label = "Be om løsningsforslag" } = Astro.props;
+const type = (() => {
+  try {
+    return new URL(href, "https://operiq.no").searchParams.get("type") || "";
+  } catch {
+    return "";
+  }
+})();
+---
+
+<aside class="cta-band">
+  <div>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
+  <a class="btn" href={href} data-track="primary_cta_click" data-track-type={type || undefined}>{label}</a>
+</aside>
