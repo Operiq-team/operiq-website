@@ -35,11 +35,11 @@ export const formCopy = {
     apiOpen: "Åpne e-post til",
     apiDown: "Utsendingen svarte ikke. Send e-posten selv.",
     apiReceived: "Vi har mottatt henvendelsen og svarer på e-post.",
-    apiGet: "Skjemaet sendes fra /kontakt.",
+    apiGet: "Skjemaet sendes fra /kontakt/.",
   },
   en: {
     subject: "Enquiry to Operiq – ",
-    labels: ["Name", "Email", "Phone", "Company", "Place", "Type of property", "Existing system", "Type of enquiry", "Topic"],
+    labels: ["Name", "Email", "Phone", "Company", "Location", "Type of property", "Existing system", "Type of enquiry", "Topic"],
     empty: "–",
     fallbackTopic: "Enquiry",
     types: { eksisterende: "Existing camera system", nytt: "New system", portefolje: "Several properties" },
@@ -57,7 +57,7 @@ export const formCopy = {
     errExisting: "Say whether a camera system is already in place.",
     errRequired: "Enter your name, email and what you need help with.",
     errEmail: "Enter a valid email address.",
-    mailtoIntro: "Your email program opens with the text ready for ",
+    mailtoIntro: "Your email app opens with the text ready for ",
     mailtoOutro: ". Nothing has been sent until you send the email.",
     spam: "Thank you. We will reply by email.",
     sending: "Sending …",
@@ -72,7 +72,7 @@ export const formCopy = {
     apiOpen: "Open email to",
     apiDown: "Delivery did not respond. Send the email yourself.",
     apiReceived: "We have received the enquiry and will reply by email.",
-    apiGet: "The form is sent from /en/contact.",
+    apiGet: "The form is sent from /en/contact/.",
   },
 };
 

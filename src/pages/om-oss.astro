@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import CtaBand from "../components/CtaBand.astro";
 import PageHero from "../components/PageHero.astro";
 import { pathFor, ui, type Locale } from "../i18n";
-import { legalLine, site } from "../site";
+import { legalLineFor, site } from "../site";
 
 interface Props { locale?: Locale }
 const { locale = "nb" } = Astro.props;
@@ -39,7 +39,7 @@ const tel = site.phone.replace(/\s/g, "");
   </section>
   <section class="section section-tight">
     <div class="container">
-      <p class="form-note legal-note" translate="no">{legalLine}</p>
+      <p class="form-note legal-note" translate="no">{legalLineFor(locale)}</p>
       <CtaBand title={t.ctaTitle} text={t.ctaText} href={`${pathFor(locale, "contact")}?type=nytt`} label={ui(locale).home.proposal} />
     </div>
   </section>

@@ -28,7 +28,12 @@ export const site = {
   contactMode: "mailto" as "mailto" | "server",
 };
 
-export const legalLine = `${site.name} (${site.legalName}) · org.nr ${site.orgNr}`;
+export function legalLineFor(locale: "nb" | "en" = "nb"): string {
+  const label = locale === "en" ? "Org. no." : "org.nr";
+  return `${site.name} (${site.legalName}) · ${label} ${site.orgNr}`;
+}
+
+export const legalLine = legalLineFor("nb");
 
 export const nav = [
   { href: "/naeringsbygg", label: "Næringsbygg" },

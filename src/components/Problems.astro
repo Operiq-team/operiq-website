@@ -7,7 +7,7 @@ interface Props {
 
 const { locale = "nb" } = Astro.props;
 const t = ui(locale).problems;
-const href = `${pathFor(locale, "contact")}?type=eksisterende`;
+const href = pathFor(locale, "contact");
 ---
 
 <section class="section" id="utfordringer">
@@ -36,7 +36,7 @@ const href = `${pathFor(locale, "contact")}?type=eksisterende`;
     </ul>
     <div class="prob-foot">
       <p><b>{t.footB}</b> {t.foot}</p>
-      <a class="btn" href={href} data-track="cta" data-track-type="eksisterende">
+      <a class="btn" href={href} data-track="cta" data-track-type="survey">
         {t.cta} <span class="arr">→</span>
       </a>
     </div>

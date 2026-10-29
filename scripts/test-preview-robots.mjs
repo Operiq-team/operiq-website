@@ -72,6 +72,53 @@ test("pages.dev html is noindex and keeps security headers", async () => {
   assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
 });
 
+test("a missing English path returns the English 404", async () => {
+  const english = '<html lang="en"><head><title>Page not found – Operiq</title></head><body>Page not found</body></html>';
+  const response = await onRequest({
+    request: new Request("https://operiq.no/en/not-a-page"),
+    env: {
+      ASSETS: {
+        async fetch(url) {
+          if (String(url).endsWith("/en/404/index.html")) {
+            return new Response(english, { status: 200, headers: { "content-type": "text/html" } });
+          }
+          return new Response("missing", { status: 404 });
+        },
+      },
+    },
+    async next() {
+      return new Response('<html lang="nb-NO">Siden finnes ikke</html>', {
+        status: 404,
+        headers: { "content-type": "text/html" },
+      });
+    },
+  });
+  assert.equal(response.status, 404);
+  const html = await response.text();
+  assert.match(html, /Page not found/);
+  assert.equal(html.includes("Siden finnes ikke"), false);
+});
+
+test("a missing Norwegian path keeps the Norwegian 404", async () => {
+  const response = await onRequest({
+    request: new Request("https://operiq.no/finnes-ikke"),
+    env: {
+      ASSETS: {
+        fetch: async () => new Response("unused", { status: 200 }),
+      },
+    },
+    async next() {
+      return new Response('<html lang="nb-NO">Siden finnes ikke</html>', {
+        status: 404,
+        headers: { "content-type": "text/html" },
+      });
+    },
+  });
+  assert.equal(response.status, 404);
+  const html = await response.text();
+  assert.match(html, /Siden finnes ikke/);
+});
+
 test("operiq.no responses stay indexable", async () => {
   const response = await respond("https://operiq.no/");
   assert.equal(response.headers.get("X-Robots-Tag"), null);

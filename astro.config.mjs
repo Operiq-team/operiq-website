@@ -9,7 +9,7 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
-  trailingSlash: "never",
+  trailingSlash: "always",
   compressHTML: true,
   build: {
     format: "directory",

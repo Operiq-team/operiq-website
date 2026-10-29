@@ -112,10 +112,18 @@ export function parseInquiry(raw, locale = "nb") {
   return { ok: true, spam: false, value };
 }
 
+export function inquirySubject(inquiry, locale = "nb") {
+  const copy = copyFor(locale);
+  const detail = inquiry.typeLabel || copy.topics[inquiry.topic] || "";
+  const base = String(copy.subject).replace(/\s*[–—-]\s*$/, "").trim();
+  return detail ? `${base} – ${detail}` : base;
+}
+
 export function buildMailto(inquiry, email = CONTACT_EMAIL, locale = "nb") {
   const copy = copyFor(locale);
   const [name, mail, phone, company, place, property, existing, kind, topic] = copy.labels;
-  const subject = `${copy.subject}${inquiry.typeLabel || inquiry.topicLabel}`;
+  const topicText = copy.topics[inquiry.topic] || "";
+  const subject = inquirySubject(inquiry, locale);
   const body = [
     `${name}: ${inquiry.name}`,
     `${mail}: ${inquiry.email}`,
@@ -124,8 +132,8 @@ export function buildMailto(inquiry, email = CONTACT_EMAIL, locale = "nb") {
     `${place}: ${inquiry.location || copy.empty}`,
     `${property}: ${inquiry.propertyLabel || copy.empty}`,
     `${existing}: ${inquiry.existingLabel || copy.empty}`,
-    `${kind}: ${inquiry.typeLabel || inquiry.topicLabel}`,
-    `${topic}: ${inquiry.topicLabel}`,
+    `${kind}: ${inquiry.typeLabel || topicText || copy.empty}`,
+    `${topic}: ${topicText || copy.empty}`,
     "",
     inquiry.message,
   ].join("\n");

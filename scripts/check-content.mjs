@@ -1,4 +1,4 @@
-import { readdir, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const dist = path.resolve("dist");
@@ -98,8 +98,17 @@ for (const file of files) {
   if (!html.includes('hreflang="nb-NO"') || !html.includes('hreflang="en"') || !html.includes('hreflang="x-default"')) {
     fail(`${rel} is missing hreflang alternates`);
   }
-  if (!html.includes("Operiq (Godtbo Eiendom AS) · org.nr 927 212 056")) {
-    fail(`${rel} is missing the legal footer line`);
+  const legal = english
+    ? "Operiq (Godtbo Eiendom AS) · Org. no. 927 212 056"
+    : "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056";
+  if (!html.includes(legal)) fail(`${rel} is missing the legal footer line`);
+  if (english) {
+    if (html.includes("org.nr")) fail(`${rel} still says org.nr`);
+    const leaked = html.match(/(?:alt|aria-label|title)="[^"]*[æøåÆØÅ][^"]*"/g);
+    if (leaked) fail(`${rel} has Norwegian alt, aria or title text: ${leaked.join(" | ")}`);
+    if (html.includes("Illustrasjon av en næringseiendom")) {
+      fail(`${rel} still has the Norwegian coverage-map label`);
+    }
   }
   if (!html.includes("Organization") || !html.includes("Service")) {
     fail(`${rel} is missing Organization or Service JSON-LD`);
@@ -199,6 +208,11 @@ for (const [name, html] of [
   const hegde = html.match(/id="ref-hegdehaugsveien"[\s\S]*?<\/article>/)?.[0] ?? "";
   const text = hegde.replace(/<[^>]+>/g, " ").replaceAll("36", "").replaceAll("2026", "");
   if (/\d/.test(text)) fail(`${name} puts a number other than the address or 2026 on Hegdehaugsveien`);
+  const years = hegde.match(/2026/g) || [];
+  if (years.length !== 1) fail(`${name} mentions 2026 ${years.length} times on Hegdehaugsveien`);
+  if (!hegde.includes("Operiq prosjekterte og installerte et nytt kameraanlegg i bygget.")) {
+    fail(`${name} is missing the Hegdehaugsveien sentence`);
+  }
   const kirk = html.match(/id="ref-kirkeristen"[\s\S]*?<\/section>/)?.[0] ?? "";
   if (/Ferdigstilt|Operiq-kunde|Sebastian Godtfredsen/.test(kirk)) {
     fail(`${name} presents Kirkeristen as a finished customer job or names the founder on the card`);
@@ -261,8 +275,11 @@ if (/X-Robots-Tag:\s*noindex/i.test(catchAll)) {
 }
 
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
-for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking", "https://operiq.no/naeringsbygg", "https://operiq.no/lager-og-logistikk", "https://operiq.no/eiendomsportefoljer", "https://operiq.no/eksisterende-kameraanlegg", "https://operiq.no/butikk", "https://operiq.no/om-oss", "https://operiq.no/kontakt", "https://operiq.no/personvern", "https://operiq.no/kamera-info"]) {
+for (const route of ["https://operiq.no/", "https://operiq.no/kameraovervaking/", "https://operiq.no/naeringsbygg/", "https://operiq.no/lager-og-logistikk/", "https://operiq.no/eiendomsportefoljer/", "https://operiq.no/eksisterende-kameraanlegg/", "https://operiq.no/butikk/", "https://operiq.no/om-oss/", "https://operiq.no/kontakt/", "https://operiq.no/personvern/", "https://operiq.no/kamera-info/", "https://operiq.no/en/", "https://operiq.no/en/contact/", "https://operiq.no/en/privacy/"]) {
   if (!sitemap.includes(route)) fail(`Sitemap is missing ${route}`);
+}
+if (sitemap.includes("https://operiq.no/kameraovervaking<") || sitemap.includes("https://operiq.no/en<")) {
+  fail("Sitemap still lists a slashless page URL");
 }
 if (sitemap.includes("eiendomsdrift")) fail("Sitemap still lists eiendomsdrift");
 if (sitemap.includes("404")) fail("Sitemap includes the 404 page");
@@ -285,12 +302,83 @@ if (!englishHome.includes("Modern surveillance systems for commercial properties
 if (!englishHome.includes("no-obligation site survey") && !englishHome.includes("Book a no-obligation site survey")) {
   fail("English home is missing the no-obligation survey wording");
 }
-if (!englishHome.includes('hreflang="en" href="https://operiq.no/en"')) fail("English home hreflang is wrong");
+if (!englishHome.includes('hreflang="en" href="https://operiq.no/en/"')) fail("English home hreflang is wrong");
+if (!englishHome.includes("insurance excesses")) fail("English home still says excess payments");
+if (!englishHome.includes("Tenant complaints")) fail("English home is missing tenant complaints");
+if (!englishHome.includes("Org. no. 927 212 056")) fail("English home is missing Org. no.");
+if (!englishHome.includes("Illustration of a commercial property with coverage zones")) {
+  fail("English home is missing the English coverage-map label");
+}
+if (!/href="\/en\/contact\/"[^>]*>\s*Book a no-obligation site survey/.test(englishHome)) {
+  fail("The English site-survey button should open contact without an inquiry type");
+}
+if (/Book a no-obligation site survey[\s\S]{0,80}type=eksisterende|type=eksisterende[\s\S]{0,120}Book a no-obligation site survey/.test(englishHome)) {
+  fail("The English site-survey button still points at an existing-system inquiry");
+}
+{
+  const hegde = englishHome.match(/id="ref-hegdehaugsveien"[\s\S]*?<\/article>/)?.[0] ?? "";
+  const years = hegde.match(/2026/g) || [];
+  if (years.length !== 1) fail(`English home mentions 2026 ${years.length} times on Hegdehaugsveien`);
+  if (!hegde.includes("Operiq designed and installed a new camera system in the building.")) {
+    fail("English home is missing the Hegdehaugsveien sentence");
+  }
+}
+const englishPrivacy = await readFile(path.join(dist, "en", "privacy", "index.html"), "utf8");
+if (!englishPrivacy.includes("https://www.datatilsynet.no/en/")) {
+  fail("English privacy page should link to the English Datatilsynet page");
+}
+const englishContact = await readFile(path.join(dist, "en", "contact", "index.html"), "utf8");
+if (englishContact.includes(">Place<") || englishContact.includes("email program")) {
+  fail("English contact page still says Place or email program");
+}
+if ((englishContact.match(/Nothing (?:is|has been) sent/g) || []).length > 1) {
+  fail("English contact page repeats the nothing-is-sent note");
+}
 for (const route of ["commercial-buildings", "warehouse-logistics", "portfolios", "existing-systems", "retail-chains", "camera-surveillance", "about", "contact", "privacy", "camera-notice"]) {
   try {
     await readFile(path.join(dist, "en", route, "index.html"), "utf8");
   } catch {
     fail(`English page /en/${route} was not built`);
+  }
+}
+
+async function fileExists(file) {
+  try {
+    await access(file);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function pageCandidates(pathname) {
+  const decoded = decodeURIComponent(pathname);
+  if (decoded === "/404" || decoded === "/404.html") return [path.join(dist, "404.html")];
+  const trimmed = decoded === "/" ? "/" : decoded.replace(/\/+$/, "");
+  if (trimmed === "/") return [path.join(dist, "index.html")];
+  const rel = trimmed.replace(/^\//, "");
+  return [path.join(dist, rel, "index.html"), path.join(dist, `${rel}.html`), path.join(dist, rel)];
+}
+
+const ignoredPaths = new Set(["/api/contact"]);
+for (const file of files) {
+  const html = await readFile(file, "utf8");
+  const rel = path.relative(dist, file);
+  for (const match of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
+    const href = match[1];
+    if (/^(?:mailto:|tel:|#|data:)/.test(href)) continue;
+    let url;
+    try {
+      url = new URL(href, "https://operiq.no");
+    } catch {
+      fail(`${rel} has an unreadable link ${href}`);
+      continue;
+    }
+    if (url.origin !== "https://operiq.no") continue;
+    if (ignoredPaths.has(url.pathname)) continue;
+    const candidates = pageCandidates(url.pathname);
+    const found = await Promise.all(candidates.map((candidate) => fileExists(candidate)));
+    if (!found.some(Boolean)) fail(`${rel} links to missing ${url.pathname}`);
   }
 }
 

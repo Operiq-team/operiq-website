@@ -3,6 +3,10 @@ import test from "node:test";
 import { onRequestGet, onRequestPost } from "../functions/api/contact.js";
 import { buildMailto, parseInquiry } from "../src/lib/inquiry.js";
 
+function mailtoSubject(href) {
+  return new URLSearchParams(href.slice(href.indexOf("?") + 1)).get("subject");
+}
+
 const valid = {
   name: "Ada Nord",
   email: "ada@example.com",
@@ -37,6 +41,20 @@ test("mailto contains the public address and escaped subject", () => {
   assert.ok(href.startsWith("mailto:post@operiq.no?"));
   assert.ok(href.includes(encodeURIComponent("Kameraovervåkning")));
   assert.ok(href.includes(encodeURIComponent("Ada Nord")));
+  assert.equal(mailtoSubject(href), "Forespørsel til Operiq – Nytt anlegg");
+});
+
+test("subject is the bare enquiry line when no type is chosen", () => {
+  const fields = { name: "Ada Nord", email: "ada@example.com", message: "Befaring av et bygg." };
+  const english = parseInquiry(fields, "en");
+  const norwegian = parseInquiry(fields, "nb");
+  assert.equal(mailtoSubject(buildMailto(english.value, "post@operiq.no", "en")), "Enquiry to Operiq");
+  assert.equal(mailtoSubject(buildMailto(norwegian.value, "post@operiq.no", "nb")), "Forespørsel til Operiq");
+});
+
+test("a chosen type is still named in the subject", () => {
+  const parsed = parseInquiry({ name: "Ada Nord", email: "ada@example.com", message: "Review.", type: "eksisterende" }, "en");
+  assert.equal(mailtoSubject(buildMailto(parsed.value, "post@operiq.no", "en")), "Enquiry to Operiq – Existing camera system");
 });
 
 test("unconfigured function asks the visitor to email", async () => {

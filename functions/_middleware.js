@@ -12,9 +12,36 @@ import {
  * A function Response does not inherit _headers, so rewritten HTML sets
  * those security headers itself.
  */
+function isEnglishPath(pathname) {
+  return pathname === "/en" || pathname.startsWith("/en/");
+}
+
+async function englishNotFoundHtml(context, origin) {
+  if (!context.env?.ASSETS?.fetch) return null;
+  for (const assetPath of ["/en/404/index.html", "/en/404.html"]) {
+    const asset = await context.env.ASSETS.fetch(new URL(assetPath, origin));
+    if (!asset.ok) continue;
+    const html = await asset.text();
+    if (html.includes('lang="en"') && html.includes("Page not found")) return html;
+  }
+  return null;
+}
+
 export async function onRequest(context) {
-  const response = await context.next();
-  const host = new URL(context.request.url).hostname;
+  const url = new URL(context.request.url);
+  let response = await context.next();
+
+  if (response.status === 404 && isEnglishPath(url.pathname)) {
+    const html = await englishNotFoundHtml(context, url.origin);
+    if (html) {
+      const headers = new Headers(response.headers);
+      headers.set("content-type", "text/html; charset=utf-8");
+      headers.delete("content-length");
+      response = new Response(html, { status: 404, statusText: "Not Found", headers });
+    }
+  }
+
+  const host = url.hostname;
   if (isIndexableHost(host)) return response;
 
   const type = response.headers.get("content-type") || "";

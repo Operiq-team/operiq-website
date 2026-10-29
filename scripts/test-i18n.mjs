@@ -24,6 +24,8 @@ test("every page has a Norwegian path and an English path", () => {
     assert.ok(paths[id].nb.startsWith("/"));
     assert.ok(paths[id].en.startsWith("/en"));
     assert.notEqual(paths[id].nb, paths[id].en);
+    if (paths[id].nb !== "/" && paths[id].nb !== "/404") assert.ok(paths[id].nb.endsWith("/"), paths[id].nb);
+    assert.ok(paths[id].en.endsWith("/"), paths[id].en);
   }
 });
 

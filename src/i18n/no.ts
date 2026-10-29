@@ -215,7 +215,7 @@ export const no = {
     ref: "Referanse",
     name: "Hegdehaugsveien 36",
     line: "Kameraanlegg i næringsbygg, Oslo. Ferdigstilt 2026.",
-    body: "Operiq prosjekterte og monterte et nytt kameraanlegg i næringsbygget. Anlegget ble levert i 2026.",
+    body: "Operiq prosjekterte og installerte et nytt kameraanlegg i bygget.",
     done: "Ferdigstilt",
     exp: "Prosjekterfaring",
     kirk: "Kirkeristen, Oslo sentrum",
@@ -557,7 +557,7 @@ export const no = {
     apiOpen: "Åpne e-post til",
     apiDown: "Utsendingen svarte ikke. Send e-posten selv.",
     apiReceived: "Vi har mottatt henvendelsen og svarer på e-post.",
-    apiGet: "Skjemaet sendes fra /kontakt.",
+    apiGet: "Skjemaet sendes fra /kontakt/.",
   },
 } as const;
 

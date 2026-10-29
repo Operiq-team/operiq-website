@@ -37,7 +37,7 @@ function json(body, status) {
 }
 
 function htmlPage({ title, body, status, locale = "nb" }) {
-  const back = locale === "en" ? "/en/contact" : "/kontakt";
+  const back = locale === "en" ? "/en/contact/" : "/kontakt/";
   const lang = locale === "en" ? "en" : "nb-NO";
   const backLabel = locale === "en" ? "Back to the form" : "Tilbake til skjemaet";
   return new Response(

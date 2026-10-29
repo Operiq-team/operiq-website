@@ -2,12 +2,14 @@
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { pathFor, ui, type Locale } from "../i18n";
-import { legalLine, site } from "../site";
+import { legalLineFor, site } from "../site";
 
 interface Props { locale?: Locale }
 const { locale = "nb" } = Astro.props;
 const t = ui(locale).privacy;
 const tel = site.phone.replace(/\s/g, "");
+const orgLabel = locale === "en" ? "Org. no." : "org.nr";
+const authorityUrl = locale === "en" ? "https://www.datatilsynet.no/en/" : "https://www.datatilsynet.no/";
 ---
 
 <Base title={t.title} description={t.description} path={pathFor(locale, "privacy")} locale={locale}>
@@ -17,7 +19,7 @@ const tel = site.phone.replace(/\s/g, "");
       <article class="prose">
         <h2>{t.whoH}</h2>
         <p>{t.who1} <a href={`mailto:${site.email}`} translate="no">{site.email}</a>. {t.who2}</p>
-        <p translate="no">{legalLine}.</p>
+        <p translate="no">{legalLineFor(locale)}.</p>
         <h2>{t.whatH}</h2>
         <p>{t.whatP}</p>
         <ul>{t.what.map((item) => <li>{item}</li>)}</ul>
@@ -39,10 +41,10 @@ const tel = site.phone.replace(/\s/g, "");
         <p>
           {t.send} <a href={`mailto:${site.email}`} data-track="mailto" translate="no">{site.email}</a>
           {t.orCall} <a href={`tel:${tel}`} data-track="tel" translate="no">{site.phone}</a>.
-          {t.authority} <a href="https://www.datatilsynet.no">datatilsynet.no</a>.
+          {t.authority} <a href={authorityUrl}>datatilsynet.no</a>.
         </p>
         <h2>{t.changesH}</h2>
-        <p>{t.changes} <span translate="no">{site.legalName}, org.nr {site.orgNr}.</span></p>
+        <p>{t.changes} <span translate="no">{site.legalName}, {orgLabel} {site.orgNr}.</span></p>
       </article>
     </div>
   </section>
