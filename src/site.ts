@@ -9,7 +9,7 @@
  */
 export const site = {
   name: "Operiq",
-  legalName: "Godtbo Eiendom AS",
+  legalName: "Operiq AS",
   orgNr: "927 212 056",
   email: "post@operiq.no",
   phone: "+47 919 94 544",
@@ -30,7 +30,7 @@ export const site = {
 
 export function legalLineFor(locale: "nb" | "en" = "nb"): string {
   const label = locale === "en" ? "Org. no." : "org.nr";
-  return `${site.name} (${site.legalName}) · ${label} ${site.orgNr}`;
+  return `${site.legalName} · ${label} ${site.orgNr}`;
 }
 
 export const legalLine = legalLineFor("nb");

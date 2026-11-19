@@ -8,7 +8,8 @@ const forbidden = [
   /strandveien/i,
   /caspar/i,
   /karl\s*johan/i,
-  /operiq\s+as\b/i,
+  // Former registered name. The legal entity is Operiq AS.
+  /godtbo/i,
   /powered by ai/i,
   /testimonial/i,
   /sertifisert/i,
@@ -34,7 +35,7 @@ const referenceFacts = [
 ];
 
 const requiredInSite = [
-  "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056",
+  "Operiq AS · org.nr 927 212 056",
   "post@operiq.no",
   "Bestill en uforpliktende befaring",
   'lang="nb-NO"',
@@ -99,9 +100,10 @@ for (const file of files) {
     fail(`${rel} is missing hreflang alternates`);
   }
   const legal = english
-    ? "Operiq (Godtbo Eiendom AS) · Org. no. 927 212 056"
-    : "Operiq (Godtbo Eiendom AS) · org.nr 927 212 056";
+    ? "Operiq AS · Org. no. 927 212 056"
+    : "Operiq AS · org.nr 927 212 056";
   if (!html.includes(legal)) fail(`${rel} is missing the legal footer line`);
+  if (!html.includes('"legalName":"Operiq AS"')) fail(`${rel} is missing legalName Operiq AS in JSON-LD`);
   if (english) {
     if (html.includes("org.nr")) fail(`${rel} still says org.nr`);
     const leaked = html.match(/(?:alt|aria-label|title)="[^"]*[æøåÆØÅ][^"]*"/g);
