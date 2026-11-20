@@ -26,6 +26,9 @@ export const site = {
    * Do not put those values in the repo. Without them the endpoint returns 503.
    */
   contactMode: "server" as const,
+  /** Public Turnstile site key. The secret is TURNSTILE_SECRET_KEY in Pages, not here. */
+  turnstileSiteKey: "0x4AAAAAAGKqOVUuNIkKxLIa",
+  turnstilePrivacyUrl: "https://www.cloudflare.com/turnstile-privacy-policy/",
 };
 
 export function legalLineFor(locale: "nb" | "en" = "nb"): string {

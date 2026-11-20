@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { pathFor, ui, type Locale } from "../i18n";
+import { TURNSTILE_ACTION } from "../lib/turnstile.js";
 import { site } from "../site";
 
 interface Props { locale?: Locale }
@@ -59,8 +60,29 @@ const tel = site.phone.replace(/\s/g, "");
         <div class="hp" aria-hidden="true">
           <label>{t.honeypot}<input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
         </div>
+        <input type="hidden" name="renderedAt" value="" />
+        <script is:inline>
+          (function () {
+            var form = document.getElementById("contact-form");
+            var input = form && form.querySelector('input[name="renderedAt"]');
+            if (input && !input.value) input.value = String(Date.now());
+          })();
+        </script>
+        <input type="hidden" name="formStamp" value="" />
+        <div
+          class="cf-turnstile"
+          data-sitekey={site.turnstileSiteKey}
+          data-action={TURNSTILE_ACTION}
+          data-theme="dark"
+          data-response-field-name="cf-turnstile-response"
+          data-refresh-expired="auto"
+        ></div>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
         <button class="btn" type="submit">{t.submit}</button>
         <p class="form-note">{t.note} <a href={pathFor(locale, "privacy")}>{t.privacy}</a></p>
+        <p class="form-note">
+          {t.turnstile} <a href={site.turnstilePrivacyUrl} rel="noopener noreferrer">{t.turnstileLink}</a>.
+        </p>
         <p class="form-note" id="form-fallback">
           {t.fallback} <a href={`mailto:${site.email}`} data-track="email_click" translate="no">{site.email}</a>
           {t.fallbackOr} <a href={`tel:${tel}`} data-track="phone_click" translate="no">{site.phone}</a>.
@@ -82,9 +104,35 @@ const tel = site.phone.replace(/\s/g, "");
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   const status = document.querySelector<HTMLElement>("#form-status");
 
+  type TurnstileApi = { reset: (widget?: string) => void };
+
+  function resetTurnstile() {
+    const api = (window as Window & { turnstile?: TurnstileApi }).turnstile;
+    if (!api) return;
+    try {
+      api.reset();
+    } catch {
+      /* The next attempt can mint a token after a fresh challenge. */
+    }
+  }
+
   if (form && status) {
     const locale = form.dataset.locale === "en" ? "en" : "nb";
     const copy = copyFor(locale);
+    const renderedAt = form.querySelector<HTMLInputElement>('[name="renderedAt"]');
+    const formStamp = form.querySelector<HTMLInputElement>('[name="formStamp"]');
+    if (renderedAt && !renderedAt.value) renderedAt.value = String(Date.now());
+    if (formStamp) {
+      fetch("/api/contact-stamp", { method: "POST", headers: { accept: "application/json" } })
+        .then((response) => (response.ok ? response.json() : Promise.reject(new Error("stamp"))))
+        .then((data: { stamp?: unknown }) => {
+          if (typeof data?.stamp === "string" && data.stamp) formStamp.value = data.stamp;
+          else if (renderedAt) renderedAt.value = "";
+        })
+        .catch(() => {
+          if (renderedAt) renderedAt.value = "";
+        });
+    }
     const params = new URLSearchParams(window.location.search);
     const map: Record<string, string> = {
       eksisterende: "eksisterende",
@@ -133,8 +181,10 @@ const tel = site.phone.replace(/\s/g, "");
           status.textContent = copy.delivered;
           return;
         }
+        resetTurnstile();
         status.textContent = payload?.error || copy.errSend;
       } catch {
+        resetTurnstile();
         status.textContent = copy.errSend;
       } finally {
         if (form.dataset.sent === "1") return;

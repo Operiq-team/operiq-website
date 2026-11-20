@@ -252,6 +252,13 @@ if (!contact.includes("Enten dere vurderer et nytt kameraanlegg eller ønsker å
   fail("Contact page is missing the approved subtitle");
 }
 if (!contact.includes("Vi bruker opplysningene til å svare deg.")) fail("Contact page is missing the short privacy line");
+if (!contact.includes("https://challenges.cloudflare.com/turnstile/v0/api.js")) fail("Contact page is missing the Turnstile script");
+if (!contact.includes("0x4AAAAAAGKqOVUuNIkKxLIa")) fail("Contact page is missing the Turnstile site key");
+if (!contact.includes('data-action="contact"')) fail("Contact page is missing the Turnstile action");
+if (!contact.includes("Skjemaet er beskyttet av Cloudflare Turnstile.")) fail("Contact page is missing the Turnstile notice");
+if (!contact.includes("https://www.cloudflare.com/turnstile-privacy-policy/")) {
+  fail("Contact page is missing the Turnstile privacy addendum");
+}
 if (!contact.includes("+47 919 94 544") || !contact.includes("tel:+4791994544")) {
   fail("Contact page is missing the phone number");
 }
@@ -265,6 +272,9 @@ if (!building.includes("type=eksisterende") || !building.includes("type=nytt")) 
 
 const privacy = await readFile(path.join(dist, "personvern/index.html"), "utf8");
 if (!privacy.includes("behandlingsansvarlig")) fail("Privacy page is missing controller language");
+if (!privacy.includes("https://www.cloudflare.com/turnstile-privacy-policy/")) {
+  fail("Privacy page is missing the Turnstile addendum");
+}
 
 const sign = await readFile(path.join(dist, "kamera-info/index.html"), "utf8");
 if (!sign.includes("ikke behandlingsansvarlig") && !sign.includes("Operiq er leverandør")) {
@@ -348,6 +358,9 @@ const englishPrivacy = await readFile(path.join(dist, "en", "privacy", "index.ht
 if (!englishPrivacy.includes("https://www.datatilsynet.no/en/")) {
   fail("English privacy page should link to the English Datatilsynet page");
 }
+if (!englishPrivacy.includes("https://www.cloudflare.com/turnstile-privacy-policy/")) {
+  fail("English privacy page is missing the Turnstile addendum");
+}
 const englishContact = await readFile(path.join(dist, "en", "contact", "index.html"), "utf8");
 if (englishContact.includes(">Place<") || englishContact.includes("email program")) {
   fail("English contact page still says Place or email program");
@@ -357,6 +370,12 @@ if (!englishContact.includes("Whether you’re planning a new surveillance insta
   fail("English contact page is missing the approved subtitle");
 }
 if (!englishContact.includes("We use these details to reply to you.")) fail("English contact page is missing the short privacy line");
+if (!englishContact.includes("https://challenges.cloudflare.com/turnstile/v0/api.js")) {
+  fail("English contact page is missing the Turnstile script");
+}
+if (!englishContact.includes("This form is protected by Cloudflare Turnstile.")) {
+  fail("English contact page is missing the Turnstile notice");
+}
 if (/nothing is sent|not stored on the website|if the form cannot be sent/i.test(englishContact)) {
   fail("English contact page still explains how the form is delivered");
 }
