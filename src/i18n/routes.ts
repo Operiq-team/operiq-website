@@ -13,6 +13,7 @@ export const pageIds = [
   "contact",
   "privacy",
   "notice",
+  "thanks",
   "notFound",
 ] as const;
 
@@ -34,6 +35,7 @@ export const paths: Record<PageId, Record<Locale, string>> = {
   contact: { nb: "/kontakt/", en: "/en/contact/" },
   privacy: { nb: "/personvern/", en: "/en/privacy/" },
   notice: { nb: "/kamera-info/", en: "/en/camera-notice/" },
+  thanks: { nb: "/kontakt/takk/", en: "/en/contact/thanks/" },
   notFound: { nb: "/404", en: "/en/404/" },
 };
 

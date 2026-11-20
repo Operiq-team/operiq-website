@@ -69,6 +69,8 @@ function fail(message) {
 for (const file of files) {
   const html = await readFile(file, "utf8");
   const rel = path.relative(dist, file);
+  // Email-signature HTML is not a site page. It lives under public/brand/email.
+  if (rel.startsWith(`brand${path.sep}`)) continue;
 
   for (const pattern of forbidden) {
     if (pattern.test(html)) fail(`${rel} matches ${pattern}`);
@@ -161,7 +163,7 @@ if (!home.includes("En teknisk installasjon gjør ikke overvåkningen lovlig i s
   fail("Home must say installation does not make surveillance lawful");
 }
 if (!home.includes("Individuell GDPR-tilpasning")) fail("Home is missing the GDPR service point");
-if (!home.includes("Installasjon etter Nkom-regelverket, utført av registrert installatør")) {
+if (!home.includes("Kabling og tilkobling til ekomnett utføres av autorisert installatør etter Nkom-regelverket.")) {
   fail("Home is missing the Nkom wording");
 }
 if (/sertifisert/i.test(home)) fail("Home must not say certified");
@@ -275,6 +277,10 @@ if (!privacy.includes("behandlingsansvarlig")) fail("Privacy page is missing con
 if (!privacy.includes("https://www.cloudflare.com/turnstile-privacy-policy/")) {
   fail("Privacy page is missing the Turnstile addendum");
 }
+if (!privacy.includes("Nettstedet bruker Cloudflare Web Analytics, som ikke bruker informasjonskapsler og ikke lagrer personopplysninger om besøkende.")) {
+  fail("Privacy page is missing the Cloudflare Web Analytics sentence");
+}
+if (privacy.includes("ingen analyseverktøy")) fail("Privacy page still says the site has no analytics");
 
 const sign = await readFile(path.join(dist, "kamera-info/index.html"), "utf8");
 if (!sign.includes("ikke behandlingsansvarlig") && !sign.includes("Operiq er leverandør")) {
@@ -308,6 +314,9 @@ if (sitemap.includes("https://operiq.no/kameraovervaking<") || sitemap.includes(
 }
 if (sitemap.includes("eiendomsdrift")) fail("Sitemap still lists eiendomsdrift");
 if (sitemap.includes("404")) fail("Sitemap includes the 404 page");
+if (sitemap.includes("/kontakt/takk/") || sitemap.includes("/en/contact/thanks/")) {
+  fail("Sitemap includes a thank-you page");
+}
 
 const notFound = files.find((file) => file.endsWith(`${path.sep}404.html`));
 if (!notFound) fail("404.html was not built");
@@ -319,6 +328,9 @@ else {
 }
 
 const englishHome = await readFile(path.join(dist, "en", "index.html"), "utf8");
+if (!englishHome.includes("Cabling and connection to the electronic communications network are carried out by an authorised installer under Nkom regulations.")) {
+  fail("English home is missing the Nkom wording");
+}
 if (!englishHome.includes("Request a System Assessment")) fail("English home is missing the assessment call to action");
 if (!englishHome.includes("One Standard. Across Your Property Portfolio.")) fail("English home is missing the portfolio headline");
 if (!englishHome.includes("Privacy, Security and Compliance.")) fail("English home is missing the compliance headline");
@@ -361,6 +373,10 @@ if (!englishPrivacy.includes("https://www.datatilsynet.no/en/")) {
 if (!englishPrivacy.includes("https://www.cloudflare.com/turnstile-privacy-policy/")) {
   fail("English privacy page is missing the Turnstile addendum");
 }
+if (!englishPrivacy.includes("The site uses Cloudflare Web Analytics, which does not use cookies or store personal data about visitors.")) {
+  fail("English privacy page is missing the Cloudflare Web Analytics sentence");
+}
+if (englishPrivacy.includes("no analytics tool")) fail("English privacy page still says the site has no analytics");
 const englishContact = await readFile(path.join(dist, "en", "contact", "index.html"), "utf8");
 if (englishContact.includes(">Place<") || englishContact.includes("email program")) {
   fail("English contact page still says Place or email program");
@@ -410,6 +426,38 @@ function pageCandidates(pathname) {
   const rel = trimmed.replace(/^\//, "");
   return [path.join(dist, rel, "index.html"), path.join(dist, `${rel}.html`), path.join(dist, rel)];
 }
+
+const beaconToken = '{"token": "e675b8c5b70d4733818cde323125ff9a"}';
+function hasBeacon(html) {
+  const tag = html.match(/<script\b[^>]*\bsrc="https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js"[^>]*>/i)?.[0];
+  if (!tag || !/\bdefer\b/.test(tag) || !/\btype="module"/.test(tag)) return false;
+  const raw = tag.match(/\bdata-cf-beacon="([^"]*)"/)?.[1] ?? "";
+  const decoded = raw.replaceAll("&quot;", '"').replaceAll("&#34;", '"');
+  return decoded === beaconToken;
+}
+const oldNkom = [
+  "Installasjon etter Nkom-regelverket, utført av registrert installatør",
+  "utført av registrert installatør",
+  "registrert installatør",
+  "carried out by a registered installer",
+  "registered installer",
+  "Installation in line with Nkom",
+];
+for (const file of files) {
+  const html = await readFile(file, "utf8");
+  const rel = path.relative(dist, file);
+  if (rel.startsWith(`brand${path.sep}`)) continue;
+  if (!hasBeacon(html)) fail(`${rel} is missing the Cloudflare Web Analytics beacon`);
+  for (const phrase of oldNkom) {
+    if (html.includes(phrase)) fail(`${rel} still contains the old Nkom wording: ${phrase}`);
+  }
+}
+const thanksNb = await readFile(path.join(dist, "kontakt", "takk", "index.html"), "utf8");
+const thanksEn = await readFile(path.join(dist, "en", "contact", "thanks", "index.html"), "utf8");
+if (!thanksNb.includes('name="robots" content="noindex, nofollow"')) fail("Norwegian thank-you page must be noindex");
+if (!thanksEn.includes('name="robots" content="noindex, nofollow"')) fail("English thank-you page must be noindex");
+if (!thanksNb.includes("Takk for henvendelsen")) fail("Norwegian thank-you page is missing its heading");
+if (!thanksEn.includes("Thank you for your enquiry")) fail("English thank-you page is missing its heading");
 
 const ignoredPaths = new Set(["/api/contact"]);
 for (const file of files) {
