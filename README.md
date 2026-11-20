@@ -1,6 +1,6 @@
 # Operiq – nettsted (utkast)
 
-Norsk markedsnettsted for Operiq (Godtbo Eiendom AS). Statisk bygget med [Astro](https://astro.build) for Cloudflare Pages.
+Norsk markedsnettsted for Operiq AS. Statisk bygget med [Astro](https://astro.build) for Cloudflare Pages.
 
 Dette er et utkast til godkjenning. Det er ikke publisert, og ingenting i repoet endrer DNS.
 
