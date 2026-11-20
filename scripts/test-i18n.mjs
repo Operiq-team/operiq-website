@@ -34,5 +34,7 @@ test("form runtime copy matches the dictionary subjects and errors", () => {
   assert.equal(formCopy.en.subject, en.form.subject);
   assert.equal(formCopy.nb.errRequired, no.form.errRequired);
   assert.equal(formCopy.en.errRequired, en.form.errRequired);
+  assert.equal(formCopy.nb.errTurnstile, no.form.errTurnstile);
+  assert.equal(formCopy.en.errTurnstile, en.form.errTurnstile);
   assert.equal(formCopy.en.mailtoIntro, en.form.mailtoIntro);
 });

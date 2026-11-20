@@ -6,13 +6,17 @@
  *   RESEND_API_KEY
  *   CONTACT_TO     for example post@operiq.no
  *   CONTACT_FROM   for example Operiq <skjema@send.operiq.no>
- * If any of them is missing, the function returns 503 and sends nothing.
+ *   TURNSTILE_SECRET_KEY   Cloudflare Turnstile secret, dashboard only
+ * If delivery settings are missing, the function returns 503 and sends nothing.
+ * A missing or rejected Turnstile token also sends nothing.
  */
 
 import { copyFor } from "../../src/i18n/form-copy.js";
+import { submissionIsTooFast } from "../../src/lib/form-stamp.js";
 import { escapeHtml, parseInquiry } from "../../src/lib/inquiry.js";
 import { mailConfig, sendEnquiry } from "../../src/lib/mailer.js";
 import { allowIp } from "../../src/lib/rate-limit.js";
+import { verifyTurnstile } from "../../src/lib/turnstile.js";
 
 const PUBLIC_EMAIL = "post@operiq.no";
 const PUBLIC_PHONE = "+47 919 94 544";
@@ -72,6 +76,19 @@ function fail(html, copy, locale, status, error) {
     : json({ ok: false, delivered: false, error }, status);
 }
 
+function accepted(html, copy, locale) {
+  return html
+    ? htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale })
+    : json({ ok: true, delivered: true }, 200);
+}
+
+function textField(payload, key) {
+  const value = payload?.[key];
+  if (typeof value === "string") return value;
+  if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  return "";
+}
+
 export async function onRequestGet(context) {
   const locale = new URL(context?.request?.url || "https://operiq.no/").pathname.startsWith("/en") ? "en" : "nb";
   return new Response(copyFor(locale).apiGet, {
@@ -95,13 +112,30 @@ export async function onRequestPost(context) {
   const locale = payload?.locale === "en" ? "en" : "nb";
   const copy = copyFor(locale);
   const parsed = parseInquiry(payload, locale);
+
+  if (parsed.spam) return accepted(html, copy, locale);
+
+  const tooFast = await submissionIsTooFast({
+    renderedAt: textField(payload, "renderedAt"),
+    stamp: textField(payload, "formStamp"),
+    secret: env?.TURNSTILE_SECRET_KEY,
+    now: context.now,
+  });
+  if (tooFast) return accepted(html, copy, locale);
+
   if (!parsed.ok) return fail(html, copy, locale, 400, parsed.error);
 
-  if (parsed.spam) {
-    return html
-      ? htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale })
-      : json({ ok: true, delivered: true }, 200);
-  }
+  const remoteip = request.headers.get("cf-connecting-ip")?.trim() || "";
+  const token = textField(payload, "cf-turnstile-response");
+  const verdict = context.verifyTurnstile
+    ? await context.verifyTurnstile({ token, remoteip })
+    : await verifyTurnstile({
+        token,
+        secret: env?.TURNSTILE_SECRET_KEY,
+        remoteip,
+        fetchImpl: context.turnstileFetch || globalThis.fetch,
+      });
+  if (!verdict?.ok) return fail(html, copy, locale, 403, copy.errTurnstile);
 
   const allowed = await allowIp(clientIp(request), {
     limiter: context.limiter,
