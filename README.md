@@ -75,19 +75,9 @@ Skjemaet er i modus `mailto` (`contactMode` i `src/site.ts`). Når noen sender d
 
 ## Måling
 
-Det er ingen analyseverktøy, ingen tredjepartsskript og ingen informasjonskapsler. Klikk på knapper med `data-track`, telefon, e-post og innsending av skjemaet kaller `track(event, props)` i `src/lib/track.js`. Funksjonen gjør ingenting annet enn å sende et `CustomEvent` med navn `operiq:track` på `window`.
+Nettstedet bruker Cloudflare Web Analytics. Skriptet i `src/layouts/Base.astro` lastes på alle sider, uten informasjonskapsler og uten å lagre personopplysninger om besøkende. Det står også i personvernerklæringen.
 
-Når eier har godkjent et verktøy, kan ett skript lytte slik:
-
-```js
-window.addEventListener("operiq:track", (event) => {
-  const { event: name, props } = event.detail;
-  // Cloudflare Web Analytics: bruk beacon uten informasjonskapsler.
-  // Plausible: plausible(name, { props });
-});
-```
-
-Ikke last skriptet før det er godkjent, og ikke sett informasjonskapsler. Hendelsene som finnes nå, er `cta` (med `type`), `tel`, `mailto` og `form_submit`.
+Klikk på knapper med `data-track`, telefon og e-post kaller `track(event, props)` i `src/lib/track.js`. Funksjonen sender et `CustomEvent` med navn `operiq:track` på `window`. En faktisk innsending, etter at e-posten er levert, åpner `/kontakt/takk/` eller `/en/contact/thanks/`. Sidene er `noindex`, og beaconet teller sidevisningen. Lokkefelt og for rask utfylling viser den samme takkemeldingen på skjemaet og åpner ikke takkesiden.
 
 `functions/api/contact.js` er en Cloudflare Pages Function. Uten konfigurasjon svarer den med den samme e-postlenken (for besøk uten JavaScript). Serversending skrus på slik:
 

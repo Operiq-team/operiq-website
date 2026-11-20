@@ -77,9 +77,18 @@ function fail(html, copy, locale, status, error) {
 }
 
 function accepted(html, copy, locale) {
+  // Silent accept. Do not add `id`: the browser only records a conversion when that field is a string.
   return html
     ? htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale })
     : json({ ok: true, delivered: true }, 200);
+}
+
+function thanksRedirect(locale) {
+  const location = locale === "en" ? "/en/contact/thanks/" : "/kontakt/takk/";
+  return new Response(null, {
+    status: 303,
+    headers: { location, "cache-control": "no-store" },
+  });
 }
 
 function textField(payload, key) {
@@ -154,9 +163,7 @@ export async function onRequestPost(context) {
       fetchImpl: context.fetchImpl || globalThis.fetch,
     });
     if (!sent.ok) return fail(html, copy, locale, 502, copy.errSend);
-    if (html) {
-      return htmlPage({ title: copy.apiThanks, body: `<p>${copy.delivered}</p>`, status: 200, locale });
-    }
+    if (html) return thanksRedirect(locale);
     return json({ ok: true, delivered: true, message: copy.delivered, id: sent.id, subject: sent.subject }, 200);
   } catch {
     return fail(html, copy, locale, 502, copy.errSend);

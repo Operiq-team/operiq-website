@@ -1,9 +1,9 @@
 ---
-import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
-import { pathFor, ui, type Locale } from "../i18n";
-import { TURNSTILE_ACTION } from "../lib/turnstile.js";
-import { site } from "../site";
+import Base from "../../layouts/Base.astro";
+import PageHero from "../../components/PageHero.astro";
+import { pathFor, ui, type Locale } from "../../i18n";
+import { TURNSTILE_ACTION } from "../../lib/turnstile.js";
+import { site } from "../../site";
 
 interface Props { locale?: Locale }
 const { locale = "nb" } = Astro.props;
@@ -97,9 +97,10 @@ const tel = site.phone.replace(/\s/g, "");
 </Base>
 
 <script>
-  import { copyFor } from "../i18n/form-copy.js";
-  import { parseInquiry } from "../lib/inquiry.js";
-  import { track } from "../lib/track.js";
+  import { copyFor } from "../../i18n/form-copy.js";
+  import { isMeasuredSubmission, thanksPathFor } from "../../lib/form-success.js";
+  import { parseInquiry } from "../../lib/inquiry.js";
+  import { track } from "../../lib/track.js";
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   const status = document.querySelector<HTMLElement>("#form-status");
@@ -176,9 +177,12 @@ const tel = site.phone.replace(/\s/g, "");
         const payload = await response.json().catch(() => null);
         if (response.ok && payload?.delivered === true) {
           form.dataset.sent = "1";
-          track("form_submit_success", { type: parsed.value.type || "", locale });
           form.reset();
           status.textContent = copy.delivered;
+          if (isMeasuredSubmission(payload)) {
+            track("form_submit_success", { type: parsed.value.type || "", locale });
+            window.location.assign(thanksPathFor(locale));
+          }
           return;
         }
         resetTurnstile();

@@ -6,7 +6,7 @@ export const prerender = true;
 
 export const GET: APIRoute = () => {
   const body = pageIds
-    .filter((id) => id !== "notFound")
+    .filter((id) => id !== "notFound" && id !== "thanks")
     .flatMap((id) => {
       const nb = new URL(paths[id].nb, site.url).href;
       const en = new URL(paths[id].en, site.url).href;

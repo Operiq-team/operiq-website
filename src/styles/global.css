@@ -196,8 +196,8 @@ a.header-cta {
   min-height: 44px;
   display: flex;
   align-items: center;
-  color: #c9ced4;
 }
+.nav-mobile-panel a:not(.btn) { color: #c9ced4; }
 .nav-mobile-panel .btn { margin: 0.4rem; justify-content: center; }
 
 h1, h2, h3, p { margin-top: 0; }
@@ -610,7 +610,7 @@ h3 {
 }
 .flow span { display: block; margin-bottom: 0.3rem; color: var(--sand); }
 .future-cta { margin: 1.3rem 0 0; color: #c9ced4; }
-.future-cta a { color: var(--sand); }
+.future-cta a:not(.btn) { color: var(--sand); }
 
 .how-steps {
   list-style: none;
@@ -768,7 +768,7 @@ h3 {
 details.fold { border-top: 1px solid var(--line); padding: 0.9rem 0; }
 details.fold summary { cursor: pointer; font-family: var(--display); font-weight: 500; font-size: 1.15rem; }
 details.fold p, details.fold li { color: var(--muted); }
-.prose a, .link-quiet { color: var(--sand); }
+.prose a:not(.btn), .link-quiet { color: var(--sand); }
 .facts dt, .plate dt { color: var(--muted); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .plate { display: grid; gap: 0.8rem; }
 .plate div { display: grid; gap: 0.2rem; }
@@ -1077,3 +1077,50 @@ body { overflow-x: clip; }
   html { scroll-behavior: auto; }
   .hero-scan, .sweep, .rec i { animation: none; }
 }
+
+/*
+  Link rules such as .future-cta a and .nav-mobile-panel a used to win over
+  .btn and paint the label the same colour as the sand fill. These selectors
+  keep every button at AA contrast in the default, hover and focus states.
+*/
+a.btn,
+button.btn,
+a.btn:visited,
+a.btn:focus,
+a.btn:focus-visible,
+a.btn:active,
+button.btn:focus,
+button.btn:focus-visible,
+button.btn:active,
+button.btn:disabled {
+  background: var(--sand);
+  color: #12171c;
+}
+a.btn:hover,
+button.btn:hover,
+button.btn:disabled:hover {
+  background: #d6cdb8;
+  color: #12171c;
+}
+a.btn-ghost,
+button.btn-ghost,
+a.btn-ghost:visited,
+a.btn-ghost:focus,
+a.btn-ghost:focus-visible,
+a.btn-ghost:active,
+button.btn-ghost:focus,
+button.btn-ghost:focus-visible,
+button.btn-ghost:active {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+}
+a.btn-ghost:hover,
+button.btn-ghost:hover,
+a.btn-ghost:focus,
+a.btn-ghost:focus-visible,
+button.btn-ghost:focus,
+button.btn-ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+}
+button.btn:disabled { opacity: 1; }

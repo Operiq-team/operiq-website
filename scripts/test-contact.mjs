@@ -3,6 +3,7 @@ import test from "node:test";
 import { onRequestGet, onRequestPost } from "../functions/api/contact.js";
 import { onRequestGet as stampGet, onRequestPost as stampPost } from "../functions/api/contact-stamp.js";
 import { issueFormStamp, MIN_FILL_MS, readFormStamp, submissionIsTooFast } from "../src/lib/form-stamp.js";
+import { isMeasuredSubmission, thanksPathFor } from "../src/lib/form-success.js";
 import { buildMailto, parseInquiry } from "../src/lib/inquiry.js";
 import { mailConfig, sendEnquiry } from "../src/lib/mailer.js";
 import { createRateLimiter } from "../src/lib/rate-limit.js";
@@ -451,6 +452,50 @@ test("stamps round-trip and a forged stamp does not count as time served", async
     await submissionIsTooFast({ stamp: "v1.1.forged", secret: STAMP_SECRET, now, renderedAt: String(now - 500) }),
     true,
   );
+});
+
+test("only a real delivery is measurable", () => {
+  assert.equal(isMeasuredSubmission({ ok: true, delivered: true }), false);
+  assert.equal(isMeasuredSubmission({ ok: true, delivered: true, id: 1 }), false);
+  assert.equal(isMeasuredSubmission({ delivered: false, id: "email_1" }), false);
+  assert.equal(isMeasuredSubmission({ delivered: true, id: "" }), true);
+  assert.equal(isMeasuredSubmission({ delivered: true, id: "email_1" }), true);
+  assert.equal(thanksPathFor("nb"), "/kontakt/takk/");
+  assert.equal(thanksPathFor("en"), "/en/contact/thanks/");
+});
+
+test("honeypot and too-fast responses are not measurable", async () => {
+  const honeypot = await post({ ...valid, website: "https://spam.example" }, { env: ready });
+  const fast = await post({ ...valid, renderedAt: String(now) }, { now, env: ready });
+  assert.equal(isMeasuredSubmission(await honeypot.json()), false);
+  assert.equal(isMeasuredSubmission(await fast.json()), false);
+});
+
+test("a real html submission redirects to the thank-you page", async () => {
+  const stamp = await issueFormStamp(STAMP_SECRET, now - 10_000);
+  const response = await post(
+    { ...valid, locale: "en", formStamp: stamp, "cf-turnstile-response": "widget-token" },
+    {
+      accept: "text/html",
+      now,
+      env: { ...ready, TURNSTILE_SECRET_KEY: STAMP_SECRET },
+      turnstileFetch: async () => passedTurnstile(),
+      fetchImpl: async () => new Response(JSON.stringify({ id: "email_html" }), { status: 200 }),
+    },
+  );
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get("location"), "/en/contact/thanks/");
+});
+
+test("a too-fast html submission stays on the silent page", async () => {
+  const response = await post(
+    { ...valid, renderedAt: String(now - 500) },
+    { accept: "text/html", now, env: ready },
+  );
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("location"), null);
+  const html = await response.text();
+  assert.equal(html.includes("/kontakt/takk/"), false);
 });
 
 test("the stamp endpoint returns a usable stamp and does not echo the secret", async () => {
